@@ -45,20 +45,24 @@ export class LoginComponent implements OnInit {
     }
     // this.authenticationService.login();
   
-      this.loading.show();  
-     this.firebaseAuth.login(this.loginForm.controls.email.value, this.loginForm.controls.passWord.value).then(success =>{
-            console.log(success);
-             this.loading.hide();
-            //this.router.navigate(['/dashboard'])
-            window.location.reload();
-        },err =>{
-          this.loading.hide();
-         // console.log(err.message);
-          this.alertServ.error(err.message)
-          
-        })
-        // this.router.navigate(['/dashboard'])
-    }
+ 
+   // direct login withput firebase for development
+     localStorage.setItem('user', this.loginForm.controls.email.value);
+     window.location.reload();
 
+
+    /* this code will work for login with firebae */
+    //  this.loading.show();  
+    //  this.firebaseAuth.login(this.loginForm.controls.email.value, this.loginForm.controls.passWord.value).then(success =>{
+    //         console.log(success);
+    //          this.loading.hide();
+    //         window.location.reload();
+    //     },err =>{
+    //       this.loading.hide();
+    //       this.alertServ.error(err.message)
+          
+    //     })
+    // }
+  }
  
 }

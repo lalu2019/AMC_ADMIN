@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
  }
 
  addNewClass(){
-   console.log(this.createClassForm)
+   console.log(this.createClassForm.controls.email.value)
   let record = {};
   record['title'] = 'title';
   record['description'] = "description";

@@ -27,13 +27,17 @@ export class AppComponent {
 
   ngOnInit(){
 
-    if(this.authenticationService.isLoggedIn){
-      this.router.navigate(['dashboard']);
-      this.isLogin = true;
-      this.isUser = true;
-
-    }else{
+    // if(this.authenticationService.isLoggedIn){
+      if( localStorage.getItem('user')){
+        this.router.navigate(['dashboard']);
+        this.isLogin = true;
+        this.isUser = true;
+  
+      }
+    
+     else{
       this.router.navigate(['login']);
+      
 
     }
   
