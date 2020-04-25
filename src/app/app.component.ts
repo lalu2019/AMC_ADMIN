@@ -12,7 +12,7 @@ import { MessagingService } from "./_services/messaging.service";
 })
 export class AppComponent {
   currentUser = null;
-  title = 'starAdmin';
+  title = 'ayuScholar';
   isLogin: boolean = false;
   isUser: boolean = false;
   message;

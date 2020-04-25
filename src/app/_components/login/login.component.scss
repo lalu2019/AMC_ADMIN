@@ -86,6 +86,12 @@
 
             .btn-primary {
                 width: 100%;
+                background: #2f9875;
+                border-color: #2f9875;
+                &:hover {
+                    background: #028459;
+                    border-color: #028459;
+                }
             }
 
             input[type=checkbox],
@@ -167,7 +173,7 @@
                     font-weight: normal;
                     margin-bottom: 0px;
                     z-index: 0;
-                    background: #007bff;
+                    background: #2f9875;
                     padding: 2px 8px;
                     border-radius: 7px;
                     z-index: 1;
@@ -178,7 +184,8 @@
                 }
 
                 .form_field:focus {
-                    border: 1px solid #007bff;
+                    border: 1px solid #2f9875;
+                    box-shadow: none;
                 }
 
                 .fa-user, .fa-unlock-alt, .fa-envelope,.fa-lock {

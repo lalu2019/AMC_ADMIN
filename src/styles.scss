@@ -78,7 +78,7 @@ a {
   padding-top: .75rem;
   padding-bottom: .75rem;
   font-size: 1rem;
-  color: #007bff !important;
+  color: #fff !important;
 }
 
 .navbar .form-control {
@@ -108,18 +108,19 @@ a {
   z-index: 100; /* Behind the navbar */
   // padding: 40px 0 0; /* Height of navbar */
   margin-top: 20px;
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  // box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  border-right: 1px solid #2f9875;
 }
 
 .sidebar-sticky {
   position: relative;
   top: 0;
-  height: calc(100vh - 48px);
+  height: calc(100vh);
   padding-top: 2rem;
   /* padding-left: 2rem; */
   overflow-x: hidden;
   overflow-y: auto;
-  box-shadow: inset -9px 0 0 rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #2f9875;
   background: white;
 
   img {
@@ -136,8 +137,13 @@ a {
 }
 
 .sidebar .nav-link {
-  font-weight: 500;
+  font-weight: bold;
   color: #333;
+
+  i {
+    margin-right: 5px;
+    width: 20px;
+  }
 }
 
 .sidebar .nav-link .feather {
@@ -146,7 +152,7 @@ a {
 }
 
 .sidebar .nav-link.active {
-  color: #007bff;
+  color: #2f9875;
 }
 
 .sidebar .nav-link:hover .feather,
@@ -157,6 +163,11 @@ a {
 .sidebar-heading {
   font-size: .75rem;
   text-transform: uppercase;
+}
+
+/** Header title */
+.main-header-title {
+  color: #2f9875;
 }
 
 .required {
