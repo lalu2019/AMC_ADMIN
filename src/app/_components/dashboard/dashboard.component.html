@@ -29,32 +29,100 @@
                         <p class="card-text">56</p>
                   </div>
                 </div>
-              </div>
+        </div>
 
             <div style="margin-top:20px">  
                 <div class="row">
                         <div class="col"> 
                                 <div class="customSection">
-                                <form>
-                                    <div style="text-align: center;">Daily Class/Video</div>
+                                <form [formGroup]="createClassForm" (ngSubmit)="addNewClass()">
+                                    <div class="dashboard-grid-heading">Daily Class/Video</div>
                                       <div class="row">
+                                          <div class="col col-12">
                                             <div class="col col-12">
                                                 
-                                                <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title">
+                                                <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
                                             </div>
                                             <div class="col col-12">
-                                                <input  class="form-control" placeholder="Enter Description" name="description"> 
+                                                <input  class="form-control" placeholder="Enter Description" formControlName="description"> 
                                             </div>
                                             <div class="col col-12">
-                                                <input  class="form-control" placeholder="Reference Link" name="link"> 
+                                                <input  class="form-control" placeholder="Video Link" formControlName="link"> 
                                             </div>
-                                            <!-- <div class="col col-12">
-                                              <input type="file" id="fileImport" />
-                                            </div> -->
+                                            <div class="col col-12">
+                                                <select class="form-control" placeholder="Video Source" formControlName="source"> 
+                                                    <option value="" disabled>Video Source </option>
+                                                    <option value="YouTube">YouTube </option>
+                                                    <option value="Vimeo">Vimeo</option>
+                                                </select>
+                                            </div>
+                                          
+                                            </div>
 
                                         </div>
                                         <div align="center" style="margin-top:20px">
-                                          <button type="button" class="btn btn-success">Submit</button>
+                                          <button type="button" class="btn btn-success" [disabled]="!createClassForm.valid" (click)="addNewClass()">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>    
+                        </div>
+                    
+                        <div class="col"> 
+                            <div class="customSection">
+                                <form [formGroup]="createStoryForm" >
+                                    <div class="dashboard-grid-heading">Create Story</div>
+                                     <div class="row">
+                                        <div class="col col-12">
+                                        <div class="col col-12">
+                                            
+                                            <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
+                                        </div>
+                                        <div class="col col-12">
+                                            <input  class="form-control" placeholder="Enter Description" formControlName="description"> 
+                                        </div>
+                                        <div class="col col-12">
+                                                <input  class="form-control" placeholder="Reference Link" formControlName="link"> 
+                                        </div>
+                                        <div class="col col-12">
+                                            <input type="file" class="form-control" placeholder="Reference Picture" formControlName="storyPicture"> 
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div align="center" style="margin-top:20px">
+                                        <button type="button" class="btn btn-success" [disabled]="!createStoryForm.valid" (click)="createNewStory()">Submit</button>
+                                      </div>
+                                </form>
+                            </div>   
+                           
+                        </div>
+                </div>  
+               
+            </div> 
+            <div style="margin-top:20px">  
+                <div class="row">
+                        <div class="col"> 
+                                <div class="customSection">
+                                <form [formGroup]="createTaskForm" (ngSubmit)="addNewTask()">
+                                    <div class="dashboard-grid-heading">Create Task</div>
+                                      <div class="row">
+                                          <div class="col col-12">
+                                            <div class="col col-12">
+                                                
+                                                <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
+                                            </div>
+                                            <div class="col col-12">
+                                                <input  class="form-control" placeholder="Enter Description" formControlName="description"> 
+                                            </div>
+                                            <div class="col col-12">
+                                                <input  class="form-control" placeholder="Reference Link" formControlName="link"> 
+                                            </div>
+                                          
+                                          
+                                            </div>
+
+                                        </div>
+                                        <div align="center" style="margin-top:20px">
+                                          <button type="button" class="btn btn-success" [disabled]="!createTaskForm.valid" (click)="addNewTask()">Submit</button>
                                         </div>
                                     </form>
                                 </div>    
@@ -63,8 +131,9 @@
                         <div class="col"> 
                             <div class="customSection">
                                 <form>
-                                    <div style="text-align: center;">Notification</div>
+                                    <div class="dashboard-grid-heading">Notification</div>
                                      <div class="row">
+                                        <div class="col col-12">
                                         <div class="col col-12">
                                             
                                             <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title">
@@ -75,73 +144,63 @@
                                         <div class="col col-12">
                                                 <input  class="form-control" placeholder="Reference Link" name="link"> 
                                         </div>
+                                        </div>
                                     </div>
                                     <div align="center" style="margin-top:20px">
                                             <button type="button" class="btn btn-success">Submit</button>
                                     </div>
                                 </form>
-                            </div>    
+                            </div>     
                         </div>
                 </div>  
                
             </div> 
-            <div style="margin-top:20px">  
-              <div class="row">
-                      <div class="col"> 
-                              <div class="customSection">
-                              <form>
-                                  <div style="text-align: center;">Create Task</div>
-                                    <div class="row">
-                                          <div class="col col-12">
-                                              
-                                              <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title">
-                                          </div>
-                                          <div class="col col-12">
-                                              <input  class="form-control" placeholder="Enter Description" name="description"> 
-                                          </div>
-                                          <div class="col col-12">
-                                              <input  class="form-control" placeholder="Reference Link" name="link"> 
-                                          </div>
-                                          <div class="col col-12">
-                                            <!-- <select class="custom-select" multiple>
-                                              <option selected>Open this select menu</option>
-                                              <option value="1">One</option>
-                                              <option value="2">Two</option>
-                                              <option value="3">Three</option>
-                                            </select> -->
-                                          </div>
-
-                                      </div>
-                                      <div align="center" style="margin-top:20px">
-                                        <button type="button" class="btn btn-success" (click)="addNewClass()">Submit</button>
-                                      </div>
-                                  </form>
-                              </div>    
-                      </div>
-                  
-                      <div class="col"> 
-                          <div class="customSection">
-                              <form>
-                                  <div style="text-align: center;">Notification</div>
-                                   <div class="row">
-                                      <div class="col col-12">
-                                          
-                                          <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title">
-                                      </div>
-                                      <div class="col col-12">
-                                          <input  class="form-control" placeholder="Enter Description" name="description"> 
-                                      </div>
-                                      <div class="col col-12">
-                                              <input  class="form-control" placeholder="Reference Link" name="link"> 
-                                      </div>
-                                  </div>
-                                  <div align="center" style="margin-top:20px">
-                                          <button type="button" class="btn btn-success">Submit</button>
-                                  </div>
-                              </form>
-                          </div>    
-                      </div>
-              </div>  
-             
-          </div> 
+            <div class="main-header-title d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mt-3 mb-3 border-bottom">
+                <h1 class="h2">Stories</h1>
+              </div>
+              
+              <div>
+                  <p>Total Story :  {{apiResponse.length}} </p>
+                  <div class="table-responsive-sm">          
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <!-- <th>#</th> -->
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Link</th>
+                                <th>Create Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                      
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <div align="center" col="6" *ngIf="!apiResponse.length">No Record Found </div>
+                                <tr *ngFor="let story of apiResponse">
+                                <!-- <td>1</td> -->
+                                <td>{{story.title}}</td>
+                                <td>{{story.description}}</td>
+                                <td>{{story.link}}</td>
+                                <td>{{story.createdDate}}</td>
+                                <td>{{story.status}}</td>
+                                <td>
+                                  <span>
+                                    <!-- <a class="comment-action-btn mr-5">
+                                      <i class="fa fa-comment"></i>
+                                    </a> -->
+                                  </span>
+                                  <span>
+                                    <a class="delete-action-btn" (click)="deleteStory(story)">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+              
+              </div>
+              
 </div>

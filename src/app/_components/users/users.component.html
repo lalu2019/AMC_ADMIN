@@ -1,5 +1,9 @@
-<div style="padding-top: 50px;">
+<div class="main-header-title d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mt-3 mb-3 border-bottom">
+    <h1 class="h2">Users</h1>
+</div>
+<div>
 
+       <p>Total User :  {{apiResponse.length}} </p>
         <div class="table-responsive-sm">          
                 <table class="table table-bordered">
                   <thead>
@@ -19,18 +23,29 @@
 
                   </thead>
                   <tbody>
-                    <tr>
+                    <tr *ngFor="let user of apiResponse">
                       <!-- <td>1</td> -->
-                      <td>Anna</td>
-                      <td>7048351338</td>
-                      <td>demo@gmail.com</td>
-                      <td>UPSC</td>
-                      <td>APV College</td>
-                      <td>123, sector 20, Noida</td>
+                      <td>{{user.FullName}}</td>
+                      <td>{{user.Mobile}}</td>
+                      <td>{{user.Email}}</td>
+                      <td>{{user.Course}}</td>
+                      <td>{{user.College}}</td>
+                      <td>{{user.Address}}</td>
                       <td>Free</td>
                       <td>0</td>
                       <td>Active</td>
-                      <td>Edit, and delete</td>
+                      <td>
+                        <span>
+                          <a class="edit-action-btn mr-5">
+                              <i class="fa fa-pencil"></i>
+                          </a>
+                      </span>
+                      <span>
+                          <a class="delete-action-btn">
+                              <i class="fa fa-trash"></i>
+                          </a>
+                      </span>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
