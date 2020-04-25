@@ -1,0 +1,15 @@
+<div *ngIf="message"  class="confirmation-mask-wrapper">
+  <div class="overlay-bg"></div>
+  <div class="confirmation-box" *ngIf="message?.type == 'confirm'">
+  <img src="../../../assets/images/confirm-box.jpg">
+      <h3>{{message.text}}</h3>
+      
+      <div class="confirmation-buttons">
+          <!-- <button class="btn btn-danger" (click)="message.okFn()">{{'common.yes' | translate}}</button>
+          <button class="btn btn-default" (click)="message.cancelFn()">{{'common.no' | translate}}</button> -->
+          <button class="btn btn-default" *ngIf="message.declineButtonText!=null" (click)="message.onButtonClick(false)">{{message.declineButtonText}}</button>
+          <button class="btn btn-success" *ngIf="message.confirmBtnText!=nuull" (click)="message.onButtonClick(true)">{{message.confirmBtnText}}</button>
+
+      </div>
+  </div>
+</div>

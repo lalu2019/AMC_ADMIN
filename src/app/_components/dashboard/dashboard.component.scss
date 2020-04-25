@@ -1,0 +1,78 @@
+h2 {
+    font-size: 20px;
+}
+.dashboard-grid {
+    background-color: #e9ecef;
+    height: 200px;
+    padding: 25px;
+    font-size: 22px;
+    color: #000;
+
+    > div {
+        font-size: 16px;
+        color: #333;
+    }
+}
+
+.user-listing-action {
+    a {
+        padding: 5px;
+    }
+
+    .edit {
+        background: #007bff;
+        color: #fff;
+    }
+
+    .delete {
+        background: red;
+        color: #fff;
+    }
+}
+
+.grid-column-color {
+    background-color: #e9ecef;
+    padding: 20px;
+}
+
+.write-your-message-text,
+.target-user-text-message {
+    font-size: 16px;
+    > span:first-child {
+        text-align: center;
+        width: 25px;
+        height: 25px;
+        display: inline-block;
+        color: #fff;
+        background: #333;
+        padding: 5px;
+        margin-right: 5px;
+        border-radius: 50%;
+        display: inline-block;
+        line-height: 16px;
+    }
+}
+
+.map-responsive{
+    overflow:hidden;
+    padding-bottom:50%;
+    position:relative;
+    height:0;
+}
+.map-responsive iframe{
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;
+}
+.customSection{
+    padding: 10px;
+    border: 1px solid grey;
+}
+.form-control{
+    margin-top:10px;
+}
+.card-text{
+    font-size: 25px;
+}

@@ -1,0 +1,83 @@
+<!-- <div class="container pt-3">
+    <div class="row justify-content-sm-center">
+      <div class="col-sm-10 col-md-6" style="margin-top: 100px;">
+        <div class="card border-info">
+          <div class="card-header">Login</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4 text-center">
+                <img src="../../../assets/images/application_logo.png" style="width: 150px;">
+              </div>
+              <div class="col-md-8">
+                <form>
+                  <input type="text" class="form-control mb-2" placeholder="Email" [(ngModel)]="person.Email" [ngModelOptions]="{standalone:
+                    true}" required autofocus>
+                  <input type="password" class="form-control mb-2" placeholder="Password" [(ngModel)]="person.UserPaasowrd" [ngModelOptions]="{standalone:
+                    true}" required>
+                  <button class="btn btn-lg btn-primary btn-block mb-1" type="submit" (click)="userLogin(person.Email, person.UserPaasowrd)">Login</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+<div class="login-wraper" >
+    <div class="login-container">
+      <div class="info-form-wrap"> 
+        <div class="outer-card">
+            <div class="login-outer-card">
+                <div class="from-group">
+                <h1 class="form-header">Login</h1>
+                </div> 
+
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                      <img src="../../../assets/images/application_logo.png" class="logo">
+                </div>
+
+                <div class="col-md-8">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                
+                <div class="form-group">
+                    <div class="group">
+                        <input class="form_field form-control" type="text" formControlName="email" placeholder="Enter Email" [ngClass]="{ 'is-invalid': isSubmitted && form.email.errors }"  autocomplete="off" />
+                        <label for="email" class="form_label">Username</label>
+                        <i class="fa fa-user"></i>
+                        <div div *ngIf="isSubmitted && form.email.errors" class="errorHandle">
+                        <div *ngIf="form.email.errors.required">Email is required</div>
+                        </div>
+                    </div> 
+                </div>      
+
+                <div class="form-group">
+                    <div class="group">
+                        <input type="password" value=""  formControlName="passWord" placeholder="Enter Password" class="form_field form-control" name="Password"  [ngClass]="{ 'is-invalid': isSubmitted && form.passWord.errors }"
+                        autocomplete="off"/>                            
+                        <label for="passWord" class="form_label">Password</label>                         
+                        <i class="fa fa-lock"></i>
+                        <div *ngIf="isSubmitted && form.passWord.errors" class="errorHandle">
+                        <div *ngIf="form.passWord.errors.required">Password is required</div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="">
+                            <button type="submit" class="btn btn-primary mt-10">
+                                    Login
+                            </button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>                  
+                </form>
+                </div>
+                </div>
+            </div> 
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
