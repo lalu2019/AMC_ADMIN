@@ -128,37 +128,83 @@
                         </div>
                     
                         <div class="col"> 
-                            <div class="customSection">
-                                <form>
-                                    <div class="dashboard-grid-heading">Notification</div>
-                                     <div class="row">
-                                        <div class="col col-12">
-                                        <div class="col col-12">
-                                            
-                                            <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title">
-                                        </div>
-                                        <div class="col col-12">
-                                            <input  class="form-control" placeholder="Enter Description" name="description"> 
-                                        </div>
-                                        <div class="col col-12">
-                                                <input  class="form-control" placeholder="Reference Link" name="link"> 
-                                        </div>
-                                        </div>
+                          <div class="customSection">
+                            <form [formGroup]="createBook" >
+                                <div class="dashboard-grid-heading">Add Book</div>
+                                 <div class="row">
+                                    <div class="col col-12">
+                                    <div class="col col-12">
+                                        
+                                        <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
                                     </div>
-                                    <div align="center" style="margin-top:20px">
-                                            <button type="button" class="btn btn-success">Submit</button>
+                                    <div class="col col-12">
+                                        <input  class="form-control" placeholder="Enter Description" formControlName="description"> 
                                     </div>
-                                </form>
-                            </div>     
+                                    <div class="col col-12">
+                                            <input  class="form-control" placeholder="Purchase Link" formControlName="link"> 
+                                    </div>
+                                    <div class="col col-12">
+                                        <input class="form-control" placeholder="Picture Url" formControlName="imageUrl"> 
+                                    </div>
+                                    </div>
+                                </div>
+                                <div align="center" style="margin-top:20px">
+                                    <button type="button" class="btn btn-success" [disabled]="!createBook.valid" (click)="createBookSave()">Submit</button>
+                                  </div>
+                            </form>
+                        </div>   
                         </div>
                 </div>  
                
             </div> 
             <div class="main-header-title d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mt-3 mb-3 border-bottom">
+              <h1 class="h2">Books</h1>
+          </div>
+            
+           <div>
+                <p>Total Book :  {{BookList.length}} </p>
+                <div class="table-responsive-sm">          
+                        <table class="table table-bordered">
+                          <thead>
+                            <tr>
+                              <!-- <th>#</th> -->
+                              <th>Title</th>
+                              <th>Description</th>
+                              <th>Link</th>
+                              <th>Create Date</th>
+                              <th>Action</th>
+                    
+                            </tr>
+                          </thead>
+                          <tbody>
+                              <div align="center" col="6" *ngIf="!BookList.length">No Record Found </div>
+                              <tr *ngFor="let book of BookList">
+                              <!-- <td>1</td> -->
+                              <td>{{book.title}}</td>
+                              <td>{{book.description}}</td>
+                              <td>{{book.link}}</td>
+                              <td>{{book.createdDate}}</td>
+                              <td>
+                                <span>
+        
+                                </span>
+                                <span>
+                                  <a class="delete-action-btn" (click)="deleteBook(book)">
+                                      <i class="fa fa-trash"></i>
+                                  </a>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+            
+           </div>
+            <div class="main-header-title d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mt-3 mb-3 border-bottom">
                 <h1 class="h2">Stories</h1>
-              </div>
+            </div>
               
-              <div>
+             <div>
                   <p>Total Story :  {{apiResponse.length}} </p>
                   <div class="table-responsive-sm">          
                           <table class="table table-bordered">
@@ -185,9 +231,7 @@
                                 <td>{{story.status}}</td>
                                 <td>
                                   <span>
-                                    <!-- <a class="comment-action-btn mr-5">
-                                      <i class="fa fa-comment"></i>
-                                    </a> -->
+          
                                   </span>
                                   <span>
                                     <a class="delete-action-btn" (click)="deleteStory(story)">
@@ -200,6 +244,6 @@
                           </table>
                     </div>
               
-              </div>
+             </div>
               
 </div>

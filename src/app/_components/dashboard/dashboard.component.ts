@@ -20,12 +20,17 @@ export class DashboardComponent implements OnInit {
   createTaskForm: FormGroup; 
   createUserForm: FormGroup; 
   createStoryForm: FormGroup;
+  createBook: FormGroup;
+
   subscription: Subscription;
+  
 
   isSubmitted: boolean = false;
   input = document.getElementById('input')
 
   apiResponse:any = [];
+  BookList:any = [];
+
   deleteStoryId: any
   constructor(
     private formBuilder: FormBuilder,
@@ -36,7 +41,6 @@ export class DashboardComponent implements OnInit {
   ) {
     this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
       if (status) {
-        debugger;
         this.loaderService.show();  
         this.operation.deleteStory(this.deleteStoryId).then(success =>{
           console.log(success);
@@ -76,13 +80,21 @@ export class DashboardComponent implements OnInit {
       link: ['', ], 
       storyPicture: ['', ],             
     });
+    this.createBook = this.formBuilder.group({
+      title:['', Validators.required],
+      imageUrl:['', Validators.required],
+      description: [''],
+      link: ['', Validators.required], 
+              
+    });
     
-
+    
     
     
     this.addFirebaseToken();
-    this.getAllStory();
 
+    this.getAllStory();
+    this.getAllBooks();
 
     document.getElementById("fileImport").onchange= function(e: Event) {
       let file = (<HTMLInputElement>e.target).files[0];
@@ -148,6 +160,22 @@ export class DashboardComponent implements OnInit {
     this.createTaskForm.reset();
   })
  }
+
+ createBookSave(){
+  let record = {};
+  record['title'] = this.createBook.value.title
+  record['description'] = this.createBook.value.description
+  record['link'] = this.createBook.value.link
+  record['imageUrl'] = this.createBook.value.imageUrl
+  
+  record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+   this.operation.AddNewBook(record).then(success =>{
+    console.log(success);
+    this.createBook.reset();
+  })
+ }
+
+ 
  createNewStory(){
   let record = {};
   record['title'] = this.createStoryForm.value.title
@@ -185,6 +213,35 @@ export class DashboardComponent implements OnInit {
     this.deleteStoryId = value.id;
   }
 
+  getAllBooks() {
+    this.loaderService.show();  
+    this.operation.getAllBooks().subscribe(success =>{
+      console.log(success);
+      this.loaderService.hide();
+      this.BookList = success.map(e => {
+        return {
+          id: e.payload.doc.id,
+          title: e.payload.doc.data()['title'],
+          description: e.payload.doc.data()['description'],
+          imageUrl: e.payload.doc.data()['imageUrl'],
+          link: e.payload.doc.data()['link'],
+          createdDate: e.payload.doc.data()['createdDate']
+        };
+      })
+      console.log(this.BookList);
+    })
+  }
+
+  deleteBook(value){
+        this.loaderService.show();  
+        this.operation.deleteBook(value.id).then(success =>{
+          console.log(success);
+          this.loaderService.hide();  
+          this.alertService.delete();
+          this.getAllBooks();
+    })
+  }
  
 
+  
 }

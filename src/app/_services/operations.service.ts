@@ -83,4 +83,20 @@ export class OperationsService {
       return this.firestore.doc('stories/' + record_id).delete();
     }
 
+    //Book section api
+    AddNewBook(record) {
+      return this.firestore.collection('Books').add(record);
+    }
+    getAllBooks() {
+      return this.firestore.collection('Books').snapshotChanges();
+    }
+    updateBook(recordID, record) {
+      // return this.firestore.collection('videos').add(record);
+      return this.firestore.doc('Books/' + recordID).update(record);
+
+    }
+     deleteBook(record_id) {
+      return this.firestore.doc('Books/' + record_id).delete();
+    }
+
 }
