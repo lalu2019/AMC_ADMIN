@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import {OperationsService} from '../../_services/operations.service'
+import { LoaderService } from 'src/app/_services/loader.service';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 
 
 @Component({
@@ -9,15 +12,39 @@ import {OperationsService} from '../../_services/operations.service'
 })
 export class TasksComponent implements OnInit {
   apiResponse:any = [];
+  subscription: Subscription;
+  deleteTaskId: any;
 
-  constructor(private operation:OperationsService) { }
+  constructor(private operation:OperationsService,
+    private loaderService: LoaderService,
+    private confirmationDialogService: ConfirmationDialogService) {
+      this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
+        if (status) {
+          debugger;
+          this.loaderService.show();
+          this.operation.deleteTask(this.deleteTaskId).then(success =>{
+            console.log(success);
+            this.loaderService.hide();
+            this.getAllTask();
+           
+          })
+        }
+      });
+     }
 
   ngOnInit(): void {
     this.getAllTask();
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.confirmationDialogService.confirmationYesButtonClick(false);
+  }
   getAllTask(){
+    this.loaderService.show();
     this.operation.getAllTasks().subscribe(success =>{
       console.log(success);
+      this.loaderService.hide();
       this.apiResponse = success.map(e => {
         return {
           id: e.payload.doc.id,
@@ -32,12 +59,8 @@ export class TasksComponent implements OnInit {
     })
   }
   deleteTask(value){
-
-    this.operation.deleteTask(value.id).then(success =>{
-      console.log(success);
-      this.getAllTask();
-     
-    })
+    this.confirmationDialogService.show();
+    this.deleteTaskId = value.id;
   }
 
 }

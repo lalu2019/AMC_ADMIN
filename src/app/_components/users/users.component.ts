@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import {OperationsService} from '../../_services/operations.service'
+import { LoaderService } from 'src/app/_services/loader.service';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 
 
 @Component({
@@ -10,16 +13,32 @@ import {OperationsService} from '../../_services/operations.service'
 export class UsersComponent implements OnInit {
 
   apiResponse:any = [];
-  constructor(    private operation:OperationsService
-    ) { }
+  subscription: Subscription;
+  constructor(    private operation:OperationsService,
+    private loaderService: LoaderService,
+    private confirmationDialogService: ConfirmationDialogService
+    ) { 
+      this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
+        if (status) {
+          console.log(status);
+        }
+      });
+    }
 
   ngOnInit(): void {
 
     this.getAllUsers();
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.confirmationDialogService.confirmationYesButtonClick(false);
+  }
   getAllUsers(){
+    this.loaderService.show();
     this.operation.getAllUsers().subscribe(success =>{
       console.log(success);
+      this.loaderService.hide();
       this.apiResponse = success.map(e => {
         return {
           id: e.payload.doc.id,
@@ -34,6 +53,10 @@ export class UsersComponent implements OnInit {
       })
       console.log(this.apiResponse);
     })
+  }
+
+  onDeleteUser() {
+    this.confirmationDialogService.show();
   }
 
 }
