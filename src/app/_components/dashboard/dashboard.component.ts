@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import {OperationsService} from '../../_services/operations.service'
 import readXlsxFile from 'read-excel-file'
+import { LoaderService } from 'src/app/_services/loader.service';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 
 
 @Component({
@@ -16,15 +19,31 @@ export class DashboardComponent implements OnInit {
   createTaskForm: FormGroup; 
   createUserForm: FormGroup; 
   createStoryForm: FormGroup;
+  subscription: Subscription;
 
   isSubmitted: boolean = false;
   input = document.getElementById('input')
 
   apiResponse:any = [];
+  deleteStoryId: any
   constructor(
     private formBuilder: FormBuilder,
-    private operation:OperationsService
-  ) { }
+    private operation:OperationsService,
+    private loaderService: LoaderService,
+    private confirmationDialogService: ConfirmationDialogService
+  ) {
+    this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
+      if (status) {
+        debugger;
+        this.loaderService.show();  
+        this.operation.deleteStory(this.deleteStoryId).then(success =>{
+          console.log(success);
+          this.loaderService.hide();  
+          this.getAllStory();
+        })
+      }
+    });
+   }
 
   get sendNotificationFormValidate() { return this.sendNotificationForm.controls; }
 
@@ -76,6 +95,11 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.confirmationDialogService.confirmationYesButtonClick(false);
+  }
+
   onSubmit() {
     this.isSubmitted = true; 
     if (this.sendNotificationForm.invalid) {
@@ -88,7 +112,6 @@ export class DashboardComponent implements OnInit {
    record['token'] = localStorage.getItem("firebaseTkn");
    record['Name'] = "Admin";
    record['Source'] = "Admin Panel";
-
    this.operation.addToken(record).then(success =>{
      console.log(success);
    })
@@ -136,8 +159,10 @@ export class DashboardComponent implements OnInit {
   })
 }
   getAllStory() {
+    this.loaderService.show();  
     this.operation.getAllStory().subscribe(success =>{
       console.log(success);
+      this.loaderService.hide();
       this.apiResponse = success.map(e => {
         return {
           id: e.payload.doc.id,
@@ -153,12 +178,8 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteStory(value){
-
-    this.operation.deleteStory(value.id).then(success =>{
-      console.log(success);
-      this.getAllStory();
-     
-    })
+    this.confirmationDialogService.show();
+    this.deleteStoryId = value.id;
   }
 
  

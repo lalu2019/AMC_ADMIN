@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import {OperationsService} from '../../_services/operations.service'
+import { LoaderService } from 'src/app/_services/loader.service';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 
 @Component({
   selector: 'app-videos',
@@ -8,16 +11,41 @@ import {OperationsService} from '../../_services/operations.service'
 })
 export class VideosComponent implements OnInit {
   apiResponse:any = [];
+  subscription: Subscription;
+  deleteVideoId: any;
 
-  constructor( private operation:OperationsService) { }
+  constructor( 
+    private operation:OperationsService,
+    private loaderService: LoaderService,
+    private confirmationDialogService: ConfirmationDialogService
+    ) { 
+      this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
+        if (status) {
+          debugger;
+          this.loaderService.show();
+          this.operation.deletVideo(this.deleteVideoId).then(success => {
+            console.log(success);
+            this.loaderService.hide();
+            this.getAllVideo();
+          })
+        }
+      });
+    }
 
   ngOnInit(): void {
     this.getAllVideo();
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.confirmationDialogService.confirmationYesButtonClick(false);
+  }
+
   getAllVideo(){
+    this.loaderService.show();
     this.operation.getAllVideo().subscribe(success =>{
       console.log(success);
+      this.loaderService.hide();
       this.apiResponse = success.map(e => {
         return {
           id: e.payload.doc.id,
@@ -32,12 +60,8 @@ export class VideosComponent implements OnInit {
     })
   }
   deletVideo(value){
-
-    this.operation.deletVideo(value.id).then(success =>{
-      console.log(success);
-      this.getAllVideo();
-     
-    })
+    this.confirmationDialogService.show();
+    this.deleteVideoId = value.id;
   }
 
 }

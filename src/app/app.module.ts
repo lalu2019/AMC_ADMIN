@@ -29,6 +29,7 @@ import { MessagingService } from "./_services/messaging.service";
 import { environment } from "../environments/environment";
 import { AsyncPipe } from "../../node_modules/@angular/common";
 import { TasksComponent } from './_components/tasks/tasks.component';
+import { ConfirmationDialogComponent } from './_shared/confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { TasksComponent } from './_components/tasks/tasks.component';
     UsersComponent,
     VideosComponent,
     TestsComponent,
-    TasksComponent
+    TasksComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,

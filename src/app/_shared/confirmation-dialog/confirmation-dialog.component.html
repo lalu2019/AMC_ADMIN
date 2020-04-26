@@ -1,15 +1,17 @@
-<div *ngIf="message"  class="confirmation-mask-wrapper">
-  <div class="overlay-bg"></div>
-  <div class="confirmation-box" *ngIf="message?.type == 'confirm'">
-  <img src="../../../assets/images/confirm-box.jpg">
-      <h3>{{message.text}}</h3>
-      
-      <div class="confirmation-buttons">
-          <!-- <button class="btn btn-danger" (click)="message.okFn()">{{'common.yes' | translate}}</button>
-          <button class="btn btn-default" (click)="message.cancelFn()">{{'common.no' | translate}}</button> -->
-          <button class="btn btn-default" *ngIf="message.declineButtonText!=null" (click)="message.onButtonClick(false)">{{message.declineButtonText}}</button>
-          <button class="btn btn-success" *ngIf="message.confirmBtnText!=nuull" (click)="message.onButtonClick(true)">{{message.confirmBtnText}}</button>
-
+<div class="modal fade bs-example-modal-sm" id="confirmation-box-modal" role="dialog" data-backdrop="static">
+  <div class="modal-dialog modal-confirm modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 class="confirm-head">
+          Are You Sure ?
+        </h1>
+        <p class="confirm-msg">Do you really want to delete this record?<br />
+        </p>
+        <div class="confirm-button-box">
+          <button class="btn btn-default" data-dismiss="modal" (click)="onNoButtonClick()">No</button>
+          <button class="btn btn-success" data-dismiss="modal" (click)="onYesButtonClick()">Yes</button>
+        </div>
       </div>
+    </div>
   </div>
 </div>

@@ -1,6 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { ConfirmationDialogService } from '@app/_services/confirmation-dialog.service';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
+declare var $: any;
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -8,24 +9,25 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./confirmation-dialog.component.css']
 })
 export class ConfirmationDialogComponent implements OnInit {
-  message: any;
   subscription:Subscription;
-
-
 
   constructor(
     private confirmationDialogService: ConfirmationDialogService
   ) {
-   this.subscription= this.confirmationDialogService.getMessage().subscribe(message => {
-      this.message = message;
+   this.subscription = this.confirmationDialogService.isConfirmationModalOpen.subscribe(isModalOpen => {
+      isModalOpen ? $('#confirmation-box-modal').modal('show') : $('#confirmation-box-modal').modal('hide');
     });
   }
 
   ngOnInit() {
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.message=null;
+  onNoButtonClick() {
+    this.confirmationDialogService.hide();
+  }
+
+  onYesButtonClick() {
+    this.confirmationDialogService.hide();
+    this.confirmationDialogService.confirmationYesButtonClick(true);
   }
 }
