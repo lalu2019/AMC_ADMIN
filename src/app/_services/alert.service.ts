@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AlertType, AlertData } from '../_models/alert-model';
 import { BehaviorSubject, Observable } from 'rxjs';
 

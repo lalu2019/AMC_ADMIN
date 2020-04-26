@@ -5,6 +5,7 @@ import {OperationsService} from '../../_services/operations.service'
 import readXlsxFile from 'read-excel-file'
 import { LoaderService } from 'src/app/_services/loader.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
+import { AlertService } from 'src/app/_services/alert.service';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class DashboardComponent implements OnInit {
     private formBuilder: FormBuilder,
     private operation:OperationsService,
     private loaderService: LoaderService,
-    private confirmationDialogService: ConfirmationDialogService
+    private confirmationDialogService: ConfirmationDialogService,
+    private alertService: AlertService
   ) {
     this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
       if (status) {
@@ -39,6 +41,7 @@ export class DashboardComponent implements OnInit {
         this.operation.deleteStory(this.deleteStoryId).then(success =>{
           console.log(success);
           this.loaderService.hide();  
+          this.alertService.delete();
           this.getAllStory();
         })
       }

@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import {OperationsService} from '../../_services/operations.service'
 import { LoaderService } from 'src/app/_services/loader.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
+import { AlertService } from 'src/app/_services/alert.service';
 
 
 @Component({
@@ -16,7 +17,8 @@ export class UsersComponent implements OnInit {
   subscription: Subscription;
   constructor(    private operation:OperationsService,
     private loaderService: LoaderService,
-    private confirmationDialogService: ConfirmationDialogService
+    private confirmationDialogService: ConfirmationDialogService,
+    private alertService: AlertService
     ) { 
       this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
         if (status) {
@@ -57,6 +59,7 @@ export class UsersComponent implements OnInit {
 
   onDeleteUser() {
     this.confirmationDialogService.show();
+    // this.alertService.delete();
   }
 
 }

@@ -6,7 +6,7 @@ import { AlertType } from '../../_models/alert-model';
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.css']
+  styleUrls: ['./alert.component.scss']
 })
 export class AlertComponent implements OnInit, OnDestroy {
   subscription: Subscription;
