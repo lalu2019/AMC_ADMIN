@@ -107,7 +107,6 @@
                                       <div class="row">
                                           <div class="col col-12">
                                             <div class="col col-12">
-                                                
                                                 <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
                                             </div>
                                             <div class="col col-12">
@@ -116,10 +115,10 @@
                                             <div class="col col-12">
                                                 <input  class="form-control" placeholder="Reference Link" formControlName="link"> 
                                             </div>
-                                          
-                                          
+                                             <div class="col col-12">
+                                               <input type="date" class="form-control" placeholder="End Date" formControlName="endDate"> 
+                                             </div>
                                             </div>
-
                                         </div>
                                         <div align="center" style="margin-top:20px">
                                           <button type="button" class="btn btn-success" [disabled]="!createTaskForm.valid" (click)="addNewTask()">Submit</button>

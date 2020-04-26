@@ -45,6 +45,7 @@ export class DashboardComponent implements OnInit {
     this.createTaskForm = this.formBuilder.group({
       title:['', Validators.required],
       description: ['', Validators.required],
+      endDate: ['', Validators.required],
       link: ['', ],             
     });
     this.createStoryForm = this.formBuilder.group({
@@ -112,7 +113,8 @@ export class DashboardComponent implements OnInit {
   record['title'] = this.createTaskForm.value.title
   record['description'] = this.createTaskForm.value.description
   record['link'] = this.createTaskForm.value.link
-  record['status'] = "Active";
+  record['status'] = "Pending" ;
+  record['endDate'] = this.createTaskForm.value.endDate;
   record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
 
    this.operation.createTask(record).then(success =>{
@@ -134,7 +136,7 @@ export class DashboardComponent implements OnInit {
   })
 }
   getAllStory() {
-    this.operation.getAllTasks().subscribe(success =>{
+    this.operation.getAllStory().subscribe(success =>{
       console.log(success);
       this.apiResponse = success.map(e => {
         return {
