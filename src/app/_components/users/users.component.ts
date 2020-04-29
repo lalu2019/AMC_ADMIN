@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import {OperationsService} from '../../_services/operations.service'
 import { LoaderService } from 'src/app/_services/loader.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
@@ -15,10 +16,12 @@ export class UsersComponent implements OnInit {
 
   apiResponse:any = [];
   subscription: Subscription;
+  userForm: FormGroup; 
   constructor(    private operation:OperationsService,
     private loaderService: LoaderService,
     private confirmationDialogService: ConfirmationDialogService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private formBuilder: FormBuilder
     ) { 
       this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
         if (status) {
@@ -28,7 +31,14 @@ export class UsersComponent implements OnInit {
     }
 
   ngOnInit(): void {
-
+    this.userForm = this.formBuilder.group({
+      fullname:['', Validators.required],
+      mobilenumber: ['', Validators.required],
+      email: ['', Validators.required],
+      course:['', Validators.required],
+      college: ['', Validators.required],
+      address: ['', Validators.required]               
+    });
     this.getAllUsers();
   }
 
@@ -55,6 +65,21 @@ export class UsersComponent implements OnInit {
       })
       console.log(this.apiResponse);
     })
+  }
+
+  onEditUser(user) {
+    this.userForm.patchValue({
+      fullname: user.FullName,
+      mobilenumber: user.Mobile,
+      email: user.Email,
+      course:user.Course,
+      college: user.College,
+      address: user.Address               
+    });
+  }
+
+  onUpdateForm() {
+    alert('User form');
   }
 
   onDeleteUser() {

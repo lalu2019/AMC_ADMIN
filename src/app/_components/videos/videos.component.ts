@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import {OperationsService} from '../../_services/operations.service'
 import { LoaderService } from 'src/app/_services/loader.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
@@ -13,13 +14,15 @@ import { AlertService } from 'src/app/_services/alert.service';
 export class VideosComponent implements OnInit {
   apiResponse:any = [];
   subscription: Subscription;
+  videoForm: FormGroup; 
   deleteVideoId: any;
 
   constructor( 
     private operation:OperationsService,
     private loaderService: LoaderService,
     private confirmationDialogService: ConfirmationDialogService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private formBuilder: FormBuilder
     ) { 
       this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
         if (status) {
@@ -36,6 +39,11 @@ export class VideosComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.videoForm = this.formBuilder.group({
+      title:['', Validators.required],
+      description: ['', Validators.required],
+      link: ['', Validators.required]                  
+    });
     this.getAllVideo();
   }
 
@@ -62,6 +70,19 @@ export class VideosComponent implements OnInit {
       console.log(this.apiResponse);
     })
   }
+
+  onEditVideo(video) {
+    this.videoForm.patchValue({
+      title: video.title,
+      description: video.description,
+      link: video.link,              
+    });
+  }
+
+  onUpdateForm() {
+    alert('video form');
+  }
+
   deletVideo(value){
     this.confirmationDialogService.show();
     this.deleteVideoId = value.id;
