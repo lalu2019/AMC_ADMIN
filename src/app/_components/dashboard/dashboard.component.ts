@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
           console.log(success);
           this.loaderService.hide();  
           this.alertService.delete();
-          this.getAllStory();
+         // this.getAllStory();
         })
       }
     });
@@ -74,28 +74,11 @@ export class DashboardComponent implements OnInit {
       endDate: ['', Validators.required],
       link: ['', ],             
     });
-    this.createStoryForm = this.formBuilder.group({
-      title:['', Validators.required],
-      description: ['', Validators.required],
-      link: ['', ], 
-      storyPicture: ['', ],             
-    });
-    this.createBook = this.formBuilder.group({
-      title:['', Validators.required],
-      imageUrl:['', Validators.required],
-      description: [''],
-      link: ['', Validators.required], 
-              
-    });
-    
-    
-    
+ 
     
     this.addFirebaseToken();
 
-    this.getAllStory();
-    this.getAllBooks();
-
+   
     document.getElementById("fileImport").onchange= function(e: Event) {
       let file = (<HTMLInputElement>e.target).files[0];
       console.log(file);
@@ -161,87 +144,6 @@ export class DashboardComponent implements OnInit {
   })
  }
 
- createBookSave(){
-  let record = {};
-  record['title'] = this.createBook.value.title
-  record['description'] = this.createBook.value.description
-  record['link'] = this.createBook.value.link
-  record['imageUrl'] = this.createBook.value.imageUrl
-  
-  record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
-   this.operation.AddNewBook(record).then(success =>{
-    console.log(success);
-    this.createBook.reset();
-  })
- }
-
  
- createNewStory(){
-  let record = {};
-  record['title'] = this.createStoryForm.value.title
-  record['description'] = this.createStoryForm.value.description
-  record['link'] = this.createStoryForm.value.link
-  record['status'] = "Active";
-  record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
-   this.operation.createStory(record).then(success =>{
-    console.log(success);
-    this.createStoryForm.reset();
-    this.getAllStory();
-  })
-}
-  getAllStory() {
-    this.loaderService.show();  
-    this.operation.getAllStory().subscribe(success =>{
-      console.log(success);
-      this.loaderService.hide();
-      this.apiResponse = success.map(e => {
-        return {
-          id: e.payload.doc.id,
-          title: e.payload.doc.data()['title'],
-          description: e.payload.doc.data()['description'],
-          status: e.payload.doc.data()['status'],
-          link: e.payload.doc.data()['link'],
-          createdDate: e.payload.doc.data()['createdDate']
-        };
-      })
-      console.log(this.apiResponse);
-    })
-  }
-
-  deleteStory(value){
-    this.confirmationDialogService.show();
-    this.deleteStoryId = value.id;
-  }
-
-  getAllBooks() {
-    this.loaderService.show();  
-    this.operation.getAllBooks().subscribe(success =>{
-      console.log(success);
-      this.loaderService.hide();
-      this.BookList = success.map(e => {
-        return {
-          id: e.payload.doc.id,
-          title: e.payload.doc.data()['title'],
-          description: e.payload.doc.data()['description'],
-          imageUrl: e.payload.doc.data()['imageUrl'],
-          link: e.payload.doc.data()['link'],
-          createdDate: e.payload.doc.data()['createdDate']
-        };
-      })
-      console.log(this.BookList);
-    })
-  }
-
-  deleteBook(value){
-        this.loaderService.show();  
-        this.operation.deleteBook(value.id).then(success =>{
-          console.log(success);
-          this.loaderService.hide();  
-          this.alertService.delete();
-          this.getAllBooks();
-    })
-  }
- 
-
   
 }

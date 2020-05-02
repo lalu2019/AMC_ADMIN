@@ -7,6 +7,8 @@ import { UsersComponent } from './_components/users/users.component';
 import { VideosComponent } from './_components/videos/videos.component';
 import { TestsComponent } from './_components/tests/tests.component';
 import { TasksComponent } from './_components/tasks/tasks.component';
+import { CommonComponent } from './_components/common/common.component';
+
 
 const routes: Routes = [
   { path: '', component: DashboardComponent , canActivate: [] },
@@ -16,6 +18,7 @@ const routes: Routes = [
   { path: 'videos', component: VideosComponent, canActivate: [] },
   { path: 'tests', component: TestsComponent, canActivate: [] },
   { path: 'tasks', component: TasksComponent, canActivate: [] },
+  { path: 'setting', component: CommonComponent, canActivate: [] },
 
 
   { path: '**', redirectTo: '' }

@@ -30,6 +30,7 @@ import { environment } from "../environments/environment";
 import { AsyncPipe } from "../../node_modules/@angular/common";
 import { TasksComponent } from './_components/tasks/tasks.component';
 import { ConfirmationDialogComponent } from './_shared/confirmation-dialog/confirmation-dialog.component';
+import { CommonComponent } from './_components/common/common.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { ConfirmationDialogComponent } from './_shared/confirmation-dialog/confi
     VideosComponent,
     TestsComponent,
     TasksComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    CommonComponent
   ],
   imports: [
     BrowserModule,

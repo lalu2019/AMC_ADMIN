@@ -91,12 +91,24 @@ export class OperationsService {
       return this.firestore.collection('Books').snapshotChanges();
     }
     updateBook(recordID, record) {
-      // return this.firestore.collection('videos').add(record);
       return this.firestore.doc('Books/' + recordID).update(record);
-
     }
      deleteBook(record_id) {
       return this.firestore.doc('Books/' + record_id).delete();
+    }
+
+     //Contact Us section api
+    newConatc(record) {
+      return this.firestore.collection('ContactUs').add(record);
+    }
+    getAllContact() {
+      return this.firestore.collection('ContactUs').snapshotChanges();
+    }
+    updateContact(recordID, record) {
+      return this.firestore.doc('ContactUs/' + recordID).update(record);
+    }
+     DeleteContact(record_id) {
+      return this.firestore.doc('ContactUs/' + record_id).delete();
     }
 
 }

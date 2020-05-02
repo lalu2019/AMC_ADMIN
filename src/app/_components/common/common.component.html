@@ -1,0 +1,250 @@
+<div class="main-header-title d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mt-3 mb-3 border-bottom">
+    <h1 class="h2">Settings & Support</h1>
+  </div>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-secondary" [class.active]="isActive('btn1')" (click)="setActive('btn1')">Membership Plans</button>
+    <button type="button" class="btn btn-secondary" [class.active]="isActive('btn2')" (click)="setActive('btn2')">Tips & Tricks</button>
+    <button type="button" class="btn btn-secondary" [class.active]="isActive('btn3')" (click)="setActive('btn3')">Books</button>
+    <button type="button" class="btn btn-secondary" [class.active]="isActive('btn4')" (click)="setActive('btn4')">Success Stories</button>
+    <button type="button" class="btn btn-secondary" [class.active]="isActive('btn5')" (click)="setActive('btn5')">Contact Us</button>
+  </div>
+
+   <div *ngIf="isActiveButton == 'btn1'">
+
+    </div>
+    <div *ngIf="isActiveButton == 'btn2'">
+
+     </div>
+    <div *ngIf="isActiveButton == 'btn3'" class="mr-20">
+
+
+            <div class="dashboard-grid-heading">Add Book</div>
+            <div class="row mr-20" >
+                    <form [formGroup]="createBook" >
+                            <div class="customSection">
+                                <div class="row ">
+                                      
+                                        <div class="col col-6">
+                                            
+                                                <input type="text" class="form-control mr-10" id="title" placeholder="Enter Title" formControlName="title">
+                                            </div>
+                                        <div class="col col-6">
+                                                <input  class="form-control mr-10" placeholder="Enter Description" formControlName="description"> 
+                                            </div>
+                                        
+                                        <div class="col col-6">
+                                                <input  class="form-control mr-10" placeholder="Purchase Link" formControlName="link"> 
+                                            </div>
+                                        <div class="col col-6">
+                                                <input class="form-control mr-10" placeholder="Picture Url" formControlName="imageUrl"> 
+                                            </div>
+                                      
+                                 </div>
+                                               
+                    </div>
+                
+                    <div align="center" style="margin-top:20px">
+                            <button type="button" class="btn btn-success" [disabled]="!createBook.valid" (click)="createBookSave()">Submit</button>
+                        </div>
+                </form>
+            </div> 
+
+            
+
+            <div>
+                    <p>Total Book :  {{BookList.length}} </p>
+                    <div class="table-responsive-sm">          
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <!-- <th>#</th> -->
+                                  <th>Title</th>
+                                  <th>Description</th>
+                                  <th>Link</th>
+                                  <th>Create Date</th>
+                                  <th>Action</th>
+                        
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  <div align="center" col="6" *ngIf="!BookList.length">No Record Found </div>
+                                  <tr *ngFor="let book of BookList">
+                                  <!-- <td>1</td> -->
+                                  <td>{{book.title}}</td>
+                                  <td>{{book.description}}</td>
+                                  <td>{{book.link}}</td>
+                                  <td>{{book.createdDate}}</td>
+                                  <td>
+                                    <span>
+            
+                                    </span>
+                                    <span>
+                                      <a class="delete-action-btn" (click)="deleteBook(book)">
+                                          <i class="fa fa-trash"></i>
+                                      </a>
+                                    </span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                      </div>
+                
+               </div>
+    </div>
+    <div *ngIf="isActiveButton == 'btn4'" class="mr-20">
+
+            <div class="dashboard-grid-heading">Create Story</div>
+            <div class="row mr-20" >
+                    <form [formGroup]="createStoryForm" >
+                            <div class="customSection">
+                                <div class="row">
+                                      
+                                        <div class="col col-6">
+                                            
+                                            <input type="text" class="form-control mr-10" id="title" placeholder="Enter Title" formControlName="title">
+                                        </div>
+                                        <div class="col col-6">
+                                                <input  class="form-control mr-10" placeholder="Enter Description" formControlName="description"> 
+                                        </div>
+                                        
+                                        <div class="col col-6">
+                                            <input type="file" class="form-control mr-10" placeholder="Reference Picture" formControlName="storyPicture"> 
+                                        </div>
+                                        <div class="col col-6">
+                                                <input  class="form-control mr-10" placeholder="Reference Link" formControlName="link"> 
+                                        </div>
+                                      
+                                 </div>
+                                               
+                    </div>
+                
+                  
+                    <div align="center" style="margin-top:20px">
+                            <button type="button" class="btn btn-success" [disabled]="!createStoryForm.valid" (click)="createNewStory()">Submit</button>
+                    </div>
+                </form>
+            </div> 
+
+            <div>
+                    <p>Total Story :  {{apiResponse.length}} </p>
+                    <div class="table-responsive-sm">          
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <!-- <th>#</th> -->
+                                  <th>Title</th>
+                                  <th>Description</th>
+                                  <th>Link</th>
+                                  <th>Create Date</th>
+                                  <th>Status</th>
+                                  <th>Action</th>
+                        
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  <div align="center" col="6" *ngIf="!apiResponse.length">No Record Found </div>
+                                  <tr *ngFor="let story of apiResponse">
+                                  <!-- <td>1</td> -->
+                                  <td>{{story.title}}</td>
+                                  <td>{{story.description}}</td>
+                                  <td>{{story.link}}</td>
+                                  <td>{{story.createdDate}}</td>
+                                  <td>{{story.status}}</td>
+                                  <td>
+                                    <span>
+            
+                                    </span>
+                                    <span>
+                                      <a class="delete-action-btn" (click)="deleteStory(story)">
+                                          <i class="fa fa-trash"></i>
+                                      </a>
+                                    </span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                      </div>
+                
+            </div>
+        
+    </div>
+
+    <div *ngIf="isActiveButton == 'btn5'" class="mr-20">
+
+            <div class="dashboard-grid-heading">Add Contact</div>
+            <div class="row mr-20" >
+                    <form [formGroup]="contacUsForm" >
+                            <div class="customSection">
+                                <div class="row">
+                                      
+                                        <div class="col col-6">
+                                            
+                                            <input type="text" class="form-control mr-10" id="title" placeholder="Enter Title" formControlName="title">
+                                        </div>
+                                        <div class="col col-6">
+                                                <input  class="form-control mr-10" placeholder="Enter Name" formControlName="Name"> 
+                                        </div>
+                                        
+                                        <div class="col col-6">
+                                            <input type="email" class="form-control mr-10" placeholder="Enter Email" formControlName="Email"> 
+                                        </div>
+                                        <div class="col col-6">
+                                         <input  type="number" class="form-control mr-10" placeholder="Enter Mobile Number" formControlName="Mobile"> 
+
+                                        </div>
+                                      
+                                 </div>
+                                               
+                    </div>
+                
+                  
+                    <div align="center" style="margin-top:20px">
+                            <button type="button" class="btn btn-success" [disabled]="!contacUsForm.valid" (click)="AddCntact()">Submit</button>
+                    </div>
+                </form>
+            </div> 
+
+            <div>
+                    <p>Total Contact :  {{contactUslList.length}} </p>
+                    <div class="table-responsive-sm">          
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <!-- <th>#</th> -->
+                                  <th>Title</th>
+                                  <th>FullName</th>
+                                  <th>Mobile/WhatsApp</th>
+                                  <th>Email</th>
+                                  <th>CreatedDate</th>
+                                  <th>Action</th>
+                        
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  <div align="center" col="6" *ngIf="!contactUslList.length">No Record Found </div>
+                                  <tr *ngFor="let story of contactUslList">
+                                  <!-- <td>1</td> -->
+                                  <td>{{story.title}}</td>
+                                  <td>{{story.Name}}</td>
+                                  <td>{{story.Mobile}}</td>
+                                  <td>{{story.Email}}</td>
+                                  <td>{{story.createdDate}}</td>
+                                  <td>
+                                    <span>
+            
+                                    </span>
+                                    <span>
+                                      <a class="delete-action-btn" (click)="deleteStory(story)">
+                                          <i class="fa fa-trash"></i>
+                                      </a>
+                                    </span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                      </div>
+                
+            </div>
+
+    </div>
+   
