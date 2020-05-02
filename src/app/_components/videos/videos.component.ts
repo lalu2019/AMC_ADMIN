@@ -26,7 +26,7 @@ export class VideosComponent implements OnInit {
     ) { 
       this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
         if (status) {
-          debugger;
+         // debugger;
           this.loaderService.show();
           this.operation.deletVideo(this.deleteVideoId).then(success => {
             console.log(success);

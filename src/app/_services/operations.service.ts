@@ -111,4 +111,32 @@ export class OperationsService {
       return this.firestore.doc('ContactUs/' + record_id).delete();
     }
 
+      //Mmbership  section api
+      addMembership(record) {
+        return this.firestore.collection('Membership').add(record);
+      }
+      getMembership() {
+        return this.firestore.collection('Membership').snapshotChanges();
+      }
+      updateMembership(recordID, record) {
+        return this.firestore.doc('Membership/' + recordID).update(record);
+      }
+       deleteMembership(record_id) {
+        return this.firestore.doc('Membership/' + record_id).delete();
+      }
+
+      //Tips  section api
+      addTips(record) {
+        return this.firestore.collection('Tips').add(record);
+      }
+      getTips() {
+        return this.firestore.collection('Tips').snapshotChanges();
+      }
+      updateTips(recordID, record) {
+        return this.firestore.doc('Tips/' + recordID).update(record);
+      }
+       deleteTips(record_id) {
+        return this.firestore.doc('Tips/' + record_id).delete();
+      }
+
 }

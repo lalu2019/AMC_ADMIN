@@ -18,6 +18,7 @@ export class CommonComponent implements OnInit {
   createStoryForm: FormGroup;
   createBook: FormGroup;
   membershipForm: FormGroup;
+  tipsForm: FormGroup;
   contacUsForm: FormGroup;
 
   isActiveButton:any = 'btn1'
@@ -26,14 +27,79 @@ export class CommonComponent implements OnInit {
   BookList:any = [];
   membershipList:any = [];
   contactUslList:any = [];
+  tipsList:any = [];
+  selectedRecordForEdit:any = {};
 
+
+  subscription: Subscription;
+  deleteRcordId: any;
+  deleteRecordType:any;
   constructor(
     private formBuilder: FormBuilder,
     private operation:OperationsService,
     private loaderService: LoaderService,
     private confirmationDialogService: ConfirmationDialogService,
     private alertService: AlertService
-  ) { }
+  ) { 
+
+    this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
+      if (status) {
+        
+        if(this.deleteRecordType == 'books'){
+          this.loaderService.show();
+          this.operation.deleteBook(this.deleteRcordId).then(success => {
+            console.log(success);
+            this.loaderService.hide();
+            this.alertService.delete();
+            this.getAllBooks();
+  
+          })
+        }
+        if(this.deleteRecordType == 'story'){
+          this.loaderService.show();
+          this.operation.deleteStory(this.deleteRcordId).then(success => {
+            console.log(success);
+            this.loaderService.hide();
+            this.alertService.delete();
+            this.getAllStory();
+  
+          })
+        }
+        if(this.deleteRecordType == 'contacts'){
+          this.loaderService.show();
+          this.operation.DeleteContact(this.deleteRcordId).then(success => {
+            console.log(success);
+            this.loaderService.hide();
+            this.alertService.delete();
+             this.getContact();
+  
+          })
+        }
+        if(this.deleteRecordType == 'membership'){
+          this.loaderService.show();
+          this.operation.deleteMembership(this.deleteRcordId).then(success => {
+            console.log(success);
+            this.loaderService.hide();
+            this.alertService.delete();
+             this.getMemberships();
+  
+          })
+        }
+        if(this.deleteRecordType == 'tips'){
+          this.loaderService.show();
+          this.operation.deleteTips(this.deleteRcordId).then(success => {
+            console.log(success);
+            this.loaderService.hide();
+            this.alertService.delete();
+             this.getTips();
+  
+          })
+        }
+        
+     
+      }
+    });
+  }
 
 
     setActive(buttonName){
@@ -47,6 +113,9 @@ export class CommonComponent implements OnInit {
   ngOnInit(): void {
     this.getAllStory();
     this.getAllBooks();
+    this.getContact();
+    this.getMemberships();
+    this.getTips();
 
     this.createStoryForm = this.formBuilder.group({
       title:['', Validators.required],
@@ -60,13 +129,131 @@ export class CommonComponent implements OnInit {
       description: [''],
       link: ['', Validators.required], 
     });
+
     this.contacUsForm = this.formBuilder.group({
       title:['', Validators.required],
       Name:['', Validators.required],
       Email: [''],
       Mobile: [''], 
     });
-    
+    this.tipsForm = this.formBuilder.group({
+      title:['', Validators.required],
+      description: [''],
+      picture: [''],
+      Reference: [''], 
+    });
+
+    this.membershipForm = this.formBuilder.group({
+      id:[''],
+      title:['', Validators.required],
+      description: [''],
+      actual_amount: ['', Validators.required],
+      offer_amout: [''],
+      offer_end: [''],
+      offer_terms: ['']
+    });
+
+  }
+
+  addTips(){
+
+    let record = {};
+    record['title'] = this.tipsForm.value.title
+    record['description'] = this.tipsForm.value.description
+    record['picture'] = this.tipsForm.value.picture
+    record['Reference'] = this.tipsForm.value.Reference
+    record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+     this.operation.addTips(record).then(success =>{
+      console.log(success);
+      this.tipsForm.reset();
+      this.getTips();
+    })
+  }
+  getTips(){
+    this.loaderService.show();  
+    this.operation.getTips().subscribe(success =>{
+      console.log(success);
+      this.loaderService.hide();
+      this.tipsList = success.map(e => {
+        return {
+          id: e.payload.doc.id,
+          title: e.payload.doc.data()['title'],
+          description: e.payload.doc.data()['description'],
+          picture: e.payload.doc.data()['picture'],
+          Reference: e.payload.doc.data()['Reference'],
+          createdDate: e.payload.doc.data()['createdDate']
+
+        };
+      })
+      console.log(this.tipsList);
+    })
+  }
+
+  editMembership(selected){
+    this.membershipForm.controls.id.setValue(selected.id)
+    this.membershipForm.controls.title.setValue(selected.title)
+    this.membershipForm.controls.description.setValue(selected.description)
+    this.membershipForm.controls.actual_amount.setValue(selected.actual_amount)
+    this.membershipForm.controls.offer_amout.setValue(selected.offer_amout)
+    this.membershipForm.controls.offer_end.setValue(selected.offer_end)
+    this.membershipForm.controls.offer_terms.setValue(selected.offer_terms)
+  }
+  updateMembership(){
+    let record = {};
+    record['title'] = this.membershipForm.value.title
+    record['description'] = this.membershipForm.value.description
+    record['actual_amount'] = this.membershipForm.value.actual_amount
+    record['offer_amout'] = this.membershipForm.value.offer_amout
+    record['offer_end'] = this.membershipForm.value.offer_end
+    record['offer_terms'] = this.membershipForm.value.offer_terms
+    console.log(this.membershipForm.value.id);
+    console.log(record);
+     this.operation.updateMembership( this.membershipForm.value.id, record).then(success =>{
+      console.log(success);
+      this.membershipForm.reset();
+      this.getMemberships();
+    })
+  }
+
+  addMembership(){
+
+    let record = {};
+    record['title'] = this.membershipForm.value.title
+    record['description'] = this.membershipForm.value.description
+    record['actual_amount'] = this.membershipForm.value.actual_amount
+    record['offer_amout'] = this.membershipForm.value.offer_amout
+    record['offer_end'] = this.membershipForm.value.offer_end
+    record['offer_terms'] = this.membershipForm.value.offer_terms
+    record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+     this.operation.addMembership(record).then(success =>{
+      console.log(success);
+      this.membershipForm.reset();
+      this.getMemberships();
+    })
+  }
+  getMemberships(){
+
+    this.loaderService.show();  
+    this.operation.getMembership().subscribe(success =>{
+      console.log(success);
+      this.loaderService.hide();
+      this.membershipList = success.map(e => {
+        return {
+          id: e.payload.doc.id,
+          title: e.payload.doc.data()['title'],
+          description: e.payload.doc.data()['description'],
+          actual_amount: e.payload.doc.data()['actual_amount'],
+          offer_amout: e.payload.doc.data()['offer_amout'],
+
+          offer_end: e.payload.doc.data()['offer_end'],
+          offer_terms: e.payload.doc.data()['offer_terms'],
+          createdDate: e.payload.doc.data()['createdDate']
+
+        };
+      })
+      console.log(this.membershipList);
+    })
+
   }
 
   createBookSave(){
@@ -80,6 +267,7 @@ export class CommonComponent implements OnInit {
      this.operation.AddNewBook(record).then(success =>{
       console.log(success);
       this.createBook.reset();
+      this.getAllBooks();
     })
    }
   
@@ -116,10 +304,6 @@ export class CommonComponent implements OnInit {
       })
     }
   
-    deleteStory(value){
-      this.confirmationDialogService.show();
-     // this.deleteStoryId = value.id;
-    }
   
     getAllBooks() {
       this.loaderService.show();  
@@ -140,15 +324,15 @@ export class CommonComponent implements OnInit {
       })
     }
   
-    deleteBook(value){
-          this.loaderService.show();  
-          this.operation.deleteBook(value.id).then(success =>{
-            console.log(success);
-            this.loaderService.hide();  
-            this.alertService.delete();
-            this.getAllBooks();
-      })
-    }
+    // deleteBook(value){
+    //       this.loaderService.show();  
+    //       this.operation.deleteBook(value.id).then(success =>{
+    //         console.log(success);
+    //         this.loaderService.hide();  
+    //         this.alertService.delete();
+    //         this.getAllBooks();
+    //   })
+    // }
 
   // Contact Us Section 
   AddCntact(){
@@ -183,9 +367,11 @@ export class CommonComponent implements OnInit {
       })
     }
   
-    deleteContact(value){
+    deleteConfirmation(value, type){
+
       this.confirmationDialogService.show();
-     // this.deleteStoryId = value.id;
+      this.deleteRcordId = value.id;
+      this.deleteRecordType = type;
     }
 
 }

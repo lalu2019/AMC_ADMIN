@@ -22,7 +22,6 @@ export class TasksComponent implements OnInit {
     private alertService: AlertService) {
       this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
         if (status) {
-          debugger;
           this.loaderService.show();
           this.operation.deleteTask(this.deleteTaskId).then(success =>{
             console.log(success);

@@ -30,26 +30,27 @@
                       <td>All User</td>
                       <td>{{video.status}}</td>
                       <td>
-                        <span>
+                          <span >
+                              <a class="comment-action-btn mr-5">
+                                <i class="fa fa-comment"></i>
+                              </a>
+                            </span>
+                        <span >
                           <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#videoModal" (click)="onEditVideo(video)">
                               <i class="fa fa-pencil"></i>
                           </a>
                         </span>
-                        <span>
+                        <span >
                             <a class="delete-action-btn mr-5" (click)="deletVideo(video)">
                                 <i class="fa fa-trash"></i>
                             </a>
                         </span>
-                        <span>
+                        <!-- <span >
                           <a class="view-action-btn mr-5">
                             <i class="fa fa-eye"></i>
                           </a>
-                        </span>
-                        <span>
-                          <a class="comment-action-btn">
-                            <i class="fa fa-comment"></i>
-                          </a>
-                        </span>
+                        </span> -->
+                        
                       </td>
                      
                     </tr>
