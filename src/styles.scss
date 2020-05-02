@@ -170,6 +170,8 @@ a {
   color: #2f9875;
 }
 
+/** Form css */
+
 .required {
     color: red;
     font-size: 12px;
@@ -179,6 +181,10 @@ a {
     color: red;
     font-size: 12px;
     margin-top: 5px;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
 }
 
 /*==========loader css start here==========*/
