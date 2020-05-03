@@ -118,7 +118,7 @@
                                           <input  class="form-control mr-10" placeholder="Enter Description" formControlName="description"> 
                                   </div>
                                   <div class="col col-6">
-                                      <input  class="form-control mr-10" placeholder="Reference" formControlName="picture"> 
+                                      <input  class="form-control mr-10" placeholder="Picture" formControlName="picture"> 
                                   </div>
                                   <div class="col col-6">
                                       <input  class="form-control mr-10" placeholder="Enter Reference Link " formControlName="Reference"> 
@@ -129,8 +129,9 @@
               </div>
           
             
-              <div align="center" style="margin-top:20px">
-                      <button type="button" class="btn btn-success" [disabled]="!tipsForm.valid" (click)="addTips()">Submit</button>
+              <div align="center" style="margin-top:20px">                      
+                      <button type="button" *ngIf="!tipsForm.value.id" class="btn btn-success" [disabled]="!tipsForm.valid" (click)="addTips()">Submit</button>
+                      <button type="button" *ngIf="tipsForm.value.id" class="btn btn-success" [disabled]="!tipsForm.valid" (click)="updateTips()">Update</button>
               </div>
           </form>
       </div> 
@@ -162,7 +163,7 @@
                             <td>{{tips.createdDate}}</td>
                             <td>
                                <span >
-                                    <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#videoModal">
+                                    <a class="edit-action-btn mr-5" (click)="editTips(tips)">
                                         <i class="fa fa-pencil"></i>
                                     </a>
                                 </span>
@@ -208,7 +209,8 @@
                     </div>
                 
                     <div align="center" style="margin-top:20px">
-                            <button type="button" class="btn btn-success" [disabled]="!createBook.valid" (click)="createBookSave()">Submit</button>
+                            <button type="button" *ngIf="!createBook.value.id" class="btn btn-success" [disabled]="!createBook.valid" (click)="createBookSave()">Submit</button>
+                            <button type="button" *ngIf="createBook.value.id" class="btn btn-success" [disabled]="!createBook.valid" (click)="updateBooks()">Update</button>
                         </div>
                 </form>
             </div> 
@@ -240,7 +242,7 @@
                                   <td>{{book.createdDate}}</td>
                                   <td>
                                     <span >
-                                          <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#videoModal">
+                                          <a class="edit-action-btn mr-5" (click)="editBooks(book)">
                                               <i class="fa fa-pencil"></i>
                                           </a>
                                     </span>
@@ -286,7 +288,8 @@
                 
                   
                     <div align="center" style="margin-top:20px">
-                            <button type="button" class="btn btn-success" [disabled]="!createStoryForm.valid" (click)="createNewStory()">Submit</button>
+                            <button type="button" *ngIf="!createStoryForm.value.id" class="btn btn-success" [disabled]="!createStoryForm.valid" (click)="createNewStory()">Submit</button>
+                            <button type="button" *ngIf="createStoryForm.value.id" class="btn btn-success" [disabled]="!createStoryForm.valid" (click)="updateStory()">Update</button>
                     </div>
                 </form>
             </div> 
@@ -312,13 +315,13 @@
                                   <tr *ngFor="let story of apiResponse">
                                   <!-- <td>1</td> -->
                                   <td>{{story.title}}</td>
-                                  <td>{{story.description}}</td>
+                                  <td style="width: 300px;">{{story.description}}</td>
                                   <td>{{story.link}}</td>
                                   <td>{{story.createdDate}}</td>
                                   <td>{{story.status}}</td>
                                   <td>
                                     <span >
-                                          <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#videoModal">
+                                          <a class="edit-action-btn mr-5" (click)="editStory(story)">
                                               <i class="fa fa-pencil"></i>
                                           </a>
                                       </span>
@@ -367,7 +370,8 @@
                 
                   
                     <div align="center" style="margin-top:20px">
-                            <button type="button" class="btn btn-success" [disabled]="!contacUsForm.valid" (click)="AddCntact()">Submit</button>
+                            <button type="button" *ngIf="!contacUsForm.value.id" class="btn btn-success" [disabled]="!contacUsForm.valid" (click)="AddCntact()">Submit</button>
+                            <button type="button" *ngIf="contacUsForm.value.id" class="btn btn-success" [disabled]="!contacUsForm.valid" (click)="updateContact()">Update</button>
                     </div>
                 </form>
             </div> 
@@ -399,7 +403,7 @@
                                   <td>{{story.createdDate}}</td>
                                   <td>
                                      <span >
-                                          <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#videoModal">
+                                          <a class="edit-action-btn mr-5" (click)="editContact(story)">
                                               <i class="fa fa-pencil"></i>
                                           </a>
                                       </span>

@@ -118,25 +118,29 @@ export class CommonComponent implements OnInit {
     this.getTips();
 
     this.createStoryForm = this.formBuilder.group({
+      id: [''],
       title:['', Validators.required],
       description: ['', Validators.required],
       link: ['', ], 
       storyPicture: ['', ],             
     });
     this.createBook = this.formBuilder.group({
+      id: [''],
       title:['', Validators.required],
-      imageUrl:['', Validators.required],
+      imageUrl:[''],
       description: [''],
       link: ['', Validators.required], 
     });
 
     this.contacUsForm = this.formBuilder.group({
+      id: [''],
       title:['', Validators.required],
       Name:['', Validators.required],
       Email: [''],
       Mobile: [''], 
     });
     this.tipsForm = this.formBuilder.group({
+      id: [''],
       title:['', Validators.required],
       description: [''],
       picture: [''],
@@ -155,6 +159,29 @@ export class CommonComponent implements OnInit {
 
   }
 
+  editTips(selected){
+    debugger;
+    this.tipsForm.controls.id.setValue(selected.id)
+    this.tipsForm.controls.title.setValue(selected.title)
+    this.tipsForm.controls.description.setValue(selected.description)
+    this.tipsForm.controls.picture.setValue(selected.picture)
+    this.tipsForm.controls.Reference.setValue(selected.Reference)
+  }
+  updateTips(){
+    let record = {};
+    record['title'] = this.tipsForm.value.title
+    record['description'] = this.tipsForm.value.description
+    record['picture'] = this.tipsForm.value.picture
+    record['Reference'] = this.tipsForm.value.Reference
+    this.loaderService.show(); 
+     this.operation.updateTips( this.tipsForm.value.id, record).then(success =>{
+      this.loaderService.hide(); 
+      this.alertService.update();
+      this.tipsForm.reset();
+      this.getTips();
+    })
+  }
+
   addTips(){
 
     let record = {};
@@ -163,8 +190,10 @@ export class CommonComponent implements OnInit {
     record['picture'] = this.tipsForm.value.picture
     record['Reference'] = this.tipsForm.value.Reference
     record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+    this.loaderService.show(); 
      this.operation.addTips(record).then(success =>{
-      console.log(success);
+      this.loaderService.hide(); 
+      this.alertService.save();
       this.tipsForm.reset();
       this.getTips();
     })
@@ -206,10 +235,10 @@ export class CommonComponent implements OnInit {
     record['offer_amout'] = this.membershipForm.value.offer_amout
     record['offer_end'] = this.membershipForm.value.offer_end
     record['offer_terms'] = this.membershipForm.value.offer_terms
-    console.log(this.membershipForm.value.id);
-    console.log(record);
+    this.loaderService.show(); 
      this.operation.updateMembership( this.membershipForm.value.id, record).then(success =>{
-      console.log(success);
+      this.loaderService.hide(); 
+      this.alertService.update();
       this.membershipForm.reset();
       this.getMemberships();
     })
@@ -225,8 +254,10 @@ export class CommonComponent implements OnInit {
     record['offer_end'] = this.membershipForm.value.offer_end
     record['offer_terms'] = this.membershipForm.value.offer_terms
     record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+    this.loaderService.show(); 
      this.operation.addMembership(record).then(success =>{
-      console.log(success);
+      this.loaderService.hide(); 
+      this.alertService.save();
       this.membershipForm.reset();
       this.getMemberships();
     })
@@ -256,6 +287,29 @@ export class CommonComponent implements OnInit {
 
   }
 
+  editBooks(selected){
+    debugger;
+    this.createBook.controls.id.setValue(selected.id)
+    this.createBook.controls.title.setValue(selected.title)
+    this.createBook.controls.description.setValue(selected.description)
+    this.createBook.controls.imageUrl.setValue(selected.imageUrl)
+    this.createBook.controls.link.setValue(selected.link)
+  }
+  updateBooks(){
+    let record = {};
+    record['title'] = this.createBook.value.title
+    record['description'] = this.createBook.value.description
+    record['imageUrl'] = this.createBook.value.imageUrl
+    record['link'] = this.createBook.value.link
+    this.loaderService.show(); 
+     this.operation.updateBook( this.createBook.value.id, record).then(success =>{
+      this.loaderService.hide(); 
+      this.alertService.update();
+      this.createBook.reset();
+      this.getAllBooks();
+    })
+  }
+
   createBookSave(){
     let record = {};
     record['title'] = this.createBook.value.title
@@ -264,12 +318,37 @@ export class CommonComponent implements OnInit {
     record['imageUrl'] = this.createBook.value.imageUrl
     
     record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+    this.loaderService.show(); 
      this.operation.AddNewBook(record).then(success =>{
       console.log(success);
+      this.loaderService.hide(); 
+      this.alertService.save();
       this.createBook.reset();
       this.getAllBooks();
     })
    }
+
+   editStory(selected){
+    debugger;
+    this.createStoryForm.controls.id.setValue(selected.id)
+    this.createStoryForm.controls.title.setValue(selected.title)
+    this.createStoryForm.controls.description.setValue(selected.description)
+    this.createStoryForm.controls.link.setValue(selected.link)
+  }
+  updateStory(){
+    let record = {};
+    record['title'] = this.createStoryForm.value.title
+    record['description'] = this.createStoryForm.value.description
+    record['link'] = this.createStoryForm.value.link
+    record['status'] = "Active"
+    this.loaderService.show(); 
+     this.operation.updateStory( this.createStoryForm.value.id, record).then(success =>{
+      this.loaderService.hide(); 
+      this.alertService.update();
+      this.createStoryForm.reset();
+      this.getAllStory();
+    })
+  }
   
    
    createNewStory(){
@@ -279,8 +358,11 @@ export class CommonComponent implements OnInit {
     record['link'] = this.createStoryForm.value.link
     record['status'] = "Active";
     record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+    this.loaderService.show(); 
      this.operation.createStory(record).then(success =>{
       console.log(success);
+      this.loaderService.hide(); 
+      this.alertService.save();
       this.createStoryForm.reset();
       this.getAllStory();
     })
@@ -334,6 +416,30 @@ export class CommonComponent implements OnInit {
     //   })
     // }
 
+
+    editContact(selected){
+      debugger;
+      this.contacUsForm.controls.id.setValue(selected.id)
+      this.contacUsForm.controls.title.setValue(selected.title)
+      this.contacUsForm.controls.Name.setValue(selected.Name)
+      this.contacUsForm.controls.Email.setValue(selected.Email)
+      this.contacUsForm.controls.Mobile.setValue(selected.Mobile)
+    }
+    updateContact(){
+      let record = {};
+      record['title'] = this.contacUsForm.value.title
+      record['Name'] = this.contacUsForm.value.Name
+      record['Mobile'] = this.contacUsForm.value.Mobile
+      record['Email'] = this.contacUsForm.value.Email
+      this.loaderService.show(); 
+       this.operation.updateContact( this.contacUsForm.value.id, record).then(success =>{
+        this.loaderService.hide(); 
+        this.alertService.update();
+        this.contacUsForm.reset();
+        this.getAllStory();
+      })
+    }
+
   // Contact Us Section 
   AddCntact(){
     let record = {};
@@ -342,8 +448,11 @@ export class CommonComponent implements OnInit {
     record['Mobile'] = this.contacUsForm.value.Mobile
     record['Email'] = this.contacUsForm.value.Email
     record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+    this.loaderService.show(); 
      this.operation.newConatc(record).then(success =>{
       console.log(success);
+      this.loaderService.hide(); 
+      this.alertService.save();
       this.contacUsForm.reset();
       this.getContact();
     })
