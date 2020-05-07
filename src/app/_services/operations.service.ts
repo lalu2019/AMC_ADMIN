@@ -138,5 +138,12 @@ export class OperationsService {
        deleteTips(record_id) {
         return this.firestore.doc('Tips/' + record_id).delete();
       }
+      //Category  section api
+       addCategories(record) {
+        return this.firestore.collection('Category').add(record);
+      }
+      getCaetgories() {
+        return this.firestore.collection('Category').snapshotChanges();
+      }
 
 }

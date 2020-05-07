@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit {
 
   apiResponse:any = [];
   BookList:any = [];
+  UploadedFileContent:any = [];
 
   deleteStoryId: any
   constructor(
@@ -78,19 +79,32 @@ export class DashboardComponent implements OnInit {
     
     this.addFirebaseToken();
 
-   
-    document.getElementById("fileImport").onchange= function(e: Event) {
-      let file = (<HTMLInputElement>e.target).files[0];
-      console.log(file);
-      readXlsxFile(file).then((rows) => {
-        console.log(rows);
-        // `rows` is an array of rows
-        // each row being an array of cells.
-      })
-     }
+     //Excel file upload code...
 
-     
+    // const that = this;
+    // document.getElementById("fileImport").onchange= function(e: Event) {
+    //   let file = (<HTMLInputElement>e.target).files[0];
+    //   console.log(file);
+    //   readXlsxFile(file).then((rows) => {
+    //     console.log(rows);
+    //     // `rows` is an array of rows
+    //     // each row being an array of cells.
+    //      that.UploadedFileContent = rows;
+    //      for(let i=0;i<that.UploadedFileContent.length; i ++){
+    //       that.insertCat(that.UploadedFileContent[i][0]);
+    //      }
+       
+    //   })
+    //  }
 
+  }
+  async insertCat(row){
+
+    let record = {};
+    record['Title'] = row;
+    this.operation.addCategories(record).then(success =>{
+      console.log(success);
+    })
   }
 
   ngOnDestroy() {
