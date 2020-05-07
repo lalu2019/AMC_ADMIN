@@ -77,6 +77,18 @@ h2 {
     font-size: 25px;
 }
 
+.dashboard-user-table {
+    padding-top: 50px;
+    .dashboard-grid-heading {
+        margin-bottom: 20px;
+    }
+
+    img {
+        border-radius: 50%;
+        width: 50px;
+    }
+}
+
 .dashboard-grid-heading {
     text-align: center;
     color: #fff;
