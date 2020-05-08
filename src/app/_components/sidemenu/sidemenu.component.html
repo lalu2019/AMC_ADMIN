@@ -2,37 +2,43 @@
 <div class="sidebar-sticky">
   <ul class="nav nav-top flex-column">
     <li class="nav-item">
-      <a class="nav-link active" href="#" style="font-size: 15px;">
+      <a class="nav-link active" [ngClass]="{'active': menuType == 'dashboard'}" style="font-size: 15px;"
+      (click)="onClickLeftMenu('dashboard')">
         <i class="fa fa-tachometer" style="font-size: 20px;"></i>
         Dashboard
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="/users" style="font-size: 15px;">
+      <a class="nav-link" [ngClass]="{'active': menuType == 'users'}" style="font-size: 15px;"
+      (click)="onClickLeftMenu('users')">
         <i class="fa fa-users" style="font-size: 20px;"></i>
         User Section
       </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" routerLink="/videos" style="font-size: 15px;">
+        <a class="nav-link" [ngClass]="{'active': menuType == 'videos'}" style="font-size: 15px;"
+        (click)="onClickLeftMenu('videos')">
           <i class="fa fa-play " style="font-size: 20px;"></i>
           Video Section
         </a>
      </li>
      <li class="nav-item">
-          <a class="nav-link" routerLink="/tests" style="font-size: 15px;">
+          <a class="nav-link" [ngClass]="{'active': menuType == 'tests'}" style="font-size: 15px;"
+          (click)="onClickLeftMenu('tests')">
             <i class="fa fa-mortar-board" style="font-size: 20px;"></i>
             Test Section
           </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/tasks" style="font-size: 15px;">
+        <a class="nav-link" [ngClass]="{'active': menuType == 'tasks'}" style="font-size: 15px;"
+        (click)="onClickLeftMenu('tasks')">
           <i class="fa fa-tasks" style="font-size: 20px;"></i>
           Task Section
         </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="/setting" style="font-size: 15px;">
+      <a class="nav-link" [ngClass]="{'active': menuType == 'setting'}" style="font-size: 15px;"
+      (click)="onClickLeftMenu('setting')">
         <i class="fa fa-gear" style="font-size: 20px;"></i>General Manager
       </a>
     </li>
