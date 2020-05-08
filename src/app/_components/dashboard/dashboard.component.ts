@@ -56,6 +56,25 @@ export class DashboardComponent implements OnInit {
   get sendNotificationFormValidate() { return this.sendNotificationForm.controls; }
 
   ngOnInit(): void {
+
+    // this.operation.getCaetgories().subscribe(success =>{
+    //   console.log(success);
+    //   this.loaderService.hide();
+    //   let dummyArray = success.map(e => {
+    //     return {
+    //       id: e.payload.doc.id,
+    //       title: e.payload.doc.data()['Title'],
+    //       description: e.payload.doc.data()['description'],
+    //       picture: e.payload.doc.data()['picture'],
+    //       Reference: e.payload.doc.data()['Reference'],
+    //       createdDate: e.payload.doc.data()['createdDate']
+
+    //     };
+    //   })
+    //   console.log(dummyArray);
+    // })
+
+
     this.sendNotificationForm = this.formBuilder.group({
       messageText:['', Validators.required],
       messageLabel: ['', Validators.required],
