@@ -16,7 +16,7 @@ import { AlertService } from 'src/app/_services/alert.service';
 export class DashboardComponent implements OnInit {
 
   sendNotificationForm: FormGroup; 
-  createClassForm: FormGroup; 
+  // createClassForm: FormGroup; 
   createTaskForm: FormGroup; 
   createUserForm: FormGroup; 
   createStoryForm: FormGroup;
@@ -81,12 +81,12 @@ export class DashboardComponent implements OnInit {
       topic: ['', Validators.required]                  
     });
 
-    this.createClassForm = this.formBuilder.group({
-      title:['', Validators.required],
-      description: ['', Validators.required],
-      link: ['', Validators.required],
-      source : ['Vimeo', Validators.required],                
-    });
+    // this.createClassForm = this.formBuilder.group({
+    //   title:['', Validators.required],
+    //   description: ['', Validators.required],
+    //   link: ['', Validators.required],
+    //   source : ['Vimeo', Validators.required],                
+    // });
 
     this.createTaskForm = this.formBuilder.group({
       title:['', Validators.required],
@@ -148,19 +148,19 @@ export class DashboardComponent implements OnInit {
    })
  }
 
- addNewClass(){
-  let record = {};
-  record['title'] = this.createClassForm.value.title
-  record['description'] = this.createClassForm.value.description
-  record['link'] = this.createClassForm.value.link
-  record['status'] = "Active";
-  record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+//  addNewClass(){
+//   let record = {};
+//   record['title'] = this.createClassForm.value.title
+//   record['description'] = this.createClassForm.value.description
+//   record['link'] = this.createClassForm.value.link
+//   record['status'] = "Active";
+//   record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
 
-   this.operation.createVideo(record).then(success =>{
-    console.log(success);
-    this.createClassForm.reset();
-  })
- }
+//    this.operation.createVideo(record).then(success =>{
+//     console.log(success);
+//     this.createClassForm.reset();
+//   })
+//  }
 
  addNewTask(){
   let record = {};

@@ -2,6 +2,49 @@
   <h1 class="h2">Videos</h1>
 </div>
 <div>
+
+  <div class="video-create-form">  
+    <!-- <input type="file" id="fileImport"> -->
+      <div class="row">
+              <div class="col"> 
+                      <div class="customSection">
+                      <div class="dashboard-grid-heading">Add Video</div>
+                      <form [formGroup]="createClassForm" (ngSubmit)="addNewClass()">
+                            <div class="row video-form">
+                              <div class="col col-6 form-group">
+                                <select class="form-control" formControlName="category"> 
+                                    <option value="" selected hidden disabled>Category </option>
+                                    <option *ngFor="let category of videoCategory" value="{{category.id}}">{{category.title}} </option>
+                                </select>
+                            </div>
+                              <div class="col col-6 form-group">
+                                      
+                                <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
+                              </div>
+                              <div class="col col-6 form-group">
+                                  <input  class="form-control" placeholder="Enter Description" formControlName="description"> 
+                              </div>
+                              <div class="col col-6 form-group">
+                                  <input  class="form-control" placeholder="Video Link" formControlName="link"> 
+                              </div>
+                              <div class="col col-6 form-group">
+                                  <select class="form-control" placeholder="Video Source" formControlName="source"> 
+                                      <option value="" disabled>Video Source </option>
+                                      <option value="YouTube">YouTube </option>
+                                      <option value="Vimeo">Vimeo</option>
+                                  </select>
+                              </div>
+
+                              </div>
+                              <div align="center" style="margin-top:20px">
+                                <button type="button" class="btn btn-success" [disabled]="!createClassForm.valid" (click)="addNewClass()">Submit</button>
+                              </div>
+                          </form>
+                      </div>    
+              </div>
+      </div>  
+     
+  </div> 
         <p>Total Video :  {{apiResponse.length}} </p>
         <div class="table-responsive-sm">          
                 <table class="table table-bordered">

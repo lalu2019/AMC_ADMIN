@@ -16,6 +16,8 @@ export class VideosComponent implements OnInit {
   subscription: Subscription;
   videoForm: FormGroup; 
   deleteVideoId: any;
+  createClassForm: FormGroup; 
+  videoCategory: any = []
 
   constructor( 
     private operation:OperationsService,
@@ -44,12 +46,34 @@ export class VideosComponent implements OnInit {
       description: ['', Validators.required],
       link: ['', Validators.required]                  
     });
+    this.createClassForm = this.formBuilder.group({
+      category:['', Validators.required],
+      title:['', Validators.required],
+      description: ['', Validators.required],
+      link: ['', Validators.required],
+      source : ['Vimeo', Validators.required],                
+    });
     this.getAllVideo();
+    this.getAllVideoCategory();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.confirmationDialogService.confirmationYesButtonClick(false);
+  }
+
+  getAllVideoCategory() {
+    this.loaderService.show();
+    this.operation.getCaetgories().subscribe(success =>{
+      this.loaderService.hide();
+      debugger;
+      this.videoCategory = success.map(e => {
+        return {
+          id: e.payload.doc.id,
+          title: e.payload.doc.data()['Title'],
+        };
+      })
+    })
   }
 
   getAllVideo(){
@@ -70,6 +94,30 @@ export class VideosComponent implements OnInit {
       console.log(this.apiResponse);
     })
   }
+
+  addNewClass(){
+    let categoryName = this.videoCategory.filter(data => {
+      return data.id == this.createClassForm.value.category;
+    });
+    debugger;
+    let record = {};
+    record['CatId'] = this.createClassForm.value.category,
+    record['CatName'] = categoryName[0].title,
+    record['title'] = this.createClassForm.value.title,
+    record['description'] = this.createClassForm.value.description
+    record['link'] = this.createClassForm.value.link
+    record['status'] = "Active";
+    record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+    this.loaderService.show();
+     this.operation.createVideo(record).then(success =>{
+      console.log(success);
+      this.loaderService.hide();
+      this.createClassForm.reset();
+      this.createClassForm.patchValue({
+        category: ''
+      });
+    })
+   }
 
   onEditVideo(video) {
     this.videoForm.patchValue({
