@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 })
 export class SidemenuComponent implements OnInit {
 
+  menuType: string = 'dashboard';
+
   constructor(
     private router: Router,
   ) { }
@@ -19,6 +21,11 @@ export class SidemenuComponent implements OnInit {
    
    localStorage.clear();
    window.location.reload();
+  }
+
+  onClickLeftMenu(menyType: string) {
+    this.menuType = menyType;
+    this.router.navigate([menyType]);
   }
 
 }
