@@ -53,7 +53,6 @@ export class AppComponent {
 			if (( e as NavigationStart).url != '/login') {
         if (!this.isLogin) {
           this.router.navigate(['login']);
-          window.location.pathname = '/login';
         }
       }
       
