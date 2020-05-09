@@ -15,6 +15,9 @@ export class SidemenuComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (localStorage.hasOwnProperty('selectedMenu')) {
+      this.menuType = localStorage.getItem('selectedMenu');
+    }
   }
 
   onLogout() {
@@ -25,6 +28,7 @@ export class SidemenuComponent implements OnInit {
 
   onClickLeftMenu(menyType: string) {
     this.menuType = menyType;
+    localStorage.setItem('selectedMenu', menyType);
     this.router.navigate([menyType]);
   }
 

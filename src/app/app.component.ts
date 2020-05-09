@@ -29,22 +29,41 @@ export class AppComponent {
 
    // this.router.navigate(['login']);
     // if(this.authenticationService.isLoggedIn){
-      if( localStorage.getItem('user')){
-        this.router.navigate(['dashboard']);
-        this.isLogin = true;
-        this.isUser = true;
-  
-      }
-    
-     else{
-      this.router.navigate(['login']);
-      
-
-    }
+      // if( localStorage.getItem('user')){
+      //   this.isLogin = true;
+      //   this.isUser = true;
+      // } else{
+      //   this.router.navigate(['login']);
+      // }
   
     //this.messagingService.requestPermission()
    // this.messagingService.receiveMessage()
     //this.message = this.messagingService.currentMessage
     //console.log(this.message);
+
+    this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(e => {
+      if (localStorage.hasOwnProperty('user') && localStorage.getItem('user') != 'null'){
+        this.isLogin = true;
+        this.isUser = true;
+      } else {
+        this.isLogin = false;
+        this.isUser = false;
+      }
+
+			if (( e as NavigationStart).url != '/login') {
+        if (!this.isLogin) {
+          this.router.navigate(['login']);
+          window.location.pathname = '/login';
+        }
+      }
+      
+      if (( e as NavigationStart).url == '/login') {
+        if (this.isLogin) {
+          this.router.navigate(['/dashboard']);
+          localStorage.setItem('selectedMenu', 'dashboard');
+          window.location.pathname = '/dashboard';
+        }
+			}
+		});
  }
 }

@@ -48,8 +48,8 @@ export class LoginComponent implements OnInit {
  
    // direct login withput firebase for development
      localStorage.setItem('user', this.loginForm.controls.email.value);
-     window.location.reload();
-     //this.router.navigate(['dashboard']);
+    //  window.location.reload();
+     this.router.navigate(['dashboard']);
 
 
     /* this code will work for login with firebae */
