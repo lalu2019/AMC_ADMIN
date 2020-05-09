@@ -21,16 +21,19 @@ import { VideosComponent } from './_components/videos/videos.component';
 import { TestsComponent } from './_components/tests/tests.component';
 
 import { AngularFirestoreModule , AngularFirestore, } from '@angular/fire/firestore';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+// import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
-import { AngularFireMessagingModule } from "@angular/fire/messaging";
+// import { AngularFireMessagingModule } from "@angular/fire/messaging";
 import { AngularFireDatabaseModule } from "@angular/fire/database";
-import { MessagingService } from "./_services/messaging.service";
+// import { MessagingService } from "./_services/messaging.service";
 import { environment } from "../environments/environment";
 import { AsyncPipe } from "../../node_modules/@angular/common";
 import { TasksComponent } from './_components/tasks/tasks.component';
 import { ConfirmationDialogComponent } from './_shared/confirmation-dialog/confirmation-dialog.component';
 import { CommonComponent } from './_components/common/common.component';
+import {OperationsService} from './_services/operations.service'
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 
 
 @NgModule({
@@ -55,17 +58,23 @@ import { CommonComponent } from './_components/common/common.component';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    // AngularFireDatabaseModule,
+    // AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase, 'AyuScholar'),
+    AngularFirestoreModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AngularFireMessagingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+
   ],
   providers: [
-    MessagingService,AsyncPipe,
-    AngularFireStorage,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtinterceptorService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorinterceptorService, multi: true }
+    // MessagingService,
+    AsyncPipe,
+    // AngularFireStorage,
+    OperationsService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    // AngularFirestoreModule
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtinterceptorService, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorinterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

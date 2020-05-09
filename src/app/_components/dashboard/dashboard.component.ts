@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   apiResponse:any = [];
   BookList:any = [];
   UploadedFileContent:any = [];
+  enquiryList:any = [];
 
   deleteStoryId: any
   constructor(
@@ -57,36 +58,12 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // this.operation.getCaetgories().subscribe(success =>{
-    //   console.log(success);
-    //   this.loaderService.hide();
-    //   let dummyArray = success.map(e => {
-    //     return {
-    //       id: e.payload.doc.id,
-    //       title: e.payload.doc.data()['Title'],
-    //       description: e.payload.doc.data()['description'],
-    //       picture: e.payload.doc.data()['picture'],
-    //       Reference: e.payload.doc.data()['Reference'],
-    //       createdDate: e.payload.doc.data()['createdDate']
-
-    //     };
-    //   })
-    //   console.log(dummyArray);
-    // })
-
-
     this.sendNotificationForm = this.formBuilder.group({
       messageText:['', Validators.required],
       messageLabel: ['', Validators.required],
       topic: ['', Validators.required]                  
     });
 
-    // this.createClassForm = this.formBuilder.group({
-    //   title:['', Validators.required],
-    //   description: ['', Validators.required],
-    //   link: ['', Validators.required],
-    //   source : ['Vimeo', Validators.required],                
-    // });
 
     this.createTaskForm = this.formBuilder.group({
       title:['', Validators.required],
@@ -96,8 +73,9 @@ export class DashboardComponent implements OnInit {
     });
  
     
-    this.addFirebaseToken();
-
+    //this.addFirebaseToken();
+     this.enquiry();
+    //this.insertInquery();
      //Excel file upload code...
 
     // const that = this;
@@ -116,6 +94,41 @@ export class DashboardComponent implements OnInit {
     //   })
     //  }
 
+  }
+
+  enquiry(){
+    
+     this.operation.getInquiry().subscribe(success =>{
+      console.log(success);
+      this.loaderService.hide();
+      this.enquiryList = success.map(e => {
+        return {
+          id: e.payload.doc.id,
+          FullName: e.payload.doc.data()['FullName'],
+          Email: e.payload.doc.data()['Email'],
+          Mobile: e.payload.doc.data()['Mobile'],
+          EnquiryType: e.payload.doc.data()['EnquiryType'],
+          Description: e.payload.doc.data()['Description'],
+          createdDate: e.payload.doc.data()['createdDate']
+
+        };
+      })
+      console.log(this.enquiryList);
+    })
+  }
+   insertInquery(){
+
+    let record = {};
+            record["FullName"] ="Unknown User";  //Get from user profile, Pass static for test
+            record["Email"] = "mapparena@gmail.com";    //Get from user profile, Pass static for test
+            record["Mobile"] = "7048351338";
+            record["EnquiryType"] = "Membership";  //Static
+            record["Description"] =" description";   //User Will enter 
+            record["createdDate"] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+
+    this.operation.AddInquery(record).then(success =>{
+      console.log(success);
+    })
   }
   async insertCat(row){
 

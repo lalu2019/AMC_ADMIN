@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthService } from  './auth/auth.service';
-import { MessagingService } from "./_services/messaging.service";
+// import { MessagingService } from "./_services/messaging.service";
 
 
 @Component({
@@ -19,14 +19,15 @@ export class AppComponent {
 
   constructor(
     private router: Router,
-    private authenticationService: AuthService,
-    private messagingService: MessagingService
+    // private authenticationService: AuthService,
+    // private messagingService: MessagingService
   ) {
    
   }
 
   ngOnInit(){
 
+   // this.router.navigate(['login']);
     // if(this.authenticationService.isLoggedIn){
       if( localStorage.getItem('user')){
         this.router.navigate(['dashboard']);

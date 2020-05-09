@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore , AngularFirestoreDocument} from '@angular/fire/firestore';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+// import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
 import { Observable, Subscription } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { finalize, tap } from 'rxjs/operators';
 export class OperationsService {
 
   constructor(  private firestore: AngularFirestore,
-    private storage: AngularFireStorage,
+    // private storage: AngularFireStorage,
  ) { }
 
   addToken(record) {
@@ -23,7 +23,7 @@ export class OperationsService {
   createVideo(record) {
     return this.firestore.collection('videos').add(record);
   }
-  getAllVideo() {
+  getAllVideo(): Observable<any> {
     return this.firestore.collection('videos').snapshotChanges();
   }
   updateVideo(recordID, record) {
@@ -40,7 +40,7 @@ export class OperationsService {
     return this.firestore.collection('tasks').add(record);
   }
 
-  getAllTasks() {
+  getAllTasks(): Observable<any> {
     return this.firestore.collection('tasks').snapshotChanges();
   }
   updateTask(recordID, record) {
@@ -63,7 +63,7 @@ export class OperationsService {
   createUsers(record) {
     return this.firestore.collection('Users').add(record);
   }
-  getAllUsers(){
+  getAllUsers(): Observable<any>{
     return this.firestore.collection('Users').snapshotChanges();
   }
 
@@ -71,7 +71,7 @@ export class OperationsService {
    createStory(record) {
     return this.firestore.collection('stories').add(record);
     }
-    getAllStory() {
+    getAllStory(): Observable<any> {
       return this.firestore.collection('stories').snapshotChanges();
     }
     updateStory(recordID, record) {
@@ -87,7 +87,7 @@ export class OperationsService {
     AddNewBook(record) {
       return this.firestore.collection('Books').add(record);
     }
-    getAllBooks() {
+    getAllBooks(): Observable<any> {
       return this.firestore.collection('Books').snapshotChanges();
     }
     updateBook(recordID, record) {
@@ -101,7 +101,7 @@ export class OperationsService {
     newConatc(record) {
       return this.firestore.collection('ContactUs').add(record);
     }
-    getAllContact() {
+    getAllContact(): Observable<any> {
       return this.firestore.collection('ContactUs').snapshotChanges();
     }
     updateContact(recordID, record) {
@@ -115,7 +115,7 @@ export class OperationsService {
       addMembership(record) {
         return this.firestore.collection('Membership').add(record);
       }
-      getMembership() {
+      getMembership(): Observable<any> {
         return this.firestore.collection('Membership').snapshotChanges();
       }
       updateMembership(recordID, record) {
@@ -129,7 +129,7 @@ export class OperationsService {
       addTips(record) {
         return this.firestore.collection('Tips').add(record);
       }
-      getTips() {
+      getTips(): Observable<any> {
         return this.firestore.collection('Tips').snapshotChanges();
       }
       updateTips(recordID, record) {
@@ -139,11 +139,19 @@ export class OperationsService {
         return this.firestore.doc('Tips/' + record_id).delete();
       }
       //Category  section api
-       addCategories(record) {
+      addCategories(record) {
         return this.firestore.collection('Category').add(record);
       }
-      getCaetgories() {
+      getCaetgories(): Observable<any> {
         return this.firestore.collection('Category').snapshotChanges();
+      }
+      //Enquery Section
+      AddInquery(record) {
+        return this.firestore.collection('Enquery').add(record);
+      }
+      getInquiry() : Observable<any> {
+        return this.firestore.collection('Enquery').snapshotChanges();
       }
 
 }
+ 
