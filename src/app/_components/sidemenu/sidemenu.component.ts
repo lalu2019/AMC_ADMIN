@@ -21,9 +21,8 @@ export class SidemenuComponent implements OnInit {
   }
 
   onLogout() {
-   
-   localStorage.clear();
-   window.location.reload();
+    localStorage.clear();
+    window.location.reload();
   }
 
   onClickLeftMenu(menyType: string) {

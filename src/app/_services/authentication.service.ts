@@ -19,8 +19,8 @@ export class AuthenticationService {
   }
 
   login() {
-    localStorage.setItem('currentUser', JSON.stringify({'token': true}));
-    this.currentUserSubject.next({'token': true});
+    localStorage.setItem('currentUser', JSON.stringify({ 'token': true }));
+    this.currentUserSubject.next({ 'token': true });
   }
 
   logout() {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from  '../../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { AlertService } from '../../_services/alert.service'
 import { LoaderService } from '../../_services/loader.service'
 // import { AuthenticationService } from 'src/app/_services/authentication.service';
@@ -14,42 +14,42 @@ import { LoaderService } from '../../_services/loader.service'
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup; 
+  loginForm: FormGroup;
   isSubmitted: boolean = false;
-  person:any = {Email:'', UserPaasowrd:''};
+  person: any = { Email: '', UserPaasowrd: '' };
 
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private  firebaseAuth:  AuthService,
-    private alertServ : AlertService,
-    private loading:LoaderService
+    private firebaseAuth: AuthService,
+    private alertServ: AlertService,
+    private loading: LoaderService
     // private authenticationService: AuthenticationService
 
   ) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email:['', Validators.required],
-      passWord: ['', Validators.required]                    
+      email: ['', Validators.required],
+      passWord: ['', Validators.required]
     });
   }
 
   get form() { return this.loginForm.controls; }
 
   onSubmit() {
-    this.isSubmitted = true; 
+    this.isSubmitted = true;
     if (this.loginForm.invalid) {
-        return;
+      return;
     }
     // this.authenticationService.login();
-  
- 
-   // direct login withput firebase for development
-     localStorage.setItem('user', this.loginForm.controls.email.value);
+
+
+    // direct login withput firebase for development
+    localStorage.setItem('user', this.loginForm.controls.email.value);
     //  window.location.reload();
-     this.router.navigate(['dashboard']);
+    this.router.navigate(['dashboard']);
 
 
     /* this code will work for login with firebae */
@@ -61,9 +61,9 @@ export class LoginComponent implements OnInit {
     //     },err =>{
     //       this.loading.hide();
     //       this.alertServ.error(err.message)
-          
+
     //     })
     // }
   }
- 
+
 }

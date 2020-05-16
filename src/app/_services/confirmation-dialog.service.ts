@@ -12,7 +12,7 @@ export class ConfirmationDialogService {
   public isConfirmationYesButtonClick: Observable<boolean>;
 
   constructor(
-  ) { 
+  ) {
     this.isConfirmationModalOpenSubject = new BehaviorSubject<any>(false);
     this.isConfirmationModalOpen = this.isConfirmationModalOpenSubject.asObservable();
     this.isConfirmationYesButtonClickSubject = new BehaviorSubject<any>(false);
@@ -20,10 +20,10 @@ export class ConfirmationDialogService {
   }
 
   show() {
-      this.isConfirmationModalOpenSubject.next(true);
+    this.isConfirmationModalOpenSubject.next(true);
   }
   hide() {
-      this.isConfirmationModalOpenSubject.next(false);
+    this.isConfirmationModalOpenSubject.next(false);
   }
 
   confirmationYesButtonClick(status) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { AngularFirestore , AngularFirestoreDocument} from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 // import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
 import { Observable, Subscription } from 'rxjs';
@@ -11,9 +11,9 @@ import { finalize, tap } from 'rxjs/operators';
 })
 export class OperationsService {
 
-  constructor(  private firestore: AngularFirestore,
+  constructor(private firestore: AngularFirestore,
     // private storage: AngularFireStorage,
- ) { }
+  ) { }
 
   addToken(record) {
     return this.firestore.collection('frbTkn').add(record);
@@ -63,95 +63,94 @@ export class OperationsService {
   createUsers(record) {
     return this.firestore.collection('Users').add(record);
   }
-  getAllUsers(): Observable<any>{
+  getAllUsers(): Observable<any> {
     return this.firestore.collection('Users').snapshotChanges();
   }
 
-   //Story section api
-   createStory(record) {
+  //Story section api
+  createStory(record) {
     return this.firestore.collection('stories').add(record);
-    }
-    getAllStory(): Observable<any> {
-      return this.firestore.collection('stories').snapshotChanges();
-    }
-    updateStory(recordID, record) {
-      // return this.firestore.collection('videos').add(record);
-      return this.firestore.doc('stories/' + recordID).update(record);
+  }
+  getAllStory(): Observable<any> {
+    return this.firestore.collection('stories').snapshotChanges();
+  }
+  updateStory(recordID, record) {
+    // return this.firestore.collection('videos').add(record);
+    return this.firestore.doc('stories/' + recordID).update(record);
 
-    }
-    deleteStory(record_id) {
-      return this.firestore.doc('stories/' + record_id).delete();
-    }
+  }
+  deleteStory(record_id) {
+    return this.firestore.doc('stories/' + record_id).delete();
+  }
 
-    //Book section api
-    AddNewBook(record) {
-      return this.firestore.collection('Books').add(record);
-    }
-    getAllBooks(): Observable<any> {
-      return this.firestore.collection('Books').snapshotChanges();
-    }
-    updateBook(recordID, record) {
-      return this.firestore.doc('Books/' + recordID).update(record);
-    }
-     deleteBook(record_id) {
-      return this.firestore.doc('Books/' + record_id).delete();
-    }
+  //Book section api
+  AddNewBook(record) {
+    return this.firestore.collection('Books').add(record);
+  }
+  getAllBooks(): Observable<any> {
+    return this.firestore.collection('Books').snapshotChanges();
+  }
+  updateBook(recordID, record) {
+    return this.firestore.doc('Books/' + recordID).update(record);
+  }
+  deleteBook(record_id) {
+    return this.firestore.doc('Books/' + record_id).delete();
+  }
 
-     //Contact Us section api
-    newConatc(record) {
-      return this.firestore.collection('ContactUs').add(record);
-    }
-    getAllContact(): Observable<any> {
-      return this.firestore.collection('ContactUs').snapshotChanges();
-    }
-    updateContact(recordID, record) {
-      return this.firestore.doc('ContactUs/' + recordID).update(record);
-    }
-     DeleteContact(record_id) {
-      return this.firestore.doc('ContactUs/' + record_id).delete();
-    }
+  //Contact Us section api
+  newConatc(record) {
+    return this.firestore.collection('ContactUs').add(record);
+  }
+  getAllContact(): Observable<any> {
+    return this.firestore.collection('ContactUs').snapshotChanges();
+  }
+  updateContact(recordID, record) {
+    return this.firestore.doc('ContactUs/' + recordID).update(record);
+  }
+  DeleteContact(record_id) {
+    return this.firestore.doc('ContactUs/' + record_id).delete();
+  }
 
-      //Mmbership  section api
-      addMembership(record) {
-        return this.firestore.collection('Membership').add(record);
-      }
-      getMembership(): Observable<any> {
-        return this.firestore.collection('Membership').snapshotChanges();
-      }
-      updateMembership(recordID, record) {
-        return this.firestore.doc('Membership/' + recordID).update(record);
-      }
-       deleteMembership(record_id) {
-        return this.firestore.doc('Membership/' + record_id).delete();
-      }
+  //Mmbership  section api
+  addMembership(record) {
+    return this.firestore.collection('Membership').add(record);
+  }
+  getMembership(): Observable<any> {
+    return this.firestore.collection('Membership').snapshotChanges();
+  }
+  updateMembership(recordID, record) {
+    return this.firestore.doc('Membership/' + recordID).update(record);
+  }
+  deleteMembership(record_id) {
+    return this.firestore.doc('Membership/' + record_id).delete();
+  }
 
-      //Tips  section api
-      addTips(record) {
-        return this.firestore.collection('Tips').add(record);
-      }
-      getTips(): Observable<any> {
-        return this.firestore.collection('Tips').snapshotChanges();
-      }
-      updateTips(recordID, record) {
-        return this.firestore.doc('Tips/' + recordID).update(record);
-      }
-       deleteTips(record_id) {
-        return this.firestore.doc('Tips/' + record_id).delete();
-      }
-      //Category  section api
-      addCategories(record) {
-        return this.firestore.collection('Category').add(record);
-      }
-      getCaetgories(): Observable<any> {
-        return this.firestore.collection('Category').snapshotChanges();
-      }
-      //Enquery Section
-      AddInquery(record) {
-        return this.firestore.collection('Enquery').add(record);
-      }
-      getInquiry() : Observable<any> {
-        return this.firestore.collection('Enquery').snapshotChanges();
-      }
+  //Tips  section api
+  addTips(record) {
+    return this.firestore.collection('Tips').add(record);
+  }
+  getTips(): Observable<any> {
+    return this.firestore.collection('Tips').snapshotChanges();
+  }
+  updateTips(recordID, record) {
+    return this.firestore.doc('Tips/' + recordID).update(record);
+  }
+  deleteTips(record_id) {
+    return this.firestore.doc('Tips/' + record_id).delete();
+  }
+  //Category  section api
+  addCategories(record) {
+    return this.firestore.collection('Category').add(record);
+  }
+  getCaetgories(): Observable<any> {
+    return this.firestore.collection('Category').snapshotChanges();
+  }
+  //Enquery Section
+  AddInquery(record) {
+    return this.firestore.collection('Enquery').add(record);
+  }
+  getInquiry(): Observable<any> {
+    return this.firestore.collection('Enquery').snapshotChanges();
+  }
 
 }
- 

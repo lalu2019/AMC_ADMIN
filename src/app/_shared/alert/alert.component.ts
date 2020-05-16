@@ -10,20 +10,20 @@ import { AlertType } from '../../_models/alert-model';
 })
 export class AlertComponent implements OnInit, OnDestroy {
   subscription: Subscription;
-  alert:any={};
-  constructor( private alertService: AlertService) {
+  alert: any = {};
+  constructor(private alertService: AlertService) {
     this.subscription = alertService.showAlert.subscribe(
       alertData => {
         if (alertData) {
-         this.alert.Show = true;
-         this.alert.Message = alertData.message;
-         this.alert.Type = alertData.type;
-         setTimeout(() => {
-          this.alert.Show = false;
+          this.alert.Show = true;
+          this.alert.Message = alertData.message;
+          this.alert.Type = alertData.type;
+          setTimeout(() => {
+            this.alert.Show = false;
           }, 5000)
         }
       });
-   }
+  }
 
   ngOnInit() {
   }

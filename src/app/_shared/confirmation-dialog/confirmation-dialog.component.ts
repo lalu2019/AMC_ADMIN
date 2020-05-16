@@ -9,12 +9,12 @@ declare var $: any;
   styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent implements OnInit {
-  subscription:Subscription;
+  subscription: Subscription;
 
   constructor(
     private confirmationDialogService: ConfirmationDialogService
   ) {
-   this.subscription = this.confirmationDialogService.isConfirmationModalOpen.subscribe(isModalOpen => {
+    this.subscription = this.confirmationDialogService.isConfirmationModalOpen.subscribe(isModalOpen => {
       isModalOpen ? $('#confirmation-box-modal').modal('show') : $('#confirmation-box-modal').modal('hide');
     });
   }

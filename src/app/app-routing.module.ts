@@ -11,7 +11,7 @@ import { CommonComponent } from './_components/common/common.component';
 
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent , canActivate: [] },
+  { path: '', component: DashboardComponent, canActivate: [] },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [] },
   { path: 'users', component: UsersComponent, canActivate: [] },

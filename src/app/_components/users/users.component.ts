@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
-import {OperationsService} from '../../_services/operations.service'
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { OperationsService } from '../../_services/operations.service'
 import { LoaderService } from 'src/app/_services/loader.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 import { AlertService } from 'src/app/_services/alert.service';
@@ -14,30 +14,26 @@ import { AlertService } from 'src/app/_services/alert.service';
 })
 export class UsersComponent implements OnInit {
 
-  apiResponse:any = [];
+  apiResponse: any = [];
   subscription: Subscription;
-  userForm: FormGroup; 
-  constructor(    private operation:OperationsService,
+  updateUserForm: FormGroup;
+  constructor(private operation: OperationsService,
     private loaderService: LoaderService,
     private confirmationDialogService: ConfirmationDialogService,
     private alertService: AlertService,
     private formBuilder: FormBuilder
-    ) { 
-      this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
-        if (status) {
-          console.log(status);
-        }
-      });
-    }
+  ) {
+    this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
+      if (status) {
+        console.log(status);
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.userForm = this.formBuilder.group({
-      fullname:['', Validators.required],
-      mobilenumber: ['', Validators.required],
-      email: ['', Validators.required],
-      course:['', Validators.required],
-      college: ['', Validators.required],
-      address: ['', Validators.required]               
+    this.updateUserForm = this.formBuilder.group({
+      usertype: ['', Validators.required],
+      status: ['', Validators.required]
     });
     this.getAllUsers();
   }
@@ -46,12 +42,14 @@ export class UsersComponent implements OnInit {
     this.subscription.unsubscribe();
     this.confirmationDialogService.confirmationYesButtonClick(false);
   }
-  getAllUsers(){
+  getAllUsers() {
     this.loaderService.show();
-    this.operation.getAllUsers().subscribe(success =>{
+    this.operation.getAllUsers().subscribe(success => {
       console.log(success);
       this.loaderService.hide();
+      debugger;
       this.apiResponse = success.map(e => {
+        debugger;
         return {
           id: e.payload.doc.id,
           FullName: e.payload.doc.data()['FullName'],
@@ -68,18 +66,14 @@ export class UsersComponent implements OnInit {
   }
 
   onEditUser(user) {
-    this.userForm.patchValue({
-      fullname: user.FullName,
-      mobilenumber: user.Mobile,
-      email: user.Email,
-      course:user.Course,
-      college: user.College,
-      address: user.Address               
+    this.updateUserForm.patchValue({
+      usertype: 'Free',
+      status: 'Active'
     });
   }
 
   onUpdateForm() {
-    alert('User form');
+    alert('Update User');
   }
 
   onDeleteUser() {

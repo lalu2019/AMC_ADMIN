@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
-import {OperationsService} from '../../_services/operations.service'
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { OperationsService } from '../../_services/operations.service'
 import { LoaderService } from 'src/app/_services/loader.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 import { AlertService } from 'src/app/_services/alert.service';
@@ -12,46 +12,46 @@ import { AlertService } from 'src/app/_services/alert.service';
   styleUrls: ['./videos.component.scss']
 })
 export class VideosComponent implements OnInit {
-  apiResponse:any = [];
+  apiResponse: any = [];
   subscription: Subscription;
-  videoForm: FormGroup; 
+  videoForm: FormGroup;
   deleteVideoId: any;
-  createClassForm: FormGroup; 
+  createClassForm: FormGroup;
   videoCategory: any = []
 
-  constructor( 
-    private operation:OperationsService,
+  constructor(
+    private operation: OperationsService,
     private loaderService: LoaderService,
     private confirmationDialogService: ConfirmationDialogService,
     private alertService: AlertService,
     private formBuilder: FormBuilder
-    ) { 
-      this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
-        if (status) {
-         // debugger;
-          this.loaderService.show();
-          this.operation.deletVideo(this.deleteVideoId).then(success => {
-            console.log(success);
-            this.loaderService.hide();
-            this.alertService.delete();
-            this.getAllVideo();
-          })
-        }
-      });
-    }
+  ) {
+    this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
+      if (status) {
+        // debugger;
+        this.loaderService.show();
+        this.operation.deletVideo(this.deleteVideoId).then(success => {
+          console.log(success);
+          this.loaderService.hide();
+          this.alertService.delete();
+          this.getAllVideo();
+        })
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.videoForm = this.formBuilder.group({
-      title:['', Validators.required],
+      title: ['', Validators.required],
       description: ['', Validators.required],
-      link: ['', Validators.required]                  
+      link: ['', Validators.required]
     });
     this.createClassForm = this.formBuilder.group({
-      category:['', Validators.required],
-      title:['', Validators.required],
+      category: ['', Validators.required],
+      title: ['', Validators.required],
       description: ['', Validators.required],
       link: ['', Validators.required],
-      source : ['Vimeo', Validators.required],                
+      source: ['Vimeo', Validators.required],
     });
     this.getAllVideo();
     this.getAllVideoCategory();
@@ -64,7 +64,7 @@ export class VideosComponent implements OnInit {
 
   getAllVideoCategory() {
     this.loaderService.show();
-    this.operation.getCaetgories().subscribe(success =>{
+    this.operation.getCaetgories().subscribe(success => {
       this.loaderService.hide();
       debugger;
       this.videoCategory = success.map(e => {
@@ -76,9 +76,9 @@ export class VideosComponent implements OnInit {
     })
   }
 
-  getAllVideo(){
+  getAllVideo() {
     this.loaderService.show();
-    this.operation.getAllVideo().subscribe(success =>{
+    this.operation.getAllVideo().subscribe(success => {
       console.log(success);
       this.loaderService.hide();
       this.apiResponse = success.map(e => {
@@ -95,43 +95,43 @@ export class VideosComponent implements OnInit {
     })
   }
 
-  addNewClass(){
+  addNewClass() {
     let categoryName = this.videoCategory.filter(data => {
       return data.id == this.createClassForm.value.category;
     });
-    debugger;
     let record = {};
-    record['CatId'] = this.createClassForm.value.category,
-    record['CatName'] = categoryName[0].title,
-    record['title'] = this.createClassForm.value.title,
-    record['description'] = this.createClassForm.value.description
-    record['link'] = this.createClassForm.value.link
+    record['CatId'] = this.createClassForm.value.category;
+    record['CatName'] = categoryName[0].title;
+    record['title'] = this.createClassForm.value.title;
+    record['description'] = this.createClassForm.value.description;
+    record['link'] = this.createClassForm.value.link;
     record['status'] = "Active";
-    record['createdDate'] = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+    record['createdDate'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
     this.loaderService.show();
-     this.operation.createVideo(record).then(success =>{
+    this.operation.createVideo(record).then(success => {
       console.log(success);
       this.loaderService.hide();
+      this.alertService.save();
       this.createClassForm.reset();
       this.createClassForm.patchValue({
         category: ''
       });
     })
-   }
+  }
 
   onEditVideo(video) {
     this.videoForm.patchValue({
       title: video.title,
       description: video.description,
-      link: video.link,              
+      link: video.link,
     });
   }
 
   onUpdateForm() {
-    alert('video form');
+    // alert('Video Update');
   }
 
-  deletVideo(value){
+  deletVideo(value) {
     this.confirmationDialogService.show();
     this.deleteVideoId = value.id;
   }
