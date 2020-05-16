@@ -64,8 +64,8 @@ export class OperationsService {
     return this.firestore.collection('Users').add(record);
   }
 
-  updateUsers(recordID, record) {
-    return this.firestore.collection('Users/' + recordID).add(record);
+  updateUsers(recordID, record)  {
+    return this.firestore.doc('Users/' + recordID).update(record);
   }
 
   getAllUsers(): Observable<any> {

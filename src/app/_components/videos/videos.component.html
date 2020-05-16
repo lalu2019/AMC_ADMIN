@@ -35,6 +35,13 @@
                   <option value="Vimeo">Vimeo</option>
                 </select>
               </div>
+              <div class="col col-6 form-group">
+                <select class="form-control" formControlName="Accessibility">
+                  <option value="" disabled>Accessibility </option>
+                  <option value="Free">Free </option>
+                  <option value="Paid">Paid</option>
+                </select>
+              </div>
 
             </div>
             <div align="center" style="margin-top:20px">
@@ -57,7 +64,7 @@
           <th>Description</th>
           <th>Link</th>
           <th>Created Date</th>
-          <th>Allowed For</th>
+          <th>Accessibility</th>
           <th>Status</th>
 
           <th>Action</th>
@@ -69,7 +76,7 @@
         <tr *ngFor="let video of apiResponse">
           <!-- <td>1</td> -->
           <td>{{video.title}}</td>
-          <td style="width: 300px;">{{video.description}}</td>
+          <td style="width: 100px;">{{video.description}}</td>
           <td>{{video.link}}</td>
           <td>{{video.createdDate}}</td>
           <td>All User</td>

@@ -51,9 +51,11 @@ export class VideosComponent implements OnInit {
     this.createClassForm = this.formBuilder.group({
       category: ['', Validators.required],
       title: ['', Validators.required],
-      description: ['', Validators.required],
+      description: ['', ],
       link: ['', Validators.required],
       source: ['Vimeo', Validators.required],
+      Accessibility: ['Free', Validators.required],
+      
     });
     this.commentVideoForm = this.formBuilder.group({
       comment: [''],
@@ -93,6 +95,7 @@ export class VideosComponent implements OnInit {
           description: e.payload.doc.data()['description'],
           status: e.payload.doc.data()['status'],
           link: e.payload.doc.data()['link'],
+          Accessibility: e.payload.doc.data()['link'],
           createdDate: e.payload.doc.data()['createdDate']
         };
       })
@@ -110,6 +113,7 @@ export class VideosComponent implements OnInit {
     record['title'] = this.createClassForm.value.title;
     record['description'] = this.createClassForm.value.description;
     record['link'] = this.createClassForm.value.link;
+    record['Accessibility'] = this.createClassForm.value.Accessibility;
     record['status'] = "Active";
     record['createdDate'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
     this.loaderService.show();
@@ -139,6 +143,8 @@ export class VideosComponent implements OnInit {
     record['title'] = this.videoForm.value.title
     record['description'] = this.videoForm.value.description
     record['link'] = this.videoForm.value.link
+    record['Accessibility'] = this.videoForm.value.Accessibility
+    
     this.loaderService.show();
     this.operation.updateVideo(this.videoForm.value.id, record).then(success => {
       this.loaderService.hide();
