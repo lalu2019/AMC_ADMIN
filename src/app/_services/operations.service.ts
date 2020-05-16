@@ -23,14 +23,15 @@ export class OperationsService {
   createVideo(record) {
     return this.firestore.collection('videos').add(record);
   }
+  
   getAllVideo(): Observable<any> {
     return this.firestore.collection('videos').snapshotChanges();
   }
-  updateVideo(recordID, record) {
-    // return this.firestore.collection('videos').add(record);
-    return this.firestore.doc('videos/' + recordID).update(record);
 
+  updateVideo(recordID, record) {
+    return this.firestore.doc('videos/' + recordID).update(record);
   }
+
   deletVideo(record_id) {
     return this.firestore.doc('videos/' + record_id).delete();
   }
@@ -43,26 +44,30 @@ export class OperationsService {
   getAllTasks(): Observable<any> {
     return this.firestore.collection('tasks').snapshotChanges();
   }
-  updateTask(recordID, record) {
-    // return this.firestore.collection('videos').add(record);
-    return this.firestore.doc('tasks/' + recordID).update(record);
 
+  updateTask(recordID, record) {
+    return this.firestore.doc('tasks/' + recordID).update(record);
   }
+
   deleteTask(record_id) {
     return this.firestore.doc('tasks/' + record_id).delete();
 
   }
-  //Test Secttion
 
+  //Test Secttion
   createTest(record) {
     return this.firestore.collection('frbTkn').add(record);
   }
 
   //Users Section
-
   createUsers(record) {
     return this.firestore.collection('Users').add(record);
   }
+
+  updateUsers(recordID, record) {
+    return this.firestore.collection('Users/' + recordID).add(record);
+  }
+
   getAllUsers(): Observable<any> {
     return this.firestore.collection('Users').snapshotChanges();
   }

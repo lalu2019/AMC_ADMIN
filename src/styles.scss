@@ -193,7 +193,7 @@ a {
   height: 100%;
   position: fixed;
   background: rgba(255,255,255,0.8);
-  z-index: 1030;
+  z-index: 1060;
   left: 0;
   right: 0;
   bottom: 0;
@@ -202,7 +202,7 @@ a {
 
 .loder{
   position:fixed;
-  z-index:1031;
+  z-index:1061;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);

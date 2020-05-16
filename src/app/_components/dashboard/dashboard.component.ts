@@ -32,6 +32,11 @@ export class DashboardComponent implements OnInit {
   BookList: any = [];
   UploadedFileContent: any = [];
   enquiryList: any = [];
+  userListData: any = [];
+  activeUsers: number = 0;
+  freeUsers: number = 0;
+  paidUsers: number = 0;
+  inactiveUsers: number = 0;
 
   deleteStoryId: any
   constructor(
@@ -72,7 +77,7 @@ export class DashboardComponent implements OnInit {
       link: ['',],
     });
 
-
+    this.getAllUsers();
     //this.addFirebaseToken();
     this.enquiry();
     //this.insertInquery();
@@ -160,6 +165,26 @@ export class DashboardComponent implements OnInit {
     record['Source'] = "Admin Panel";
     this.operation.addToken(record).then(success => {
       console.log(success);
+    })
+  }
+
+  getAllUsers() {
+    this.operation.getAllUsers().subscribe(success => {
+      this.userListData = success.map(e => {
+        debugger
+        if (e.payload.doc.data()['status'] == 'Active') {
+          this.activeUsers += 1;
+        }
+        if (e.payload.doc.data()['status'] == 'InActive') {
+          this.inactiveUsers += 1;
+        }
+        if (e.payload.doc.data()['userType'] == 'Free') {
+          this.freeUsers += 1;
+        }
+        if (e.payload.doc.data()['userType'] == 'Paid') {
+          this.paidUsers += 1;
+        }
+      })
     })
   }
 

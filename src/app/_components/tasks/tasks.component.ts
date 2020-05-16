@@ -48,6 +48,7 @@ export class TasksComponent implements OnInit {
       link: [''],
     });
     this.updateTaskForm = this.formBuilder.group({
+      id: [''],
       title: ['', Validators.required],
       description: ['', Validators.required],
     });
@@ -95,7 +96,9 @@ export class TasksComponent implements OnInit {
   }
 
   onEditTask(task) {
+    debugger;
     this.updateTaskForm.patchValue({
+      id: task.id,
       title: task.title,
       description: task.description,
     });
@@ -107,7 +110,15 @@ export class TasksComponent implements OnInit {
   }
 
   onUpdateForm() {
-    // alert('Task Update');
+    let record = {};
+    record['title'] = this.updateTaskForm.value.title
+    record['description'] = this.updateTaskForm.value.description
+    this.loaderService.show();
+    this.operation.updateTask(this.updateTaskForm.value.id, record).then(success => {
+      this.loaderService.hide();
+      this.alertService.update();
+      this.getAllTask();
+    })
   }
 
 }

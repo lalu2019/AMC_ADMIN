@@ -17,6 +17,7 @@ export class VideosComponent implements OnInit {
   videoForm: FormGroup;
   deleteVideoId: any;
   createClassForm: FormGroup;
+  commentVideoForm: FormGroup;
   videoCategory: any = []
 
   constructor(
@@ -42,6 +43,7 @@ export class VideosComponent implements OnInit {
 
   ngOnInit(): void {
     this.videoForm = this.formBuilder.group({
+      id: [''],
       title: ['', Validators.required],
       description: ['', Validators.required],
       link: ['', Validators.required]
@@ -52,6 +54,9 @@ export class VideosComponent implements OnInit {
       description: ['', Validators.required],
       link: ['', Validators.required],
       source: ['Vimeo', Validators.required],
+    });
+    this.commentVideoForm = this.formBuilder.group({
+      comment: [''],
     });
     this.getAllVideo();
     this.getAllVideoCategory();
@@ -120,7 +125,9 @@ export class VideosComponent implements OnInit {
   }
 
   onEditVideo(video) {
+    debugger;
     this.videoForm.patchValue({
+      id: video.id,
       title: video.title,
       description: video.description,
       link: video.link,
@@ -128,12 +135,25 @@ export class VideosComponent implements OnInit {
   }
 
   onUpdateForm() {
-    // alert('Video Update');
+    let record = {};
+    record['title'] = this.videoForm.value.title
+    record['description'] = this.videoForm.value.description
+    record['link'] = this.videoForm.value.link
+    this.loaderService.show();
+    this.operation.updateVideo(this.videoForm.value.id, record).then(success => {
+      this.loaderService.hide();
+      this.alertService.update();
+      this.getAllVideo();
+    })
   }
 
   deletVideo(value) {
     this.confirmationDialogService.show();
     this.deleteVideoId = value.id;
+  }
+
+  onSend() {
+
   }
 
 }

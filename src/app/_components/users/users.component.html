@@ -32,9 +32,9 @@
           <td>{{user.Course}}</td>
           <td>{{user.College}}</td>
           <td>{{user.Address}}</td>
-          <td>Free</td>
+          <td>{{user.userType}}</td>
           <td>0</td>
-          <td>Active</td>
+          <td>{{user.status}}</td>
           <td>
             <span>
               <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#userModal" (click)="onEditUser(user)">
@@ -81,7 +81,7 @@
               <select class="form-control" formControlName="status">
                 <option value="" disabled hidden>Select </option>
                 <option value="Active">Active </option>
-                <option value="Inactive">Inactive</option>
+                <option value="InActive">InActive</option>
               </select>
             </div>
           </div>

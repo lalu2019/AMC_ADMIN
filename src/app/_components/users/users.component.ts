@@ -32,6 +32,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateUserForm = this.formBuilder.group({
+      id: [''],
       usertype: ['', Validators.required],
       status: ['', Validators.required]
     });
@@ -59,6 +60,8 @@ export class UsersComponent implements OnInit {
           Course: e.payload.doc.data()['Course'],
           College: e.payload.doc.data()['College'],
           imageUrl: e.payload.doc.data()['imageUrl'],
+          userType: e.payload.doc.data()['userType'],
+          status: e.payload.doc.data()['status'],
         };
       })
       console.log(this.apiResponse);
@@ -66,14 +69,24 @@ export class UsersComponent implements OnInit {
   }
 
   onEditUser(user) {
+    debugger;
     this.updateUserForm.patchValue({
-      usertype: 'Free',
-      status: 'Active'
+      id: user.id,
+      usertype: user.userType,
+      status: user.status
     });
   }
 
   onUpdateForm() {
-    alert('Update User');
+    let record = {};
+    record['userType'] = this.updateUserForm.value.usertype
+    record['status'] = this.updateUserForm.value.status
+    this.loaderService.show();
+    this.operation.updateUsers(this.updateUserForm.value.id, record).then(success => {
+      this.loaderService.hide();
+      this.alertService.update();
+      this.getAllUsers();
+    })
   }
 
   onDeleteUser() {
