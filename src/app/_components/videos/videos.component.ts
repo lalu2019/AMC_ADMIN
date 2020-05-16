@@ -57,7 +57,7 @@ export class VideosComponent implements OnInit {
       source: ['Vimeo', Validators.required],
     });
     this.commentVideoForm = this.formBuilder.group({
-      comment: [''],
+      comment: ['', Validators.required],
     });
     this.getAllVideo();
     this.getAllVideoCategory();
@@ -151,6 +151,10 @@ export class VideosComponent implements OnInit {
   deletVideo(value) {
     this.confirmationDialogService.show();
     this.deleteVideoId = value.id;
+  }
+
+  onCommentVideo() {
+    this.commentData = [];
   }
 
   onSend() {
