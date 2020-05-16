@@ -161,6 +161,7 @@ export class VideosComponent implements OnInit {
 
   onCommentVideo() {
     this.commentData = [];
+    this.commentVideoForm.reset();
   }
 
   onSend() {
