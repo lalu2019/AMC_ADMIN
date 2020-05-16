@@ -18,7 +18,8 @@ export class VideosComponent implements OnInit {
   deleteVideoId: any;
   createClassForm: FormGroup;
   commentVideoForm: FormGroup;
-  videoCategory: any = []
+  videoCategory: any = [];
+  commentData: any = [];
 
   constructor(
     private operation: OperationsService,
@@ -58,7 +59,7 @@ export class VideosComponent implements OnInit {
       
     });
     this.commentVideoForm = this.formBuilder.group({
-      comment: [''],
+      comment: ['', Validators.required],
     });
     this.getAllVideo();
     this.getAllVideoCategory();
@@ -158,8 +159,18 @@ export class VideosComponent implements OnInit {
     this.deleteVideoId = value.id;
   }
 
-  onSend() {
+  onCommentVideo() {
+    this.commentData = [];
+  }
 
+  onSend() {
+    let currentDateTime = new Date();
+    let comment = {
+      commentText: this.commentVideoForm.value.comment,
+      currentDateTime: currentDateTime
+    }
+    this.commentData.push(comment);
+    this.commentVideoForm.reset();
   }
 
 }

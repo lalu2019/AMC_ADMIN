@@ -72,7 +72,9 @@
         </tr>
       </thead>
       <tbody>
-        <div align="center" col="6" *ngIf="!apiResponse.length">No Record Found </div>
+        <tr *ngIf="!apiResponse.length">
+          <td colspan="7" align="center">No Record Found</td>
+        </tr>
         <tr *ngFor="let video of apiResponse">
           <!-- <td>1</td> -->
           <td>{{video.title}}</td>
@@ -83,7 +85,7 @@
           <td>{{video.status}}</td>
           <td>
             <span>
-              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#commentVideoModal">
+              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#commentVideoModal"  (click)="onCommentVideo()">
                 <i class="fa fa-comment"></i>
               </a>
             </span>
@@ -162,16 +164,22 @@
         </button>
       </div>
       <div class="modal-body">
-
+        <div class="comment-content clearfix" *ngFor="let comment of commentData">
+          <div class="comment-text pull-left">{{comment.commentText}}</div>
+          <div class="comment-date-time pull-right">
+            <span>{{comment.currentDateTime | date: 'MM/dd/yyyy'}}, </span>
+            <span>{{comment.currentDateTime | date: 'h:mm a'}}</span>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <form [formGroup]="commentVideoForm" class="comment-video-form" autocomplete="off" novalidate>
           <div class="row">
             <div class="col col-10 form-group">
-              <input type="text" class="form-control" id="title" formControlName="comment">
+              <input type="text" class="form-control" id="title" placeholder="Comments" formControlName="comment">
             </div>
             <div class="col col-2 form-group">
-              <button type="submit" class="btn btn-success" (click)="onSend()">
+              <button type="submit" class="btn btn-success" [disabled]="!commentVideoForm.valid" (click)="onSend()">
                 <i class="fa fa-chevron-right"></i>
               </button>
             </div>
