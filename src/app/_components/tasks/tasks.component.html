@@ -60,11 +60,11 @@
           <td>{{task.createdDate}}</td>
           <td>{{task.status}}</td>
           <td>
-            <!-- <span>
-                      <a class="comment-action-btn mr-5">
-                        <i class="fa fa-comment"></i>
-                      </a>
-                    </span> -->
+            <span>
+              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#commentTaskModal">
+                <i class="fa fa-comment"></i>
+              </a>
+            </span>
             <span>
               <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#taskModal" (click)="onEditTask(task)">
                 <i class="fa fa-pencil"></i>
@@ -112,6 +112,29 @@
         <button type="button" class="btn btn-success" [disabled]="!updateTaskForm.valid" (click)="onUpdateForm()">
           Update
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="commentTaskModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="comment-content clearfix" *ngFor="let comment of commentData">
+          <div class="comment-text pull-left">{{comment.commentText}}</div>
+          <div class="comment-date-time pull-right">
+            <span>{{comment.currentDateTime | date: 'MM/dd/yyyy'}}, </span>
+            <span>{{comment.currentDateTime | date: 'h:mm a'}}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

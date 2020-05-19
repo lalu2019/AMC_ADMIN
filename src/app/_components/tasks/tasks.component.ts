@@ -19,6 +19,7 @@ export class TasksComponent implements OnInit {
   apiResponse: any = [];
   subscription: Subscription;
   deleteTaskId: any;
+  commentData: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,18 +27,25 @@ export class TasksComponent implements OnInit {
     private loaderService: LoaderService,
     private confirmationDialogService: ConfirmationDialogService,
     private alertService: AlertService) {
-    this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
-      if (status) {
-        this.loaderService.show();
-        this.operation.deleteTask(this.deleteTaskId).then(success => {
-          console.log(success);
-          this.loaderService.hide();
-          this.alertService.delete();
-          this.getAllTask();
-
-        })
+      let currentDateTime = new Date();
+      let comment = {
+        commentText: 'This is comment text',
+        currentDateTime: currentDateTime
       }
-    });
+      this.commentData.push(comment);
+
+      this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
+        if (status) {
+          this.loaderService.show();
+          this.operation.deleteTask(this.deleteTaskId).then(success => {
+            console.log(success);
+            this.loaderService.hide();
+            this.alertService.delete();
+            this.getAllTask();
+
+          })
+        }
+      });
   }
 
   ngOnInit(): void {

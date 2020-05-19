@@ -12,3 +12,23 @@
 .task-form {
     margin: 20px;
 }
+
+.comment-content {
+    padding: 10px;
+    background: rgba(47, 152, 117, 0.3);
+    color: #000;
+    border-radius: 5px;
+    margin: 10px;
+    font-size: 14px;
+
+    .comment-date-time {
+        font-size: 11px;
+        color: #6b6b6b;
+        line-height: 20px;
+    }
+}
+
+#commentTaskModal .modal-body {
+    max-height: 500px;
+    overflow: auto;
+}
