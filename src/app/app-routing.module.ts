@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [] },
   { path: 'users', component: UsersComponent, canActivate: [] },
-  { path: 'videos', component: VideosComponent, canActivate: [] },
+  { path: 'course-manager', component: VideosComponent, canActivate: [] },
   { path: 'tests', component: TestsComponent, canActivate: [] },
   { path: 'tasks', component: TasksComponent, canActivate: [] },
   { path: 'setting', component: CommonComponent, canActivate: [] },

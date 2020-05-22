@@ -1,6 +1,6 @@
 <div
   class="main-header-title d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mt-3 mb-3 border-bottom">
-  <h1 class="h2">Videos</h1>
+  <h1 class="h2">Course Manager</h1>
 </div>
 <div>
 
@@ -22,9 +22,7 @@
 
                 <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
               </div>
-              <div class="col col-6 form-group">
-                <input class="form-control" placeholder="Enter Description" formControlName="description">
-              </div>
+              
               <div class="col col-6 form-group">
                 <input class="form-control" placeholder="Video Link" formControlName="link">
               </div>
@@ -41,6 +39,11 @@
                   <option value="Free">Free </option>
                   <option value="Paid">Paid</option>
                 </select>
+              </div>
+
+              <div class="col col-6 form-group">
+                <angular-editor id="videoCreateEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+                <!-- <input class="form-control" placeholder="Enter Description" formControlName="description"> -->
               </div>
 
             </div>
@@ -78,7 +81,7 @@
         <tr *ngFor="let video of apiResponse">
           <!-- <td>1</td> -->
           <td>{{video.title}}</td>
-          <td style="width: 100px;">{{video.description}}</td>
+          <td style="width: 100px;" [innerHTML]="video.description"></td>
           <td>{{video.link}}</td>
           <td>{{video.createdDate}}</td>
           <td>All User</td>
@@ -135,7 +138,8 @@
           </div>
           <div class="form-group">
             <label for="description">Description<span class="required">*</span></label>
-            <textarea class="form-control" id="description" formControlName="description"></textarea>
+            <angular-editor id="videoEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+            <!-- <textarea class="form-control" id="description" formControlName="description"></textarea> -->
           </div>
           <div class="form-group">
             <label for="link">Link<span class="required">*</span></label>

@@ -23,31 +23,34 @@
       <div class="customSection">
         <div class="row">
 
-          <div class="col col-6">
+          <div class="col col-6 form-group">
 
-            <input type="text" class="form-control mr-10" id="title" placeholder="Enter Title" formControlName="title">
+            <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
           </div>
-          <div class="col col-6">
-            <input class="form-control mr-10" placeholder="Enter Description" formControlName="description">
-          </div>
+          
 
-          <div class="col col-6">
-            <input type="number" class="form-control mr-10" placeholder="Enter actual Amount"
+          <div class="col col-6 form-group">
+            <input type="number" class="form-control" placeholder="Enter actual Amount"
               formControlName="actual_amount">
           </div>
-          <div class="col col-6">
-            <input type="number" class="form-control mr-10" placeholder="Enter Offer Amount"
+          <div class="col col-6 form-group">
+            <input type="number" class="form-control" placeholder="Enter Offer Amount"
               formControlName="offer_amout">
 
           </div>
-          <div class="col col-6">
-            <input type="date" class="form-control mr-10" placeholder="Enter Offer End Date"
+          <div class="col col-6 form-group">
+            <input type="date" class="form-control" placeholder="Enter Offer End Date"
               formControlName="offer_end">
 
           </div>
-          <div class="col col-6">
-            <input class="form-control mr-10" placeholder="Enter Offer Conditions" formControlName="offer_terms">
+          <div class="col col-6 form-group">
+            <input class="form-control" placeholder="Enter Offer Conditions" formControlName="offer_terms">
 
+          </div>
+
+          <div class="col col-6 form-group">
+            <angular-editor id="membershipCreateAndEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+            <!-- <input class="form-control mr-10" placeholder="Enter Description" formControlName="description"> -->
           </div>
 
         </div>
@@ -88,7 +91,7 @@
           <tr *ngFor="let membership of membershipList">
             <!-- <td>1</td> -->
             <td>{{membership.title}}</td>
-            <td>{{membership.description}}</td>
+            <td [innerHTML]="membership.description"></td>
             <td>{{membership.actual_amount}}</td>
             <td>{{membership.offer_amout}}</td>
             <td>{{membership.offer_end}}</td>
@@ -121,20 +124,21 @@
       <div class="customSection">
         <div class="row">
 
-          <div class="col col-6">
+          <div class="col col-6 form-group">
 
-            <input type="text" class="form-control mr-10" id="title" placeholder="Enter Title" formControlName="title">
+            <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
           </div>
-          <div class="col col-6">
-            <input class="form-control mr-10" placeholder="Enter Description" formControlName="description">
+          
+          <div class="col col-6 form-group">
+            <input class="form-control" placeholder="Picture" formControlName="picture">
           </div>
-          <div class="col col-6">
-            <input class="form-control mr-10" placeholder="Picture" formControlName="picture">
+          <div class="col col-6 form-group">
+            <input class="form-control" placeholder="Enter Reference Link " formControlName="Reference">
           </div>
-          <div class="col col-6">
-            <input class="form-control mr-10" placeholder="Enter Reference Link " formControlName="Reference">
+          <div class="col col-6 form-group">
+            <angular-editor id="tipsCreateAndEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+            <!-- <input class="form-control mr-10" placeholder="Enter Description" formControlName="description"> -->
           </div>
-
         </div>
 
       </div>
@@ -169,7 +173,7 @@
           <tr *ngFor="let tips of tipsList">
             <!-- <td>1</td> -->
             <td>{{tips.title}}</td>
-            <td>{{tips.description}}</td>
+            <td [innerHTML]="tips.description"></td>
             <td>{{tips.picture}}</td>
             <td>{{tips.Reference}}</td>
 
@@ -202,21 +206,22 @@
       <div class="customSection">
         <div class="row ">
 
-          <div class="col col-6">
+          <div class="col col-6 form-group">
 
-            <input type="text" class="form-control mr-10" id="title" placeholder="Enter Title" formControlName="title">
+            <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
           </div>
-          <div class="col col-6">
-            <input class="form-control mr-10" placeholder="Enter Description" formControlName="description">
-          </div>
+          
 
-          <div class="col col-6">
-            <input class="form-control mr-10" placeholder="Purchase Link" formControlName="link">
+          <div class="col col-6 form-group">
+            <input class="form-control" placeholder="Purchase Link" formControlName="link">
           </div>
-          <div class="col col-6">
-            <input class="form-control mr-10" placeholder="Picture Url" formControlName="imageUrl">
+          <div class="col col-6 form-group">
+            <input class="form-control" placeholder="Picture Url" formControlName="imageUrl">
           </div>
-
+          <div class="col col-6 form-group">
+            <angular-editor id="bookCreateAndEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+            <!-- <input class="form-control mr-10" placeholder="Enter Description" formControlName="description"> -->
+          </div>
         </div>
 
       </div>
@@ -252,7 +257,7 @@
           <tr *ngFor="let book of BookList">
             <!-- <td>1</td> -->
             <td>{{book.title}}</td>
-            <td>{{book.description}}</td>
+            <td [innerHTML]="book.description"></td>
             <td>{{book.link}}</td>
             <td>{{book.createdDate}}</td>
             <td>
@@ -282,22 +287,23 @@
       <div class="customSection">
         <div class="row">
 
-          <div class="col col-6">
+          <div class="col col-6 form-group">
 
-            <input type="text" class="form-control mr-10" id="title" placeholder="Enter Title" formControlName="title">
+            <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
           </div>
-          <div class="col col-6">
-            <input class="form-control mr-10" placeholder="Enter Description" formControlName="description">
-          </div>
+          
 
-          <div class="col col-6">
-            <input type="file" class="form-control mr-10" placeholder="Reference Picture"
+          <div class="col col-6 form-group">
+            <input type="file" class="form-control" placeholder="Reference Picture"
               formControlName="storyPicture">
           </div>
-          <div class="col col-6">
-            <input class="form-control mr-10" placeholder="Reference Link" formControlName="link">
+          <div class="col col-6 form-group">
+            <input class="form-control" placeholder="Reference Link" formControlName="link">
           </div>
-
+          <div class="col col-6 form-group">
+            <angular-editor id="storyCreateAndEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+            <!-- <input class="form-control mr-10" placeholder="Enter Description" formControlName="description"> -->
+          </div>
         </div>
 
       </div>
@@ -333,7 +339,7 @@
           <tr *ngFor="let story of apiResponse">
             <!-- <td>1</td> -->
             <td>{{story.title}}</td>
-            <td style="width: 300px;">{{story.description}}</td>
+            <td style="width: 300px;" [innerHTML]="story.description"></td>
             <td>{{story.link}}</td>
             <td>{{story.createdDate}}</td>
             <td>{{story.status}}</td>

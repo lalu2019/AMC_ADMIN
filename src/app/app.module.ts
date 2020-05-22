@@ -33,6 +33,7 @@ import { ConfirmationDialogComponent } from './_shared/confirmation-dialog/confi
 import { CommonComponent } from './_components/common/common.component';
 import {OperationsService} from './_services/operations.service'
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 
@@ -64,7 +65,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-
+    HttpClientModule,
+    AngularEditorModule,
   ],
   providers: [
     // MessagingService,

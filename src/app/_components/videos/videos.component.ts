@@ -5,6 +5,7 @@ import { OperationsService } from '../../_services/operations.service'
 import { LoaderService } from 'src/app/_services/loader.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
 import { AlertService } from 'src/app/_services/alert.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-videos',
@@ -20,6 +21,51 @@ export class VideosComponent implements OnInit {
   commentVideoForm: FormGroup;
   videoCategory: any = [];
   commentData: any = [];
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '0',
+    maxHeight: 'auto',
+    width: 'auto',
+    minWidth: '0',
+    translate: 'yes',
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: 'Enter text here...',
+    defaultParagraphSeparator: '',
+    defaultFontName: '',
+    defaultFontSize: '',
+    fonts: [
+      { class: 'arial', name: 'Arial' },
+      { class: 'times-new-roman', name: 'Times New Roman' },
+      { class: 'calibri', name: 'Calibri' },
+      { class: 'comic-sans-ms', name: 'Comic Sans MS' }
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText'
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+    uploadUrl: 'v1/image',
+    uploadWithCredentials: false,
+    sanitize: true,
+    toolbarPosition: 'top',
+    toolbarHiddenButtons: [
+      ['bold', 'italic'],
+      ['fontSize']
+    ]
+  };
 
   constructor(
     private operation: OperationsService,
@@ -52,11 +98,11 @@ export class VideosComponent implements OnInit {
     this.createClassForm = this.formBuilder.group({
       category: ['', Validators.required],
       title: ['', Validators.required],
-      description: ['', ],
+      description: ['',],
       link: ['', Validators.required],
       source: ['Vimeo', Validators.required],
       Accessibility: ['Free', Validators.required],
-      
+
     });
     this.commentVideoForm = this.formBuilder.group({
       comment: ['', Validators.required],
@@ -145,7 +191,7 @@ export class VideosComponent implements OnInit {
     record['description'] = this.videoForm.value.description
     record['link'] = this.videoForm.value.link
     record['Accessibility'] = this.videoForm.value.Accessibility
-    
+    debugger;
     this.loaderService.show();
     this.operation.updateVideo(this.videoForm.value.id, record).then(success => {
       this.loaderService.hide();
