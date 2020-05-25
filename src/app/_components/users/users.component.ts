@@ -34,7 +34,8 @@ export class UsersComponent implements OnInit {
     this.updateUserForm = this.formBuilder.group({
       id: [''],
       usertype: ['', Validators.required],
-      status: ['', Validators.required]
+      status: ['', Validators.required],
+      courseEndDate: ['']
     });
     this.getAllUsers();
   }
@@ -62,6 +63,7 @@ export class UsersComponent implements OnInit {
           imageUrl: e.payload.doc.data()['imageUrl'],
           userType: e.payload.doc.data()['userType'],
           status: e.payload.doc.data()['status'],
+          courseEndDate: e.payload.doc.data()['course_end_date'],
         };
       })
       console.log(this.apiResponse);
@@ -73,14 +75,16 @@ export class UsersComponent implements OnInit {
     this.updateUserForm.patchValue({
       id: user.id,
       usertype: user.userType,
-      status: user.status
+      status: user.status,
+      courseEndDate: user.courseEndDate
     });
   }
 
   onUpdateForm() {
     let record = {};
-    record['userType'] = this.updateUserForm.value.usertype
-    record['status'] = this.updateUserForm.value.status
+    record['userType'] = this.updateUserForm.value.usertype;
+    record['status'] = this.updateUserForm.value.status;
+    record['course_end_date'] = this.updateUserForm.value.courseEndDate;
     this.loaderService.show();
     this.operation.updateUsers(this.updateUserForm.value.id, record).then(success => {
       this.loaderService.hide();

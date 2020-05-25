@@ -19,6 +19,7 @@
           <th>User Type</th>
           <th>Fees Paid</th>
           <th>Status</th>
+          <th>Course End Date</th>
           <th>Action</th>
         </tr>
 
@@ -35,6 +36,7 @@
           <td>{{user.userType}}</td>
           <td>0</td>
           <td>{{user.status}}</td>
+          <td>{{user.courseEndDate}}</td>
           <td>
             <span>
               <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#userModal" (click)="onEditUser(user)">
@@ -83,6 +85,11 @@
                 <option value="Active">Active </option>
                 <option value="InActive">InActive</option>
               </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Course End Data</label>
+              <input type="date" class="form-control"
+              formControlName="courseEndDate">
             </div>
           </div>
         </form>
