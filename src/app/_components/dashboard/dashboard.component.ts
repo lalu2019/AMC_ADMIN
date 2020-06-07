@@ -83,7 +83,7 @@ export class DashboardComponent implements OnInit {
     //this.insertInquery();
     //Excel file upload code...
 
-    // const that = this;
+    const that = this;
     // document.getElementById("fileImport").onchange= function(e: Event) {
     //   let file = (<HTMLInputElement>e.target).files[0];
     //   console.log(file);
@@ -93,7 +93,7 @@ export class DashboardComponent implements OnInit {
     //     // each row being an array of cells.
     //      that.UploadedFileContent = rows;
     //      for(let i=0;i<that.UploadedFileContent.length; i ++){
-    //       that.insertCat(that.UploadedFileContent[i][0]);
+    //       that.insertCat(that.UploadedFileContent[i][0], that.UploadedFileContent[i][1]);
     //      }
 
     //   })
@@ -137,10 +137,11 @@ export class DashboardComponent implements OnInit {
       console.log(success);
     })
   }
-  async insertCat(row) {
+  async insertCat(col1, col2) {
 
     let record = {};
-    record['Title'] = row;
+    record['Title'] = col1;
+    record['iconName'] = col2;
     this.operation.addCategories(record).then(success => {
       console.log(success);
     })
