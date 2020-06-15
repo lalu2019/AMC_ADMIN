@@ -11,7 +11,13 @@
     (click)="setActive('btn3')">Books</button>
   <button type="button" class="btn btn-secondary" [class.active]="isActive('btn4')" (click)="setActive('btn4')">Success
     Stories</button>
-  <button type="button" class="btn btn-secondary" [class.active]="isActive('btn5')" (click)="setActive('btn5')">Contact
+  <button type="button" class="btn btn-secondary" [class.active]="isActive('btn5')" (click)="setActive('btn5')">
+    Syllabus
+  </button>
+  <button type="button" class="btn btn-secondary" [class.active]="isActive('btn6')" (click)="setActive('btn6')">
+    Notes
+  </button>
+  <button type="button" class="btn btn-secondary" [class.active]="isActive('btn7')" (click)="setActive('btn7')">Contact
     Us</button>
 </div>
 
@@ -27,20 +33,17 @@
 
             <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
           </div>
-          
+
 
           <div class="col col-6 form-group">
-            <input type="number" class="form-control" placeholder="Enter actual Amount"
-              formControlName="actual_amount">
+            <input type="number" class="form-control" placeholder="Enter actual Amount" formControlName="actual_amount">
           </div>
           <div class="col col-6 form-group">
-            <input type="number" class="form-control" placeholder="Enter Offer Amount"
-              formControlName="offer_amout">
+            <input type="number" class="form-control" placeholder="Enter Offer Amount" formControlName="offer_amout">
 
           </div>
           <div class="col col-6 form-group">
-            <input type="date" class="form-control" placeholder="Enter Offer End Date"
-              formControlName="offer_end">
+            <input type="date" class="form-control" placeholder="Enter Offer End Date" formControlName="offer_end">
 
           </div>
           <div class="col col-6 form-group">
@@ -49,7 +52,8 @@
           </div>
 
           <div class="col col-6 form-group">
-            <angular-editor id="membershipCreateAndEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+            <angular-editor id="membershipCreateAndEditEditor" formControlName="description" [config]="editorConfig">
+            </angular-editor>
             <!-- <input class="form-control mr-10" placeholder="Enter Description" formControlName="description"> -->
           </div>
 
@@ -128,7 +132,7 @@
 
             <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
           </div>
-          
+
           <div class="col col-6 form-group">
             <input class="form-control" placeholder="Picture" formControlName="picture">
           </div>
@@ -136,7 +140,8 @@
             <input class="form-control" placeholder="Enter Reference Link " formControlName="Reference">
           </div>
           <div class="col col-6 form-group">
-            <angular-editor id="tipsCreateAndEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+            <angular-editor id="tipsCreateAndEditEditor" formControlName="description" [config]="editorConfig">
+            </angular-editor>
             <!-- <input class="form-control mr-10" placeholder="Enter Description" formControlName="description"> -->
           </div>
         </div>
@@ -210,7 +215,7 @@
 
             <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
           </div>
-          
+
 
           <div class="col col-6 form-group">
             <input class="form-control" placeholder="Purchase Link" formControlName="link">
@@ -219,7 +224,8 @@
             <input class="form-control" placeholder="Picture Url" formControlName="imageUrl">
           </div>
           <div class="col col-6 form-group">
-            <angular-editor id="bookCreateAndEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+            <angular-editor id="bookCreateAndEditEditor" formControlName="description" [config]="editorConfig">
+            </angular-editor>
             <!-- <input class="form-control mr-10" placeholder="Enter Description" formControlName="description"> -->
           </div>
         </div>
@@ -291,17 +297,17 @@
 
             <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
           </div>
-          
+
 
           <div class="col col-6 form-group">
-            <input type="file" class="form-control" placeholder="Reference Picture"
-              formControlName="storyPicture">
+            <input type="file" class="form-control" placeholder="Reference Picture" formControlName="storyPicture">
           </div>
           <div class="col col-6 form-group">
             <input class="form-control" placeholder="Reference Link" formControlName="link">
           </div>
           <div class="col col-6 form-group">
-            <angular-editor id="storyCreateAndEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+            <angular-editor id="storyCreateAndEditEditor" formControlName="description" [config]="editorConfig">
+            </angular-editor>
             <!-- <input class="form-control mr-10" placeholder="Enter Description" formControlName="description"> -->
           </div>
         </div>
@@ -339,7 +345,7 @@
           <tr *ngFor="let story of apiResponse">
             <!-- <td>1</td> -->
             <td>{{story.title}}</td>
-            <td style="width: 300px;" [innerHTML]="story.description"></td>
+            <td class="description-column" [innerHTML]="story.description"></td>
             <td>{{story.link}}</td>
             <td>{{story.createdDate}}</td>
             <td>{{story.status}}</td>
@@ -365,6 +371,163 @@
 </div>
 
 <div *ngIf="isActiveButton == 'btn5'" class="mr-20">
+
+  <div class="dashboard-grid-heading">Add Syllabus</div>
+  <div class="row mr-20">
+    <form [formGroup]="createSyllabusForm">
+      <div class="customSection">
+        <div class="row">
+
+          <div class="col col-6 form-group">
+
+            <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
+          </div>
+
+          <div class="col col-6 form-group">
+            <input class="form-control" placeholder="Reference Link" formControlName="link">
+          </div>
+          <div class="col col-6 form-group">
+            <angular-editor id="syllabusCreateAndEditEditor" formControlName="description" [config]="editorConfig">
+            </angular-editor>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div align="center" style="margin-top:20px">
+        <button type="button" *ngIf="!createSyllabusForm.value.id" class="btn btn-success"
+          [disabled]="!createSyllabusForm.valid" (click)="createNewSyllabus()">Submit</button>
+        <button type="button" *ngIf="createSyllabusForm.value.id" class="btn btn-success"
+          [disabled]="!createSyllabusForm.valid" (click)="updateSyllabus()">Update</button>
+      </div>
+    </form>
+  </div>
+
+  <div>
+    <p>Total Syllabus : {{apiResponse.length}} </p>
+    <div class="table-responsive-sm">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <!-- <th>#</th> -->
+            <th>Title</th>
+            <th>Description</th>
+            <th>Link</th>
+            <th>Create Date</th>
+            <th>Action</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <div align="center" col="6" *ngIf="!apiResponse.length">No Record Found </div>
+          <tr *ngFor="let syllabus of apiResponse">
+            <!-- <td>1</td> -->
+            <td>{{syllabus.title}}</td>
+            <td class="description-column" [innerHTML]="syllabus.description"></td>
+            <td>{{syllabus.link}}</td>
+            <td>{{syllabus.createdDate}}</td>
+            <td>
+              <span>
+                <a class="edit-action-btn mr-5" (click)="editSyllabus(syllabus)">
+                  <i class="fa fa-pencil"></i>
+                </a>
+              </span>
+              <span>
+                <a class="delete-action-btn mr-5" (click)="deleteConfirmation(syllabus, 'syllabus')">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<div *ngIf="isActiveButton == 'btn6'" class="mr-20">
+
+  <div class="dashboard-grid-heading">Add Notes</div>
+  <div class="row mr-20">
+    <form [formGroup]="createNotesForm">
+      <div class="customSection">
+        <div class="row">
+
+          <div class="col col-6 form-group">
+
+            <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
+          </div>
+
+          <div class="col col-6 form-group">
+            <input class="form-control" placeholder="Reference Link" formControlName="link">
+          </div>
+          <div class="col col-6 form-group">
+            <angular-editor id="storyCreateAndEditEditor" formControlName="description" [config]="editorConfig">
+            </angular-editor>
+            <!-- <input class="form-control mr-10" placeholder="Enter Description" formControlName="description"> -->
+          </div>
+        </div>
+
+      </div>
+
+
+      <div align="center" style="margin-top:20px">
+        <button type="button" *ngIf="!createNotesForm.value.id" class="btn btn-success"
+          [disabled]="!createNotesForm.valid" (click)="createNewNotes()">Submit</button>
+        <button type="button" *ngIf="createNotesForm.value.id" class="btn btn-success"
+          [disabled]="!createNotesForm.valid" (click)="updateNotes()">Update</button>
+      </div>
+    </form>
+  </div>
+
+  <div>
+    <p>Total Notes : {{apiResponse.length}} </p>
+    <div class="table-responsive-sm">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <!-- <th>#</th> -->
+            <th>Title</th>
+            <th>Description</th>
+            <th>Link</th>
+            <th>Create Date</th>
+            <th>Action</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <div align="center" col="6" *ngIf="!apiResponse.length">No Record Found </div>
+          <tr *ngFor="let note of apiResponse">
+            <!-- <td>1</td> -->
+            <td>{{note.title}}</td>
+            <td class="description-column" [innerHTML]="note.description"></td>
+            <td>{{note.link}}</td>
+            <td>{{note.createdDate}}</td>
+            <td>
+              <span>
+                <a class="edit-action-btn mr-5" (click)="editNotes(note)">
+                  <i class="fa fa-pencil"></i>
+                </a>
+              </span>
+              <span>
+                <a class="delete-action-btn mr-5" (click)="deleteConfirmation(note, 'note')">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<div *ngIf="isActiveButton == 'btn7'" class="mr-20">
 
   <div class="dashboard-grid-heading">Add Contact</div>
   <div class="row mr-20">

@@ -19,6 +19,8 @@ export class CommonComponent implements OnInit {
   createBook: FormGroup;
   membershipForm: FormGroup;
   tipsForm: FormGroup;
+  createSyllabusForm: FormGroup;
+  createNotesForm: FormGroup;
   contacUsForm: FormGroup;
 
   isActiveButton: any = 'btn1'
@@ -166,8 +168,8 @@ export class CommonComponent implements OnInit {
       id: [''],
       title: ['', Validators.required],
       description: ['', Validators.required],
-      link: ['',],
-      storyPicture: ['',],
+      link: [''],
+      storyPicture: [''],
     });
     this.createBook = this.formBuilder.group({
       id: [''],
@@ -190,6 +192,20 @@ export class CommonComponent implements OnInit {
       description: [''],
       picture: [''],
       Reference: [''],
+    });
+
+    this.createSyllabusForm = this.formBuilder.group({
+      id: [''],
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      link: ['',]
+    });
+
+    this.createNotesForm = this.formBuilder.group({
+      id: [''],
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      link: ['',]
     });
 
     this.membershipForm = this.formBuilder.group({
@@ -431,6 +447,111 @@ export class CommonComponent implements OnInit {
     })
   }
 
+
+  editSyllabus(selected) {
+    this.createSyllabusForm.controls.id.setValue(selected.id)
+    this.createSyllabusForm.controls.title.setValue(selected.title)
+    this.createSyllabusForm.controls.description.setValue(selected.description)
+    this.createSyllabusForm.controls.link.setValue(selected.link)
+  }
+  updateSyllabus() {
+    let record = {};
+    record['title'] = this.createSyllabusForm.value.title;
+    record['description'] = this.createSyllabusForm.value.description;
+    record['link'] = this.createSyllabusForm.value.link;
+    this.loaderService.show();
+    this.operation.updateStory(this.createSyllabusForm.value.id, record).then(success => {
+      this.loaderService.hide();
+      this.alertService.update();
+      this.createSyllabusForm.reset();
+      this.getAllSyllabus();
+    })
+  }
+
+
+  createNewSyllabus() {
+    let record = {};
+    record['title'] = this.createSyllabusForm.value.title;
+    record['description'] = this.createSyllabusForm.value.description;
+    record['link'] = this.createSyllabusForm.value.link;
+    record['createdDate'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+    this.loaderService.show();
+    this.operation.createStory(record).then(success => {
+      this.loaderService.hide();
+      this.alertService.save();
+      this.createSyllabusForm.reset();
+      this.getAllStory();
+    })
+  }
+  getAllSyllabus() {
+    // this.loaderService.show();
+    // this.operation.getAllSyllabus().subscribe(success => {
+    //   console.log(success);
+    //   this.loaderService.hide();
+    //   this.apiResponse = success.map(e => {
+    //     return {
+    //       id: e.payload.doc.id,
+    //       title: e.payload.doc.data()['title'],
+    //       description: e.payload.doc.data()['description'],
+    //       link: e.payload.doc.data()['link'],
+    //     };
+    //   })
+    //   console.log(this.apiResponse);
+    // })
+  }
+
+
+  editNotes(selected) {
+    this.createNotesForm.controls.id.setValue(selected.id)
+    this.createNotesForm.controls.title.setValue(selected.title)
+    this.createNotesForm.controls.description.setValue(selected.description)
+    this.createNotesForm.controls.link.setValue(selected.link)
+  }
+  updateNotes() {
+    let record = {};
+    record['title'] = this.createNotesForm.value.title;
+    record['description'] = this.createNotesForm.value.description;
+    record['link'] = this.createNotesForm.value.link;
+    this.loaderService.show();
+    this.operation.updateStory(this.createNotesForm.value.id, record).then(success => {
+      this.loaderService.hide();
+      this.alertService.update();
+      this.createNotesForm.reset();
+      this.getAllSyllabus();
+    })
+  }
+
+
+  createNewNotes() {
+    let record = {};
+    record['title'] = this.createNotesForm.value.title;
+    record['description'] = this.createNotesForm.value.description;
+    record['link'] = this.createNotesForm.value.link;
+    record['createdDate'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+    this.loaderService.show();
+    this.operation.createStory(record).then(success => {
+      this.loaderService.hide();
+      this.alertService.save();
+      this.createNotesForm.reset();
+      this.getAllNotes();
+    })
+  }
+  getAllNotes() {
+    // this.loaderService.show();
+    // this.operation.getAllNotes().subscribe(success => {
+    //   console.log(success);
+    //   this.loaderService.hide();
+    //   this.apiResponse = success.map(e => {
+    //     return {
+    //       id: e.payload.doc.id,
+    //       title: e.payload.doc.data()['title'],
+    //       description: e.payload.doc.data()['description'],
+    //       link: e.payload.doc.data()['link'],
+    //     };
+    //   })
+    //   console.log(this.apiResponse);
+    // })
+  }
 
   getAllBooks() {
     this.loaderService.show();

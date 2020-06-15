@@ -17,6 +17,7 @@ export class UsersComponent implements OnInit {
   apiResponse: any = [];
   subscription: Subscription;
   updateUserForm: FormGroup;
+  permissionUserForm: FormGroup;
   constructor(private operation: OperationsService,
     private loaderService: LoaderService,
     private confirmationDialogService: ConfirmationDialogService,
@@ -35,7 +36,15 @@ export class UsersComponent implements OnInit {
       id: [''],
       usertype: ['', Validators.required],
       status: ['', Validators.required],
-      courseEndDate: ['']
+      courseEndDate: [''],
+      batch: ['', Validators.required],
+      membership: ['', Validators.required]
+    });
+    this.permissionUserForm = this.formBuilder.group({
+      id: [''],
+      video: [false],
+      task: [false],
+      test: [false]
     });
     this.getAllUsers();
   }
@@ -76,7 +85,9 @@ export class UsersComponent implements OnInit {
       id: user.id,
       usertype: user.userType,
       status: user.status,
-      courseEndDate: user.courseEndDate
+      courseEndDate: user.courseEndDate,
+      batch: 'A',
+      membership: 'Gold'
     });
   }
 
@@ -85,6 +96,8 @@ export class UsersComponent implements OnInit {
     record['userType'] = this.updateUserForm.value.usertype;
     record['status'] = this.updateUserForm.value.status;
     record['course_end_date'] = this.updateUserForm.value.courseEndDate;
+    record['batch'] = this.updateUserForm.value.batch;
+    record['membership'] = this.updateUserForm.value.membership;
     this.loaderService.show();
     this.operation.updateUsers(this.updateUserForm.value.id, record).then(success => {
       this.loaderService.hide();
@@ -96,6 +109,28 @@ export class UsersComponent implements OnInit {
   onDeleteUser() {
     this.confirmationDialogService.show();
     // this.alertService.delete();
+  }
+
+  onEditPermissionUser(user) {
+    this.permissionUserForm.patchValue({
+      id: user.id,
+      video: user.videoModulePermission,
+      task: user.taskModulePermission,
+      test: user.testModulePermission
+    });
+  }
+
+  onSavePermissionForm() {
+    // let record = {};
+    // record['videoModulePermission'] = this.permissionUserForm.value.usertype;
+    // record['taskModulePermission'] = this.permissionUserForm.value.status;
+    // record['testModulePermission'] = this.permissionUserForm.value.courseEndDate;
+    // this.loaderService.show();
+    // this.operation.updateUsers(this.permissionUserForm.value.id, record).then(success => {
+    //   this.loaderService.hide();
+    //   this.alertService.update();
+    //   this.getAllUsers();
+    // })
   }
 
 }

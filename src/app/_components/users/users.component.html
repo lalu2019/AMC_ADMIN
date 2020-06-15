@@ -39,6 +39,12 @@
           <td>{{user.courseEndDate}}</td>
           <td>
             <span>
+              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#permissionModal"
+                (click)="onEditPermissionUser(user)">
+                <i class="fa fa-lock"></i>
+              </a>
+            </span>
+            <span>
               <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#userModal" (click)="onEditUser(user)">
                 <i class="fa fa-pencil"></i>
               </a>
@@ -88,8 +94,25 @@
             </div>
             <div class="form-group col col-6">
               <label for="Mobilenumber">Course End Data</label>
-              <input type="date" class="form-control"
-              formControlName="courseEndDate">
+              <input type="date" class="form-control" formControlName="courseEndDate">
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Batch<span class="required">*</span></label>
+              <select class="form-control" formControlName="batch">
+                <option value="" disabled hidden>Select </option>
+                <option value="A">A </option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Membership<span class="required">*</span></label>
+              <select class="form-control" formControlName="membership">
+                <option value="" disabled hidden>Select </option>
+                <option value="Silver">Silver</option>
+                <option value="Gold">Gold</option>
+                <option value="Premium">Premium</option>
+              </select>
             </div>
           </div>
         </form>
@@ -98,6 +121,74 @@
         <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-success" [disabled]="!updateUserForm.valid" (click)="onUpdateForm()">
           Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="permissionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">User Permission</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="permissionUserForm">
+          <div class="row">
+            <div class="col col-6">
+              <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>
+                        Permission
+                      </th>
+                      <th>
+                        Module
+                      </th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" formControlName="video">
+                        </div>
+                      <td>Video</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" formControlName="task">
+                        </div>
+                      <td>Task</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" formControlName="test">
+                        </div>
+                      <td>Test</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" [disabled]="!updateUserForm.valid"
+          (click)="onSavePermissionForm()">
+          Save
         </button>
       </div>
     </div>
