@@ -149,7 +149,6 @@ export class TasksComponent implements OnInit {
   }
 
   onEditTask(task) {
-    debugger;
     this.updateTaskForm.patchValue({
       id: task.id,
       title: task.title,

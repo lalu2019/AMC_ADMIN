@@ -99,7 +99,6 @@ export class TestsComponent implements OnInit {
   }
 
   onEditTest(test) {
-    debugger;
     // this.updateTestForm.patchValue({
     //   id: test.id,
     //   title: test.title,

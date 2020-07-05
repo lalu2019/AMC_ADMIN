@@ -221,7 +221,6 @@ export class CommonComponent implements OnInit {
   }
 
   editTips(selected) {
-    debugger;
     this.tipsForm.controls.id.setValue(selected.id)
     this.tipsForm.controls.title.setValue(selected.title)
     this.tipsForm.controls.description.setValue(selected.description)
@@ -349,7 +348,6 @@ export class CommonComponent implements OnInit {
   }
 
   editBooks(selected) {
-    debugger;
     this.createBook.controls.id.setValue(selected.id)
     this.createBook.controls.title.setValue(selected.title)
     this.createBook.controls.description.setValue(selected.description)
@@ -390,7 +388,6 @@ export class CommonComponent implements OnInit {
   }
 
   editStory(selected) {
-    debugger;
     this.createStoryForm.controls.id.setValue(selected.id)
     this.createStoryForm.controls.title.setValue(selected.title)
     this.createStoryForm.controls.description.setValue(selected.description)
@@ -584,7 +581,6 @@ export class CommonComponent implements OnInit {
 
 
   editContact(selected) {
-    debugger;
     this.contacUsForm.controls.id.setValue(selected.id)
     this.contacUsForm.controls.title.setValue(selected.title)
     this.contacUsForm.controls.Name.setValue(selected.Name)

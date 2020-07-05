@@ -76,7 +76,6 @@ export class VideosComponent implements OnInit {
   ) {
     this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
       if (status) {
-        // debugger;
         this.loaderService.show();
         this.operation.deletVideo(this.deleteVideoId).then(success => {
           console.log(success);
@@ -120,7 +119,6 @@ export class VideosComponent implements OnInit {
     this.loaderService.show();
     this.operation.getCaetgories().subscribe(success => {
       this.loaderService.hide();
-      debugger;
       this.videoCategory = success.map(e => {
         return {
           id: e.payload.doc.id,
@@ -176,7 +174,6 @@ export class VideosComponent implements OnInit {
   }
 
   onEditVideo(video) {
-    debugger;
     this.videoForm.patchValue({
       id: video.id,
       title: video.title,
@@ -191,7 +188,6 @@ export class VideosComponent implements OnInit {
     record['description'] = this.videoForm.value.description
     record['link'] = this.videoForm.value.link
     record['Accessibility'] = this.videoForm.value.Accessibility
-    debugger;
     this.loaderService.show();
     this.operation.updateVideo(this.videoForm.value.id, record).then(success => {
       this.loaderService.hide();

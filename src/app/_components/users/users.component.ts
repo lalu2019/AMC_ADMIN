@@ -58,9 +58,7 @@ export class UsersComponent implements OnInit {
     this.operation.getAllUsers().subscribe(success => {
       console.log(success);
       this.loaderService.hide();
-      debugger;
       this.apiResponse = success.map(e => {
-        debugger;
         return {
           id: e.payload.doc.id,
           FullName: e.payload.doc.data()['FullName'],
@@ -80,7 +78,6 @@ export class UsersComponent implements OnInit {
   }
 
   onEditUser(user) {
-    debugger;
     this.updateUserForm.patchValue({
       id: user.id,
       usertype: user.userType,

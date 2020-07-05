@@ -106,9 +106,7 @@ export class DashboardComponent implements OnInit {
     this.operation.getInquiry().subscribe(success => {
       console.log(success);
       this.loaderService.hide();
-      debugger;
       this.enquiryList = success.map(e => {
-        debugger;
         return {
           id: e.payload.doc.id,
           FullName: e.payload.doc.data()['FullName'],
@@ -171,7 +169,6 @@ export class DashboardComponent implements OnInit {
   getAllUsers() {
     this.operation.getAllUsers().subscribe(success => {
       this.userListData = success.map(e => {
-        debugger
         if (e.payload.doc.data()['status'] == 'Active') {
           this.activeUsers += 1;
         }
