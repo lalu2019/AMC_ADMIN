@@ -23,8 +23,8 @@
               </div>
 
               <div class="col col-6 form-group">
-                <angular-editor id="taskCreateEditor" formControlName="description" [config]="editorConfig"></angular-editor>
-                <!-- <input class="form-control" placeholder="Enter Description" formControlName="description"> -->
+                <!-- <angular-editor id="taskCreateEditor" formControlName="description" [config]="editorConfig"></angular-editor> -->
+                <input class="form-control" placeholder="Enter Description" formControlName="description">
               </div>
             </div>
             <div align="center" style="margin-top:20px">
@@ -46,11 +46,10 @@
           <!-- <th>#</th> -->
           <th>Title</th>
           <th>Description</th>
-          <th>Link</th>
-          <th>Create Date</th>
-          <th>Status</th>
+          <th>Reference</th>
+          <th>End Date</th>
+          <!-- <th>Status</th> -->
           <th>Action</th>
-
         </tr>
       </thead>
       <tbody>
@@ -60,8 +59,8 @@
           <td>{{task.title}}</td>
           <td [innerHTML]="task.description"></td>
           <td>{{task.link}}</td>
-          <td>{{task.createdDate}}</td>
-          <td>{{task.status}}</td>
+          <td>{{task.endDate}}</td>
+          <!-- <td>{{task.status}}</td> -->
           <td>
             <span>
               <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#commentTaskModal">
@@ -93,7 +92,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Video</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -106,9 +105,16 @@
           </div>
           <div class="form-group">
             <label for="description">Description<span class="required">*</span></label>
-            <angular-editor id="taskEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
-            <!-- <input class="form-control" placeholder="Enter Description" formControlName="description"> -->
+            <!-- <angular-editor id="taskEditEditor" formControlName="description" [config]="editorConfig"></angular-editor> -->
+            <input class="form-control" placeholder="Enter Description" formControlName="description">
           </div>
+          <div class="form-group">
+            <input class="form-control" placeholder="Reference Link" formControlName="link">
+          </div>
+          <div class="form-group">
+            <input type="date" class="form-control" placeholder="End Date" formControlName="endDate">
+          </div>
+
         </form>
       </div>
       <div class="modal-footer">

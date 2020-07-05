@@ -104,6 +104,8 @@ export class TasksComponent implements OnInit {
       id: [''],
       title: ['', Validators.required],
       description: ['', Validators.required],
+      endDate: ['', Validators.required],
+      link: [''],
     });
     this.getAllTask();
   }
@@ -124,6 +126,7 @@ export class TasksComponent implements OnInit {
           description: e.payload.doc.data()['description'],
           status: e.payload.doc.data()['status'],
           link: e.payload.doc.data()['link'],
+          endDate:e.payload.doc.data()['endDate'],
           createdDate: e.payload.doc.data()['createdDate']
         };
       })
@@ -149,11 +152,13 @@ export class TasksComponent implements OnInit {
   }
 
   onEditTask(task) {
-    debugger;
+    console.log(task.endDate);
     this.updateTaskForm.patchValue({
       id: task.id,
       title: task.title,
       description: task.description,
+      link:task.link,
+      endDate:task.endDate
     });
   }
 
@@ -166,6 +171,9 @@ export class TasksComponent implements OnInit {
     let record = {};
     record['title'] = this.updateTaskForm.value.title
     record['description'] = this.updateTaskForm.value.description
+    record['link'] = this.updateTaskForm.value.link
+    record['endDate'] = this.updateTaskForm.value.endDate
+
     this.loaderService.show();
     this.operation.updateTask(this.updateTaskForm.value.id, record).then(success => {
       this.loaderService.hide();
