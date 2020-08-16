@@ -8,35 +8,73 @@
     <div class="row">
       <div class="col">
         <div class="customSection">
-          <div class="dashboard-grid-heading">Create Task</div>
+          <div class="dashboard-grid-heading">Create Test</div>
           <form [formGroup]="createTestForm" (ngSubmit)="addNewTest()">
             <div class="row task-form">
               <div class="col col-6 form-group">
-                <input type="text" class="form-control" id="firstName" placeholder="First Name" formControlName="firstName">
+                <input type="text" class="form-control" id="testname" placeholder="Test Name" formControlName="testname">
               </div>
               
               <div class="col col-6 form-group">
-                <input class="form-control" placeholder="Lastname" formControlName="lastName">
+                <input class="form-control" placeholder="Description" formControlName="description">
               </div>
+                  <div class="col col-6 form-group">
+                      <select class="form-control" formControlName="testtime">
+                        <option value="" selected hidden disabled>Test Time</option>
+                        <option value="90">90 Min</option>
+                        <option value="60">60 Min</option>
+                        <option value="45">45 Min</option>
+                        <option value="30">30 Min</option>
+                        <option value="15">15 Min</option>
+                      </select>
+                  </div>
+             
               <div class="col col-6 form-group">
-                <input type="number" class="form-control" placeholder="Age" formControlName="age">
+                  <select class="form-control" formControlName="year">
+                    <option value="" selected hidden disabled>Year</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                    <option value="2014">2014</option>
+                    <option value="2013">2013</option>
+                    <option value="2012">2012</option>
+                    <option value="2011">2011</option>
+                    <option value="2010">2010</option>
+                  </select>
+                </div>
+              <div class="col col-6 form-group">
+                  <select class="form-control" formControlName="category">
+                      <option value="" selected hidden disabled>Category</option>
+                      <option value="Previous Year">Previous Year</option>
+                      <option value="AIAPGET Free Test">AIAPGET Free Test</option>
+                      <option value="AIAPGET Regular Test"> AIAPGET 2021 Test Series</option>
+                     
+                      <option value="Samitha Wise">Samitha Wise</option>
+                      <option value="Subject Wise">Subject Wise</option>
+                    </select>
               </div>
 
-              <div class="col col-6 form-group">
-                <input type="text" class="form-control" placeholder="Country" formControlName="country">
-              </div>
+              <!-- <div class="col col-6 form-group">
+                  <select class="form-control" formControlName="childcategory">
+                      <option value="" selected hidden disabled>Child Category</option>
+                      <option value="Previous Year">Previous Year</option>
+                      <option value="AIAPGET Free Test">AIAPGET Free Test</option>
+                      <option value="Samitha Wise">Samitha Wise</option>
+                      <option value="Subject Wise">Subject Wise</option>
+                    </select>
+              </div> -->
+              
 
-              <div class="col col-6 form-group">
-                <input type="text" class="form-control" placeholder="City" formControlName="city">
-              </div>
-
-              <div class="col col-6 form-group">
-                <select class="form-control" formControlName="sex">
-                  <option value="" selected hidden disabled>Sex</option>
-                  <option value="maie">Male</option>
-                  <option value="maie">Female</option>
-                </select>
-              </div>
+               <div class="col col-6 form-group">
+                  <input class="form-control" type="file" id="fileImport" placeholder="Question Sheet" formControlName="excelFile" >
+               </div>
+            
             </div>
             <div align="center" style="margin-top:20px">
               <button type="submit" class="btn btn-success" [disabled]="!createTestForm.valid"
@@ -54,41 +92,36 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>#</th>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Age</th>
-          <th>City</th>
-          <th>Country</th>
-          <th>Sex</th>
-          <th>Example</th>
-          <th>Example</th>
-          <th>Example</th>
-          <th>Example</th>
-          <th>Status</th>
+          <th>Test Name</th>
+          <th>Description</th>
+          <th>Test Time</th>
+          <th>Questions</th>
+          <th>Marks</th>
+          <th>Year</th>
+          <th>Category</th>
+          <th>Created Date</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>Anna</td>
-          <td>Pitt</td>
-          <td>35</td>
-          <td>New York</td>
-          <td>USA</td>
-          <td>Female</td>
-          <td>Yes</td>
-          <td>Yes</td>
-          <td>Yes</td>
-          <td>Yes</td>
-          <td>
+        <tr *ngFor="let item of apiResponse">
+          <td>{{item.testname}}</td>
+          <td>{{item.description}}</td>
+          <td>{{item.testtime}}</td>
+          <td>{{item.totalquestion}}</td>
+          <td>{{item.marks}}</td>
+          <td>{{item.year}}</td>
+          <td>{{item.category}}</td> 
+          <td>{{item.createdDate}}</td>
+      
+          <td style="width:130px;">
             <span>
-              <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#testModal" (click)="onEditTest('test')">
+              <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#testModal" (click)="onEditTest(item)">
                 <i class="fa fa-pencil"></i>
               </a>
             </span>
             <span>
-              <a class="delete-action-btn" (click)="deleteTest('test')">
+              <a class="delete-action-btn" (click)="deleteTest(item)">
                 <i class="fa fa-trash"></i>
               </a>
             </span>
@@ -98,66 +131,4 @@
     </table>
   </div>
 </div>
-</div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Test</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="updateTestForm" autocomplete="off" novalidate>
-          <!-- <div class="form-group">
-            <label for="title">Title<span class="required">*</span></label>
-            <input type="text" class="form-control" id="title" formControlName="title">
-          </div> -->
-          <div class="form-group">
-            <label for="title">First Name<span class="required">*</span></label>
-            <input type="text" class="form-control" id="firstName" placeholder="First Name" formControlName="firstName">
-          </div>
-          
-          <div class="form-group">
-            <label for="title">Last Name<span class="required">*</span></label>
-            <input class="form-control" placeholder="Lastname" formControlName="lastName">
-          </div>
-          <div class="form-group">
-            <label for="title">Age<span class="required">*</span></label>
-            <input type="number" class="form-control" placeholder="Age" formControlName="age">
-          </div>
-
-          <div class="form-group">
-            <label for="title">Country<span class="required">*</span></label>
-            <input type="text" class="form-control" placeholder="Country" formControlName="country">
-          </div>
-
-          <div class="form-group">
-            <label for="title">City<span class="required">*</span></label>
-            <input type="text" class="form-control" placeholder="City" formControlName="city">
-          </div>
-
-          <div class="form-group">
-            <label for="title">Sex<span class="required">*</span></label>
-            <select class="form-control" formControlName="sex">
-              <option value="" selected hidden disabled>Sex</option>
-              <option value="maie">Male</option>
-              <option value="maie">Female</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" [disabled]="!updateTestForm.valid" (click)="onUpdateForm()">
-          Update
-        </button>
-      </div>
-    </div>
-  </div>
 </div>

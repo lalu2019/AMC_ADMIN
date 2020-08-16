@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { OperationsService } from '../../_services/operations.service'
+import { AlertService } from 'src/app/_services/alert.service';
 import { LoaderService } from 'src/app/_services/loader.service';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
-import { AlertService } from 'src/app/_services/alert.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({

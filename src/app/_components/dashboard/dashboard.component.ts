@@ -64,9 +64,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
 
     this.sendNotificationForm = this.formBuilder.group({
-      messageText: ['', Validators.required],
-      messageLabel: ['', Validators.required],
-      topic: ['', Validators.required]
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      // topic: ['', Validators.required]
     });
 
 
@@ -101,14 +101,19 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  addNewNotifications(){
+
+    this.operation.sendPushNotification(this.sendNotificationForm.value.title, this.sendNotificationForm.value.description, '') 
+    this.alertService.save();
+    this.sendNotificationForm.reset();
+  }
+
   enquiry() {
     this.loaderService.show();
     this.operation.getInquiry().subscribe(success => {
       console.log(success);
       this.loaderService.hide();
-      debugger;
       this.enquiryList = success.map(e => {
-        debugger;
         return {
           id: e.payload.doc.id,
           FullName: e.payload.doc.data()['FullName'],
@@ -172,7 +177,6 @@ export class DashboardComponent implements OnInit {
   getAllUsers() {
     this.operation.getAllUsers().subscribe(success => {
       this.userListData = success.map(e => {
-        debugger
         if (e.payload.doc.data()['status'] == 'Active') {
           this.activeUsers += 1;
         }
@@ -217,7 +221,5 @@ export class DashboardComponent implements OnInit {
       this.createTaskForm.reset();
     })
   }
-
-
 
 }

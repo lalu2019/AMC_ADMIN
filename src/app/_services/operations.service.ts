@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 // import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 
 import { Observable, Subscription } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
@@ -12,6 +13,7 @@ import { finalize, tap } from 'rxjs/operators';
 export class OperationsService {
 
   constructor(private firestore: AngularFirestore,
+    private http:HttpClient
     // private storage: AngularFireStorage,
   ) { }
 
@@ -56,7 +58,19 @@ export class OperationsService {
 
   //Test Secttion
   createTest(record) {
-    return this.firestore.collection('frbTkn').add(record);
+    return this.firestore.collection('testset').add(record);
+  }
+
+  getAllTest(): Observable<any> {
+    return this.firestore.collection('testset').snapshotChanges();
+  }
+
+  deleteSet(record_id) {
+    return this.firestore.doc('testset/' + record_id).delete();
+  }
+  async insertQuesiton(record){
+    return this.firestore.collection('testset').doc(record.set_id).collection('QuesitonSet').add(record);
+    // return this.firestore.collection('QuesitonSet').add(record);
   }
 
   //Users Section
@@ -156,6 +170,46 @@ export class OperationsService {
   }
   getInquiry(): Observable<any> {
     return this.firestore.collection('Enquery').snapshotChanges();
+  }
+
+  reportQuestion(record) {
+    return this.firestore.collection('reportedQuestion').add(record);
+  }
+  getReportedQuestion() {
+    return this.firestore.collection('reportedQuestion').snapshotChanges();
+   
+  }
+  updateReportedQuestion(recordID, record) {
+    return this.firestore.doc('reportedQuestion/' + recordID).update(record);
+  }
+
+  sendPushNotification(title, description, tokens){
+
+    const headers = new HttpHeaders()
+            .set("Content-Type", "application/json").set("Authorization", "key=AAAA-r1-lgs:APA91bG-7tvD2iPve8L6E5VxV9UfNSuwJE2M5inTrTR8tNb8ZvRdaF3m7Nd1OfJh9quM5WiT77oMQERNSxh_xxHdI7lvJ7MFClDuh08tXYFwSetszO2A_mwnCYYG5HrVlVh6zjRiZfQN")
+       
+              this.http.post("https://fcm.googleapis.com/fcm/send",
+              {
+                "topic" : "marketing",
+                "notification":{
+                    "title":title,
+                    "body":description
+                  },
+                  "to":"/topics/marketing"
+              }, {headers})
+                .subscribe(
+                    (val) => {
+                        console.log("POST call successful value returned in body", 
+                                    val);
+                    },
+                    response => {
+                        console.log("POST call in error", response);
+                    },
+                    () => {
+                        console.log("The POST observable is now completed.");
+                    });
+
+
   }
 
 }

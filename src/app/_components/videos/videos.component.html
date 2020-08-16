@@ -13,10 +13,18 @@
           <form [formGroup]="createClassForm" (ngSubmit)="addNewClass()">
             <div class="row video-form">
               <div class="col col-6 form-group">
-                <select class="form-control" formControlName="category">
+                  <select class="form-control" formControlName="category">
+                      <option value="" selected hidden disabled>Category </option>
+                      <option value="Demo Lectures" >Demo Lectures </option>
+                      <option value="Orientation Lectures">Orientation Lectures </option>
+                      <option value="AIAPGET Regular courses">AIAPGET Regular courses </option>
+                      <option value="BAMS 4TH Year Course">BAMS 4TH Year Course </option>
+                      <option value="Orientation Lectures">Orientation Lectures </option>
+                    </select>
+                <!-- <select class="form-control" formControlName="category">
                   <option value="" selected hidden disabled>Category </option>
                   <option *ngFor="let category of videoCategory" value="{{category.id}}">{{category.title}} </option>
-                </select>
+                </select> -->
               </div>
               <div class="col col-6 form-group">
 
@@ -64,7 +72,7 @@
         <tr>
           <!-- <th>#</th> -->
           <th>Title</th>
-          <th>Description</th>
+          <th>Category</th>
           <th>Link</th>
           <th>Created Date</th>
           <th>Accessibility</th>
@@ -81,12 +89,12 @@
         <tr *ngFor="let video of apiResponse">
           <!-- <td>1</td> -->
           <td>{{video.title}}</td>
-          <td style="width: 100px;" [innerHTML]="video.description"></td>
+          <td >{{video.CatName}}</td>
           <td>{{video.link}}</td>
           <td>{{video.createdDate}}</td>
           <td>All User</td>
           <td>{{video.status}}</td>
-          <td>
+          <td style="width:130px;">
             <span>
               <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#commentVideoModal"  (click)="onCommentVideo()">
                 <i class="fa fa-comment"></i>

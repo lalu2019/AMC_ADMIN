@@ -33,14 +33,13 @@
 
   <!-- <input type="file" id="fileImport" > -->
 
-  <!-- <div style="margin-top:20px">  
-                <div class="row">
-                        <div class="col"> 
-                                <div class="customSection">
-                                <form [formGroup]="createClassForm" (ngSubmit)="addNewClass()">
-                                    <div class="dashboard-grid-heading">Daily Class/Video</div>
+    <div style="margin-top:20px">  
+        <div class="row">
+           <div class="col col-12"> 
+                        <div class="customSection">
+                                <form [formGroup]="sendNotificationForm" (ngSubmit)="addNewNotifications()">
+                                    <div class="dashboard-grid-heading">Send Notification</div>
                                       <div class="row">
-                                          <div class="col col-12">
                                             <div class="col col-12">
                                                 
                                                 <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
@@ -48,59 +47,18 @@
                                             <div class="col col-12">
                                                 <input  class="form-control" placeholder="Enter Description" formControlName="description"> 
                                             </div>
-                                            <div class="col col-12">
-                                                <input  class="form-control" placeholder="Video Link" formControlName="link"> 
-                                            </div>
-                                            <div class="col col-12">
-                                                <select class="form-control" placeholder="Video Source" formControlName="source"> 
-                                                    <option value="" disabled>Video Source </option>
-                                                    <option value="YouTube">YouTube </option>
-                                                    <option value="Vimeo">Vimeo</option>
-                                                </select>
-                                            </div>
                                           
-                                            </div>
-
+                                           
                                         </div>
                                         <div align="center" style="margin-top:20px">
-                                          <button type="button" class="btn btn-success" [disabled]="!createClassForm.valid" (click)="addNewClass()">Submit</button>
+                                          <button type="button" class="btn btn-success" [disabled]="!sendNotificationForm.valid" (click)="addNewNotifications()">Submit</button>
                                         </div>
                                     </form>
                                 </div>    
-                        </div>
+            </div>
                     
-                        <div class="col"> 
-                            <div class="customSection">
-
-                                <form [formGroup]="createTaskForm" (ngSubmit)="addNewTask()">
-                                    <div class="dashboard-grid-heading">Create Task</div>
-                                      <div class="row">
-                                          <div class="col col-12">
-                                            <div class="col col-12">
-                                                <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
-                                            </div>
-                                            <div class="col col-12">
-                                                <input  class="form-control" placeholder="Enter Description" formControlName="description"> 
-                                            </div>
-                                            <div class="col col-12">
-                                                <input  class="form-control" placeholder="Reference Link" formControlName="link"> 
-                                            </div>
-                                             <div class="col col-12">
-                                               <input type="date" class="form-control" placeholder="End Date" formControlName="endDate"> 
-                                             </div>
-                                            </div>
-                                        </div>
-                                        <div align="center" style="margin-top:20px">
-                                          <button type="button" class="btn btn-success" [disabled]="!createTaskForm.valid" (click)="addNewTask()">Submit</button>
-                                        </div>
-                                    </form>
-                               
-                            </div>   
-                           
-                        </div>
-                </div>  
-               
-            </div>  -->
+        </div>  
+      </div>  
 
   <div class="dashboard-user-table">
     <div class="dashboard-grid-heading">Enquiry</div>

@@ -18,6 +18,15 @@ export class UsersComponent implements OnInit {
   subscription: Subscription;
   updateUserForm: FormGroup;
   permissionUserForm: FormGroup;
+  modulePermission:any = [
+    {name:"Course Section", ischecked:true},
+    {name:"Demo Course", ischecked:true},
+    {name:"Full Course", ischecked:true},
+    {name:"Tests Section", ischecked:true},
+    {name:"Task", ischecked:true}
+  ]
+
+
   constructor(private operation: OperationsService,
     private loaderService: LoaderService,
     private confirmationDialogService: ConfirmationDialogService,
@@ -53,14 +62,20 @@ export class UsersComponent implements OnInit {
     this.subscription.unsubscribe();
     this.confirmationDialogService.confirmationYesButtonClick(false);
   }
+
+  checkboxValueChange(event: any, permission: any) {
+    if (permission.ischecked) {
+      permission.ischecked = false;
+    } else {
+      permission.ischecked = true;
+    }
+  }
   getAllUsers() {
     this.loaderService.show();
     this.operation.getAllUsers().subscribe(success => {
       console.log(success);
       this.loaderService.hide();
-      debugger;
       this.apiResponse = success.map(e => {
-        debugger;
         return {
           id: e.payload.doc.id,
           FullName: e.payload.doc.data()['FullName'],
@@ -73,6 +88,12 @@ export class UsersComponent implements OnInit {
           userType: e.payload.doc.data()['userType'],
           status: e.payload.doc.data()['status'],
           courseEndDate: e.payload.doc.data()['course_end_date'],
+          course:e.payload.doc.data()['course'],
+          test:e.payload.doc.data()['test'],
+          task:e.payload.doc.data()['task'],
+          democoursee:e.payload.doc.data()['democoursee'],
+          fullcourse:e.payload.doc.data()['fullcourse']
+        
         };
       })
       console.log(this.apiResponse);
@@ -80,7 +101,6 @@ export class UsersComponent implements OnInit {
   }
 
   onEditUser(user) {
-    debugger;
     this.updateUserForm.patchValue({
       id: user.id,
       usertype: user.userType,
@@ -112,25 +132,76 @@ export class UsersComponent implements OnInit {
   }
 
   onEditPermissionUser(user) {
+
+    for(let i=0; i < this.modulePermission.length; i++){
+      console.log()
+      if(this.modulePermission[i].name == 'Course Section'){
+       this.modulePermission[i].ischecked = user.course
+      }
+      if(this.modulePermission[i].name == 'Tests Section'){
+        this.modulePermission[i].ischecked = user.test
+      }
+      if(this.modulePermission[i].name == 'Task'){
+        this.modulePermission[i].ischecked = user.task
+      }
+      if(this.modulePermission[i].name == 'Demo Course'){
+        this.modulePermission[i].ischecked = user.democoursee
+      }
+      if(this.modulePermission[i].name == 'Full Course'){
+        this.modulePermission[i].ischecked = user.fullcourse
+      }
+    }
+
+
     this.permissionUserForm.patchValue({
       id: user.id,
-      video: user.videoModulePermission,
-      task: user.taskModulePermission,
-      test: user.testModulePermission
+      // video: user.videoModulePermission,
+      // task: user.taskModulePermission,
+      // test: user.testModulePermission
     });
   }
 
   onSavePermissionForm() {
+    console.log(this.modulePermission)
+      let permissions = {
+          course:true,
+          test:true,
+          task:true,
+          democoursee:true,
+          fullcourse:true
+      }
+      for(let i=0; i < this.modulePermission.length; i++){
+        console.log()
+        if(this.modulePermission[i].name == 'Course Section'){
+          permissions.course = this.modulePermission[i].ischecked
+        }
+        if(this.modulePermission[i].name == 'Tests Section'){
+          permissions.test = this.modulePermission[i].ischecked
+        }
+        if(this.modulePermission[i].name == 'Task'){
+          permissions.task = this.modulePermission[i].ischecked
+        }
+        if(this.modulePermission[i].name == 'Demo Course'){
+          permissions.democoursee = this.modulePermission[i].ischecked
+        }
+        if(this.modulePermission[i].name == 'Full Course'){
+          permissions.fullcourse = this.modulePermission[i].ischecked
+        }
+      }
+      console.log(permissions);
     // let record = {};
-    // record['videoModulePermission'] = this.permissionUserForm.value.usertype;
-    // record['taskModulePermission'] = this.permissionUserForm.value.status;
-    // record['testModulePermission'] = this.permissionUserForm.value.courseEndDate;
-    // this.loaderService.show();
-    // this.operation.updateUsers(this.permissionUserForm.value.id, record).then(success => {
-    //   this.loaderService.hide();
-    //   this.alertService.update();
-    //   this.getAllUsers();
-    // })
+    // record['course'] = permissions.test;
+    // record['democoursee'] = permissions.test;
+    // record['fullcourse'] = this.permissionUserForm.value.courseEndDate;
+    // record['task'] = this.permissionUserForm.value.usertype;
+    // record['test'] = permissions.test;
+
+    this.loaderService.show();
+    this.operation.updateUsers(this.permissionUserForm.value.id, permissions).then(success => {
+      this.loaderService.hide();
+      this.alertService.update();
+      this.getAllUsers();
+    })
   }
 
 }

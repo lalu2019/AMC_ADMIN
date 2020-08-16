@@ -22,6 +22,8 @@ export class CommonComponent implements OnInit {
   createSyllabusForm: FormGroup;
   createNotesForm: FormGroup;
   contacUsForm: FormGroup;
+  reportedQuestionForm: FormGroup;
+
 
   isActiveButton: any = 'btn1'
 
@@ -29,6 +31,7 @@ export class CommonComponent implements OnInit {
   BookList: any = [];
   membershipList: any = [];
   contactUslList: any = [];
+  reportedQuestion:any = [];
   tipsList: any = [];
   selectedRecordForEdit: any = {};
 
@@ -163,6 +166,7 @@ export class CommonComponent implements OnInit {
     this.getContact();
     this.getMemberships();
     this.getTips();
+    this.getAllReported();
 
     this.createStoryForm = this.formBuilder.group({
       id: [''],
@@ -218,10 +222,21 @@ export class CommonComponent implements OnInit {
       offer_terms: ['']
     });
 
+    this.reportedQuestionForm = this.formBuilder.group({
+      id: [''],
+      Question: [''],
+      a: [''],
+      b: [''],
+      c: [''],
+      d: [''],
+      answer: [''],
+      comment: ['', Validators.required],
+      admin_comment: ['', Validators.required],
+    });
+
   }
 
   editTips(selected) {
-    debugger;
     this.tipsForm.controls.id.setValue(selected.id)
     this.tipsForm.controls.title.setValue(selected.title)
     this.tipsForm.controls.description.setValue(selected.description)
@@ -349,7 +364,6 @@ export class CommonComponent implements OnInit {
   }
 
   editBooks(selected) {
-    debugger;
     this.createBook.controls.id.setValue(selected.id)
     this.createBook.controls.title.setValue(selected.title)
     this.createBook.controls.description.setValue(selected.description)
@@ -390,7 +404,6 @@ export class CommonComponent implements OnInit {
   }
 
   editStory(selected) {
-    debugger;
     this.createStoryForm.controls.id.setValue(selected.id)
     this.createStoryForm.controls.title.setValue(selected.title)
     this.createStoryForm.controls.description.setValue(selected.description)
@@ -584,7 +597,6 @@ export class CommonComponent implements OnInit {
 
 
   editContact(selected) {
-    debugger;
     this.contacUsForm.controls.id.setValue(selected.id)
     this.contacUsForm.controls.title.setValue(selected.title)
     this.contacUsForm.controls.Name.setValue(selected.Name)
@@ -640,6 +652,50 @@ export class CommonComponent implements OnInit {
       })
       console.log(this.contactUslList);
     })
+  }
+
+  getAllReported() {
+    this.operation.getReportedQuestion().subscribe((ref) => {
+      this.reportedQuestion = ref.map(e => {
+        return {
+          id: e.payload.doc.id,
+          Question: e.payload.doc.data()['Question'],
+          set_id: e.payload.doc.data()['set_id'],
+          a: e.payload.doc.data()['a'],
+          b: e.payload.doc.data()['b'],
+          c: e.payload.doc.data()['c'],
+          d: e.payload.doc.data()['d'],
+          answer: e.payload.doc.data()['answer'],
+          comment: e.payload.doc.data()['comment'],
+          test_id: e.payload.doc.data()['test_id'],
+          admin_comment: e.payload.doc.data()['admin_comment']
+          
+        };
+      })
+      console.log(this.reportedQuestion);
+    })
+  }
+
+  onEditQuestion(value){
+    this.reportedQuestionForm.controls.id.setValue(value.id)
+    this.reportedQuestionForm.controls.Question.setValue(value.Question)
+    this.reportedQuestionForm.controls.a.setValue(value.a)
+    this.reportedQuestionForm.controls.b.setValue(value.b)
+    this.reportedQuestionForm.controls.c.setValue(value.c)
+    this.reportedQuestionForm.controls.d.setValue(value.d)
+    this.reportedQuestionForm.controls.answer.setValue(value.answer)
+    this.reportedQuestionForm.controls.admin_comment.setValue(value.admin_comment)
+    this.reportedQuestionForm.controls.comment.setValue(value.comment)
+    
+  }
+
+  onSubmitReportedQuestion(){
+    let record = {}
+     record["admin_comment"] = this.reportedQuestionForm.value.admin_comment
+    this.operation.updateReportedQuestion(this.reportedQuestionForm.value.id, record).then(success =>{
+      this.getAllReported();
+    });
+    
   }
 
   deleteConfirmation(value, type) {
