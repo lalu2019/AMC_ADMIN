@@ -67,6 +67,27 @@ export class VideosComponent implements OnInit {
     ]
   };
 
+  categoryList: any = [{title: "Charak Samhita Poorvardh", icon: "charak_samhita_poorvardha.png"},
+  {title: "Charak Samhita Uttardha", icon: "charak_samhita_uttardha.png"},
+  {title: "Sushruta Samhita Poorvardha", icon: "sushruta_samhita_poorvardha.png"},
+  {title: "Sushruta Samhita Uttartantra", icon: "sushruta_samhita.png"},
+   {title: "Ashtang hridya", icon: "ashtand_hridya.png"},
+  {title: "Laghu Trayee & Other Samhitas", icon: "laghu_trayee.png"},
+  {title: "Padarth Vigyan", icon: "padarth_vigyan.png"},
+  {title: "Itihasa", icon: "itihasa.png"},
+  {title: "Kriya Sharira", icon: "kriya_sharira.png"},
+   {title: "Rachna Sharira", icon: "rachna_sharira.png"},
+   {title: "Sanskrit", icon: "sanskrit.png"},
+  {title: "Dravya Guna", icon: "dravya_guna"},
+  {title: "Rasa-shastra & Bhaishajya Kalpana", icon: "bhaishajya_kalpana.png"},
+  {title: "Agad Tantra", icon: "agad_tantra.png"},
+    {title: "Roga - nidana", icon: "roga_nidana.png"},
+   {title: "Prasuti Tantra & Stri Vigyan", icon: "prasuti_tantra.png"},
+   {title: "Kayachikitsa", icon: "kayachikitsa.png"},
+  {title: "Panchakarma", icon: "panchakarma.png"},
+  {title: "Research methodology & Medical statistics", icon: "research_methodology.png"},
+  {title: "Modern", icon: "modern.png"}] 
+
   constructor(
     private operation: OperationsService,
     private loaderService: LoaderService,
@@ -91,8 +112,13 @@ export class VideosComponent implements OnInit {
     this.videoForm = this.formBuilder.group({
       id: [''],
       title: ['', Validators.required],
-      description: ['', Validators.required],
-      link: ['', Validators.required]
+      description: ['', ],
+      source: ['Vimeo', Validators.required],
+      link: ['', Validators.required],
+      Accessibility: ['Free', Validators.required],
+      endDate:['', Validators.required],
+      childcategory: [''],
+
     });
     this.createClassForm = this.formBuilder.group({
       category: ['', Validators.required],
@@ -101,6 +127,8 @@ export class VideosComponent implements OnInit {
       link: ['', Validators.required],
       source: ['Vimeo', Validators.required],
       Accessibility: ['Free', Validators.required],
+      endDate:['', Validators.required],
+      childcategory: [''],
 
     });
     this.commentVideoForm = this.formBuilder.group({
@@ -142,7 +170,10 @@ export class VideosComponent implements OnInit {
           link: e.payload.doc.data()['link'],
           Accessibility: e.payload.doc.data()['link'],
           createdDate: e.payload.doc.data()['createdDate'],
-          CatName:e.payload.doc.data()['CatName']
+          CatName:e.payload.doc.data()['CatName'],
+          source:e.payload.doc.data()['source'],
+          endDate:e.payload.doc.data()['endDate'],
+          childcategory:e.payload.doc.data()['childcategory']
         };
       })
       console.log(this.apiResponse);
@@ -155,12 +186,20 @@ export class VideosComponent implements OnInit {
     });
     let record = {};
     record['CatId'] = this.createClassForm.value.category;
-    record['CatName'] = categoryName[0].title;
+    record['CatName'] = this.createClassForm.value.category;
     record['title'] = this.createClassForm.value.title;
     record['description'] = this.createClassForm.value.description;
     record['link'] = this.createClassForm.value.link;
     record['Accessibility'] = this.createClassForm.value.Accessibility;
+    record['source'] = this.createClassForm.value.source;
     record['status'] = "Active";
+    record['endDate'] = this.createClassForm.value.endDate;
+    if(this.createClassForm.value.childcategory){
+      record['childcategory'] = this.createClassForm.value.childcategory;
+    }else{
+      record['childcategory'] = '';
+    }
+    
     record['createdDate'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
     this.loaderService.show();
     this.operation.createVideo(record).then(success => {
@@ -180,15 +219,19 @@ export class VideosComponent implements OnInit {
       title: video.title,
       description: video.description,
       link: video.link,
+      source:video.source,
+      endDate:video.endDate
     });
   }
 
   onUpdateForm() {
     let record = {};
     record['title'] = this.videoForm.value.title
-    record['description'] = this.videoForm.value.description
+    // record['description'] = this.videoForm.value.description
     record['link'] = this.videoForm.value.link
-    record['Accessibility'] = this.videoForm.value.Accessibility
+    record['Accessibility'] = this.videoForm.value.Accessibility 
+    record['source'] = this.videoForm.value.source;
+    record['endDate'] = this.videoForm.value.endDate;
     this.loaderService.show();
     this.operation.updateVideo(this.videoForm.value.id, record).then(success => {
       this.loaderService.hide();

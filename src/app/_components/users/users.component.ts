@@ -23,7 +23,8 @@ export class UsersComponent implements OnInit {
     {name:"Demo Course", ischecked:true},
     {name:"Full Course", ischecked:true},
     {name:"Tests Section", ischecked:true},
-    {name:"Task", ischecked:true}
+    {name:"Task", ischecked:false},
+    {name:"Notes", ischecked:false}
   ]
 
 
@@ -168,7 +169,8 @@ export class UsersComponent implements OnInit {
           test:true,
           task:true,
           democoursee:true,
-          fullcourse:true
+          fullcourse:true,
+          notes:false,
       }
       for(let i=0; i < this.modulePermission.length; i++){
         console.log()
@@ -186,6 +188,9 @@ export class UsersComponent implements OnInit {
         }
         if(this.modulePermission[i].name == 'Full Course'){
           permissions.fullcourse = this.modulePermission[i].ischecked
+        }
+        if(this.modulePermission[i].name == 'notes'){
+          permissions.notes = this.modulePermission[i].ischecked
         }
       }
       console.log(permissions);

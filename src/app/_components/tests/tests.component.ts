@@ -22,6 +22,85 @@ export class TestsComponent implements OnInit {
   subscription: Subscription;
   UploadedFileContent: any = [];
   test_id:any
+  categoryList: any = [
+    {title: "Padarth Vigyan", icon: "padarth_vigyan.png"},
+    {title: "Itihasa", icon: "itihasa.png"},
+    {title: "Kriya Sharira", icon: "kriya_sharira.png"},
+     {title: "Rachna Sharira", icon: "rachna_sharira.png"},
+     {title: "Sanskrit", icon: "sanskrit.png"},
+    {title: "Dravya Guna", icon: "dravya_guna.png"},
+    {title: "Rasa-shastra & Bhaishajya Kalpana", icon: "bhaishajya_kalpana.png"},
+    {title: "Agad Tantra", icon: "agad_tantra.png"},
+    {title: "Swasthvrit", icon: "SWASTHVRIT.png"},
+      {title: "Roga - nidana", icon: "roga_nidana.png"},
+     {title: "Prasuti Tantra & Stri Vigyan", icon: "prasuti_tantra.png"},
+     {title: "Kaumarbhritya", icon: "kaumar.png"},
+     {title: "Kayachikitsa", icon: "kayachikitsa.png"},
+     {title: "Shalya", icon: "SHALYA.png"},
+     {title: "Shalkya", icon: "SHALKYA.png"},
+
+    {title: "Panchakarma", icon: "panchakarma.png"},
+    {title: "Research methodology & Medical statistics", icon: "research_methodology.png"},
+    {title: "Modern", icon: "modern.png"}] 
+
+    samhitawiseList:any = [
+          {
+            name:"Charak Sutrasthan"
+          },
+          {
+            name:"Charak vimansthana"
+          }
+          ,
+          {
+            name:"Charak Nidansthan"
+          },
+          {
+            name:"Charak Indryasthan"
+          },
+          {
+            name:"Charak sharirstan"
+          },
+          {
+            name:"Charak chikitsasthan"
+          }
+          ,
+          {
+            name:"Charak Sidhisthan"
+          }
+          ,
+          {
+            name:"Charak Kalpsthan"
+          },
+      
+         {
+            name:"Sushruta Sutrasthan"
+          },
+          {
+            name:"Sushruta Sharirsthan"
+          }
+          ,
+          {
+            name:"Sushruta Chikitsasthan"
+          }
+          ,
+          {
+            name:"Sushruta Kalpsthan"
+          }
+          ,
+          {
+            name:"Sushruta Nidansthan"
+          }
+          ,
+          {
+            name:"Sushruta Uttartantra"
+          }, 
+      
+        {
+            name:"Astang Hridye & Other Samhita"
+          },
+      
+        ]
+      
 
   constructor(
     private loaderService: LoaderService,
@@ -48,13 +127,14 @@ export class TestsComponent implements OnInit {
     this.createTestForm = this.formBuilder.group({
       testname: ['', Validators.required],
       description: ['', Validators.required],
-      testtime: ['90', Validators.required],
+      testtime: ['90'],
       totalquestion: [''],
       marks: [''],
       category: ['', Validators.required],
       childcategory: [''],
       year: ['2020', Validators.required],
-      excelFile: ['', Validators.required]
+      excelFile: ['', Validators.required],
+      orderIndex:['']
     });
 
     this.updateTestForm = this.formBuilder.group({
@@ -73,13 +153,17 @@ export class TestsComponent implements OnInit {
     const that = this;
     document.getElementById("fileImport").onchange= function(e: Event) {
       let file = (<HTMLInputElement>e.target).files[0];
-      console.log(file);
+      // console.log(file);
       readXlsxFile(file).then((rows) => {
-        console.log(rows);
+        let localArray = [];
        //  that.UploadedFileContent = rows;
          for(let i=0;i<rows.length; i ++){
+          // localArray.push({title:rows[i][0], icon:rows[i][1]})
+
           that.UploadedFileContent.push(rows[i]);
          }
+         console.log(localArray);
+
       })
      }
 
@@ -108,7 +192,8 @@ export class TestsComponent implements OnInit {
           marks: e.payload.doc.data()['marks'],
           category: e.payload.doc.data()['category'],
           year: e.payload.doc.data()['year'],
-          createdDate: e.payload.doc.data()['createdDate']
+          createdDate: e.payload.doc.data()['createdDate'],
+          childcategory:e.payload.doc.data()['childcategory']
         };
       })
       console.log(this.apiResponse);
@@ -123,12 +208,18 @@ export class TestsComponent implements OnInit {
     let record = {};
     record['testname'] = this.createTestForm.value.testname
     record['description'] = this.createTestForm.value.description
-    record['testtime'] = this.createTestForm.value.testtime
+    record['testtime'] = this.UploadedFileContent.length
     record['totalquestion'] = this.UploadedFileContent.length;
     record['marks'] = this.UploadedFileContent.length *4;
     record['category'] = this.createTestForm.value.category;
     record['year'] = this.createTestForm.value.year;
     // record['questions'] =this.UploadedFileContent;
+    if(this.createTestForm.value.childcategory){
+      record['childcategory'] = this.createTestForm.value.childcategory;
+    }else{
+      record['childcategory'] = '';
+    }
+    record['orderIndex'] =  this.createTestForm.value.orderIndex;
     record['createdDate'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
     this.loaderService.show();
     this.operation.createTest(record).then(success => {

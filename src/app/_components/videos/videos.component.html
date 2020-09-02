@@ -19,12 +19,16 @@
                       <option value="Orientation Lectures">Orientation Lectures </option>
                       <option value="AIAPGET Regular courses">AIAPGET Regular courses </option>
                       <option value="BAMS 4TH Year Course">BAMS 4TH Year Course </option>
-                      <option value="Orientation Lectures">Orientation Lectures </option>
+                      <!-- <option value="Orientation Lectures">Orientation Lectures </option> -->
                     </select>
-                <!-- <select class="form-control" formControlName="category">
-                  <option value="" selected hidden disabled>Category </option>
-                  <option *ngFor="let category of videoCategory" value="{{category.id}}">{{category.title}} </option>
-                </select> -->
+               
+              </div>
+              <div class="col col-6 form-group" *ngIf="createClassForm.value.category == 'AIAPGET Regular courses' || createClassForm.value.category == 'BAMS 4TH Year Course'">
+                  <select class="form-control" formControlName="childcategory">
+                      <option value="" selected hidden disabled>Child Category</option>
+                      <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+                     ]
+                    </select>
               </div>
               <div class="col col-6 form-group">
 
@@ -50,7 +54,11 @@
               </div>
 
               <div class="col col-6 form-group">
-                <angular-editor id="videoCreateEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+
+                <label > End Data</label>
+                <input type="date" class="form-control" formControlName="endDate">
+                <!-- <input class="form-control" placeholder="Enter Description" formControlName="description"> -->
+                <!-- <angular-editor id="videoCreateEditor" formControlName="description" [config]="editorConfig"></angular-editor> -->
                 <!-- <input class="form-control" placeholder="Enter Description" formControlName="description"> -->
               </div>
 
@@ -75,7 +83,7 @@
           <th>Category</th>
           <th>Link</th>
           <th>Created Date</th>
-          <th>Accessibility</th>
+          <th>End Date</th>
           <th>Status</th>
 
           <th>Action</th>
@@ -92,7 +100,7 @@
           <td >{{video.CatName}}</td>
           <td>{{video.link}}</td>
           <td>{{video.createdDate}}</td>
-          <td>All User</td>
+          <td>{{video.endDate}}</td>
           <td>{{video.status}}</td>
           <td style="width:130px;">
             <span>
@@ -144,20 +152,41 @@
             <label for="title">Title<span class="required">*</span></label>
             <input type="text" class="form-control" id="title" formControlName="title">
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="description">Description<span class="required">*</span></label>
             <angular-editor id="videoEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
-            <!-- <textarea class="form-control" id="description" formControlName="description"></textarea> -->
+            <textarea class="form-control" id="description" formControlName="description"></textarea>
+          </div> -->
+          <div class="col  form-group">
+            <label for="title">Accessibility<span class="required">*</span></label>
+            <select class="form-control" formControlName="Accessibility">
+              <option value="" disabled>Accessibility </option>
+              <option value="Free">Free </option>
+              <option value="Paid">Paid</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="link">Link<span class="required">*</span></label>
             <input type="url" class="form-control" id="link" formControlName="link">
           </div>
+          <div class="col  form-group">
+            <label for="title">Video Source<span class="required">*</span></label>
+
+            <select class="form-control" placeholder="Video Source" formControlName="source">
+              <option value="" disabled>Video Source </option>
+              <option value="YouTube">YouTube </option>
+              <option value="Vimeo">Vimeo</option>
+            </select>
+          </div>
+          <div class="form-group">
+              <label for="link">End Date<span class="required">*</span></label>
+              <input type="date" class="form-control" formControlName="endDate">
+            </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" [disabled]="!videoForm.valid" (click)="onUpdateForm()">
+        <button type="button" class="btn btn-success" [disabled]="!videoForm.valid" (click)="onUpdateForm()" data-dismiss="modal">
           Update
         </button>
       </div>
