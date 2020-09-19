@@ -1,6 +1,6 @@
 <div
   class="main-header-title d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mt-3 mb-3 border-bottom">
-  <h1 class="h2">Course Manager</h1>
+  <h1 class="h2">Courses</h1>
 </div>
 <div>
 
@@ -52,7 +52,9 @@
                   <option value="Paid">Paid</option>
                 </select>
               </div>
-
+              <div class="col col-6 form-group">
+                <input type="number" class="form-control" placeholder="Order Index" formControlName="orderIndex">
+              </div>
               <div class="col col-6 form-group">
 
                 <label > End Data</label>
@@ -61,7 +63,7 @@
                 <!-- <angular-editor id="videoCreateEditor" formControlName="description" [config]="editorConfig"></angular-editor> -->
                 <!-- <input class="form-control" placeholder="Enter Description" formControlName="description"> -->
               </div>
-
+            
             </div>
             <div align="center" style="margin-top:20px">
               <button type="button" class="btn btn-success" [disabled]="!createClassForm.valid"
@@ -104,7 +106,7 @@
           <td>{{video.status}}</td>
           <td style="width:130px;">
             <span>
-              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#commentVideoModal"  (click)="onCommentVideo()">
+              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#commentVideoModal"  (click)="onCommentVideo(video)">
                 <i class="fa fa-comment"></i>
               </a>
             </span>
@@ -141,7 +143,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Video</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Video Details</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -157,7 +159,7 @@
             <angular-editor id="videoEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
             <textarea class="form-control" id="description" formControlName="description"></textarea>
           </div> -->
-          <div class="col  form-group">
+          <div class="form-group">
             <label for="title">Accessibility<span class="required">*</span></label>
             <select class="form-control" formControlName="Accessibility">
               <option value="" disabled>Accessibility </option>
@@ -169,7 +171,7 @@
             <label for="link">Link<span class="required">*</span></label>
             <input type="url" class="form-control" id="link" formControlName="link">
           </div>
-          <div class="col  form-group">
+          <div class="form-group">
             <label for="title">Video Source<span class="required">*</span></label>
 
             <select class="form-control" placeholder="Video Source" formControlName="source">
@@ -181,6 +183,26 @@
           <div class="form-group">
               <label for="link">End Date<span class="required">*</span></label>
               <input type="date" class="form-control" formControlName="endDate">
+            </div>
+            
+            <div class="form-group" >
+                <label >Parent Category<span class="required">*</span></label>
+              <select class="form-control" formControlName="childcategory">
+                  <option value="" selected hidden disabled> Category</option>
+                  <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+                 ]
+                </select>
+            </div>
+            <div class=" form-group" >
+                <label >Child Category<span class="required">*</span></label>
+              <select class="form-control" formControlName="childcategory">
+                  <option value="" selected hidden disabled>Child Category</option>
+                  <option *ngFor="let item of samhitawiseList" value="{{item.name}}">{{item.name}}</option>
+                 ]
+                </select>
+            </div>
+            <div class=" form-group">
+              <input type="number" class="form-control" placeholder="Order Index" formControlName="orderIndex">
             </div>
         </form>
       </div>
@@ -206,11 +228,16 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="comment-content clearfix" *ngFor="let comment of commentData">
-          <div class="comment-text pull-left">{{comment.commentText}}</div>
+         <div align="center" *ngIf="commentData.length <= 0">No Comments </div>
+        <div class="comment-content clearfix" *ngFor="let comment of commentData" >
+          
+          <div [ngClass]="getClass(comment)">
+          <div class="comment-text ">{{comment.comment}}</div>
           <div class="comment-date-time pull-right">
-            <span>{{comment.currentDateTime | date: 'MM/dd/yyyy'}}, </span>
-            <span>{{comment.currentDateTime | date: 'h:mm a'}}</span>
+            <span>{{comment.createdDate | date: 'MM/dd/yyyy'}} </span>
+            <span>{{comment.createdDate | date: 'h:mm a'}}</span>
+          </div>
+          <div style="font-size: 10px;">{{comment.userName}}</div>
           </div>
         </div>
       </div>

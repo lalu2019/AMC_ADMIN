@@ -45,32 +45,33 @@ export class TestsComponent implements OnInit {
 
     samhitawiseList:any = [
           {
-            name:"Charak Sutrasthan"
-          },
-          {
-            name:"Charak vimansthana"
-          }
-          ,
-          {
-            name:"Charak Nidansthan"
-          },
-          {
-            name:"Charak Indryasthan"
-          },
-          {
-            name:"Charak sharirstan"
-          },
-          {
-            name:"Charak chikitsasthan"
-          }
-          ,
-          {
-            name:"Charak Sidhisthan"
-          }
-          ,
-          {
-            name:"Charak Kalpsthan"
-          },
+        name:"Charak Sutrasthan"
+      },
+      {
+        name:"Charak vimansthana"
+      }
+      ,
+      {
+        name:"Charak Nidansthan"
+      }
+      ,
+      {
+        name:"Charak Indryasthan"
+      },
+      {
+        name:"Charak sharirstan"
+      },
+      {
+        name:"Charak chikitsasthan"
+      }
+      ,
+      {
+        name:"Charak Sidhisthan"
+      }
+      ,
+      {
+        name:"Charak Kalpsthan"
+      },
       
          {
             name:"Sushruta Sutrasthan"
@@ -95,7 +96,7 @@ export class TestsComponent implements OnInit {
             name:"Sushruta Uttartantra"
           }, 
       
-        {
+          {
             name:"Astang Hridye & Other Samhita"
           },
       
@@ -126,7 +127,7 @@ export class TestsComponent implements OnInit {
   ngOnInit(): void {
     this.createTestForm = this.formBuilder.group({
       testname: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       testtime: ['90'],
       totalquestion: [''],
       marks: [''],
@@ -134,13 +135,13 @@ export class TestsComponent implements OnInit {
       childcategory: [''],
       year: ['2020', Validators.required],
       excelFile: ['', Validators.required],
-      orderIndex:['']
+      orderIndex:['1']
     });
 
     this.updateTestForm = this.formBuilder.group({
       id: [''],
       testname: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       testtime: ['', Validators.required],
       totalquestion: [''],
       marks: [''],

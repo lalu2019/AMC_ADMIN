@@ -2,11 +2,17 @@
     text-align: center;
     color: #fff;
     font-size: 18px;
-    background: #2f9875;
+   background: #2f9875;
     padding: 10px;
 }
 .video-create-form {
     margin-bottom:20px;
+}
+.admin{
+    color: green;
+}
+.noAdmin{
+    color: red;
 }
 
 .video-form {

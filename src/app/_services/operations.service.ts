@@ -183,6 +183,16 @@ export class OperationsService {
     return this.firestore.doc('reportedQuestion/' + recordID).update(record);
   }
 
+  getComments(videoId): Promise<any[]> {
+    return this.firestore.collection<any>('video_comments').ref.where('videoId', '==', videoId)
+   .get().then((ref) => {
+    return ref.docs;
+   })
+  }
+  addComment(record) {
+    return this.firestore.collection('video_comments').add(record);
+  }
+
   sendPushNotification(title, description, tokens){
 
     const headers = new HttpHeaders()

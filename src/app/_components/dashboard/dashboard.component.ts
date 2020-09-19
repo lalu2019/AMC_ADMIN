@@ -33,10 +33,10 @@ export class DashboardComponent implements OnInit {
   UploadedFileContent: any = [];
   enquiryList: any = [];
   userListData: any = [];
-  activeUsers: number = 0;
-  freeUsers: number = 0;
+  activeUsers: number = 1;
+  freeUsers: number = 2;
   paidUsers: number = 0;
-  inactiveUsers: number = 0;
+  inactiveUsers: number = 1;
 
   deleteStoryId: any
   constructor(

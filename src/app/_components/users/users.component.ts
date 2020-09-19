@@ -48,7 +48,8 @@ export class UsersComponent implements OnInit {
       status: ['', Validators.required],
       courseEndDate: [''],
       batch: ['', Validators.required],
-      membership: ['', Validators.required]
+      membership: ['', Validators.required],
+      uuid:['', Validators.required]
     });
     this.permissionUserForm = this.formBuilder.group({
       id: [''],
@@ -93,7 +94,9 @@ export class UsersComponent implements OnInit {
           test:e.payload.doc.data()['test'],
           task:e.payload.doc.data()['task'],
           democoursee:e.payload.doc.data()['democoursee'],
-          fullcourse:e.payload.doc.data()['fullcourse']
+          fullcourse:e.payload.doc.data()['fullcourse'],
+          uuid:e.payload.doc.data()['uuid'],
+          model:e.payload.doc.data()['model']
         
         };
       })
@@ -107,6 +110,7 @@ export class UsersComponent implements OnInit {
       usertype: user.userType,
       status: user.status,
       courseEndDate: user.courseEndDate,
+      uuid:user.uuid,
       batch: 'A',
       membership: 'Gold'
     });
@@ -119,6 +123,7 @@ export class UsersComponent implements OnInit {
     record['course_end_date'] = this.updateUserForm.value.courseEndDate;
     record['batch'] = this.updateUserForm.value.batch;
     record['membership'] = this.updateUserForm.value.membership;
+    record['uuid'] = this.updateUserForm.value.uuid;
     this.loaderService.show();
     this.operation.updateUsers(this.updateUserForm.value.id, record).then(success => {
       this.loaderService.hide();
