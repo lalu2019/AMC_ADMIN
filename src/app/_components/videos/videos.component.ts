@@ -176,7 +176,8 @@ export class VideosComponent implements OnInit {
       Accessibility: ['Free', Validators.required],
       endDate:['', Validators.required],
       childcategory: [''],
-      orderIndex:['']
+      orderIndex:[''],
+      assignedBatch:['']
 
     });
     this.createClassForm = this.formBuilder.group({
@@ -188,7 +189,9 @@ export class VideosComponent implements OnInit {
       Accessibility: ['Free', Validators.required],
       endDate:['', Validators.required],
       childcategory: [''],
-      orderIndex:['1']
+      orderIndex:['1'],
+      assignedBatch:['']
+
 
     });
     this.commentVideoForm = this.formBuilder.group({
@@ -234,7 +237,8 @@ export class VideosComponent implements OnInit {
           source:e.payload.doc.data()['source'],
           endDate:e.payload.doc.data()['endDate'],
           childcategory:e.payload.doc.data()['childcategory'],
-          orderIndex:e.payload.doc.data()['orderIndex']
+          orderIndex:e.payload.doc.data()['orderIndex'],
+          assignedBatch:e.payload.doc.data()['assignedBatch']
         };
       })
       console.log(this.apiResponse);
@@ -260,11 +264,17 @@ export class VideosComponent implements OnInit {
     }else{
       record['childcategory'] = '';
     }
+
+    if(this.createClassForm.value.assignedBatch){
+      record['assignedBatch'] = this.createClassForm.value.assignedBatch.toString();
+    }
+    
     record['orderIndex'] = this.createClassForm.value.orderIndex;
     record['createdDate'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+    console.log(record);
+
     this.loaderService.show();
     this.operation.createVideo(record).then(success => {
-      console.log(success);
       this.loaderService.hide();
       this.alertService.save();
       this.createClassForm.reset();
@@ -283,8 +293,11 @@ export class VideosComponent implements OnInit {
       source:video.source,
       endDate:video.endDate,
       orderIndex:video.orderIndex,
-      childcategory:video.childcategory
+      childcategory:video.childcategory,
+      assignedBatch:video.assignedBatch.toString().split(",")
     });
+    // this.videoForm.value.assignedBatch = this.videoForm.value.assignedBatch.split(",");
+    console.log( this.videoForm.value.assignedBatch);
   }
 
   onUpdateForm() {
@@ -297,12 +310,17 @@ export class VideosComponent implements OnInit {
     record['endDate'] = this.videoForm.value.endDate;
 
     record['orderIndex'] = this.videoForm.value.orderIndex;
+    // console.log(this.videoForm.value.assignedBatch)
 
+    if(this.videoForm.value.assignedBatch){
+      record['assignedBatch'] = this.videoForm.value.assignedBatch.toString();
+    }
     if(this.videoForm.value.childcategory){
       record['childcategory'] = this.videoForm.value.childcategory;
     }else{
       record['childcategory'] = '';
     }
+    console.log(record)
     this.loaderService.show();
     this.operation.updateVideo(this.videoForm.value.id, record).then(success => {
       this.loaderService.hide();

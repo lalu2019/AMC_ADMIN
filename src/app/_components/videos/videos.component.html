@@ -63,7 +63,15 @@
                 <!-- <angular-editor id="videoCreateEditor" formControlName="description" [config]="editorConfig"></angular-editor> -->
                 <!-- <input class="form-control" placeholder="Enter Description" formControlName="description"> -->
               </div>
-            
+              <div class="col col-6 form-group">
+                <label for="batch">Assign Batch<span class="required">*</span></label>
+                <select multiple class="form-control" formControlName="assignedBatch">
+                  <option value="" disabled>Select Batch </option>
+                  <option value="A">A </option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                </select>
+              </div>
             </div>
             <div align="center" style="margin-top:20px">
               <button type="button" class="btn btn-success" [disabled]="!createClassForm.valid"
@@ -201,8 +209,18 @@
                  ]
                 </select>
             </div>
+            
             <div class=" form-group">
               <input type="number" class="form-control" placeholder="Order Index" formControlName="orderIndex">
+            </div>
+            <div class="col col-6 form-group">
+              <label for="batch">Assign Batch<span class="required">*</span></label>
+              <select multiple class="form-control" formControlName="assignedBatch">
+                <option value="" disabled>Select Batch </option>
+                <option value="A">A </option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+              </select>
             </div>
         </form>
       </div>
