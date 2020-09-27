@@ -92,6 +92,7 @@
                   <option value="A">A </option>
                   <option value="B">B</option>
                   <option value="C">C</option>
+                  <option value="">None</option>
                 </select>
               </div>
             </div>
@@ -105,7 +106,53 @@
     </div>
 
   </div>
-  <p>Total Video : {{apiResponse.length}} </p>
+  <p>Total Video : {{apiResponse.length}} </p> 
+  <div class="row">
+  <div class="col col-6 form-group">
+      <label >Parent Category</label>
+
+      <select class="form-control" [(ngModel)]="selectedParentCat" (change)="changeFilter(selectedParentCat, selectedChildCat)">
+          <option value="" selected hidden disabled>Category </option>
+          <option value="Demo Lectures" >Demo Lectures </option>
+          <option value="Orientation Lectures">Orientation Lectures </option>
+          <option value="AIAPGET Regular courses">AIAPGET Regular courses </option>
+          <option value="BAMS 4TH Year Course">BAMS 4TH Year Course </option>
+          <!-- <option value="Orientation Lectures">Orientation Lectures </option> -->
+        </select>
+   
+  </div>
+  <div class="col col-6 form-group" *ngIf="selectedParentCat == 'AIAPGET Regular courses' || selectedParentCat == 'BAMS 4TH Year Course'">
+      <label >Child Category</label>
+
+    <select class="form-control" [(ngModel)]="selectedChildCat" (change)="changeFilter(selectedParentCat, selectedChildCat)">
+          <option value="" selected hidden disabled>Child Category</option>
+          <option value=""  disabled>Charak Samhita Poorvardh : -</option>
+          <option value="Charak Sutrasthan">1.Charak Sutrasthan</option>
+          <option value="Charak vimansthana">2.Charak vimansthana</option>
+          <option value="Charak Nidansthan">3.Charak Nidansthan</option>
+          <option value="Charak Indryasthan">4.Charak Indryasthan</option>
+          <option value="Charak sharirstan">5.Charak sharirstan</option>
+
+          <option value=""  disabled>Charak Samhita Uttardha : -</option>
+          <option value="Charak chikitsasthan">1.Charak chikitsasthan</option>
+          <option value="Charak Sidhisthan">2.Charak Sidhisthan</option>
+          <option value="Charak Kalpsthan">3.Charak Kalpsthan</option>
+
+          <option value=""  disabled>Sushruta Samhita Poorvardha : -</option>
+          <option value="Sushruta Sutrasthan">1.Sushruta Sutrasthan</option>
+          <option value="Sushruta Sharirsthan">2.Sushruta Sharirsthan</option>
+          <option value="Sushruta Chikitsasthan">3.Sushruta Chikitsasthan</option>
+          <option value="Sushruta Kalpsthan">4.Sushruta Kalpsthan</option>
+          <option value="Sushruta Nidansthan">5.Sushruta Nidansthan</option>
+
+          <option value=""  disabled>Sushruta Samhita Uttartantra : -</option>
+          <option value="Sushruta Uttartantra">1.Sushruta Uttartantra</option>
+        
+          <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+         
+        </select>
+  </div>
+  </div>
   <div class="table-responsive-sm">
     <table class="table table-bordered">
       <thead>
@@ -281,6 +328,7 @@
                       <option value="A">A </option>
                       <option value="B">B</option>
                       <option value="C">C</option>
+                      <option value="">None</option>
                     </select>
                   </div>
                 </div>
@@ -312,10 +360,17 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="videoForm">
-          <div class="form-group">
-            <label for="title">Title<span class="required">*</span></label>
-            <input type="text" class="form-control" id="title" formControlName="title">
+          <div class="row">
+              <div class="col col-6 form-group">
+                  <label for="title">Title<span class="required">*</span></label>
+                  <input type="text" class="form-control" id="title" formControlName="title">
+                </div>
+                <div class=" col col-6 form-group">
+                    <label for="link">Link<span class="required">*</span></label>
+                    <input type="url" class="form-control" id="link" formControlName="link">
+                  </div>
           </div>
+        
           <!-- <div class="form-group">
             <label for="description">Description<span class="required">*</span></label>
             <angular-editor id="videoEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
@@ -329,11 +384,9 @@
               <option value="Paid">Paid</option>
             </select>
           </div> -->
-          <div class="form-group">
-            <label for="link">Link<span class="required">*</span></label>
-            <input type="url" class="form-control" id="link" formControlName="link">
-          </div>
-          <div class="form-group">
+          <div class="row">
+
+          <div class="col col-6  form-group">
             <label for="title">Video Source<span class="required">*</span></label>
 
             <select class="form-control" placeholder="Video Source" formControlName="source">
@@ -342,10 +395,11 @@
               <option value="Vimeo">Vimeo</option>
             </select>
           </div>
-          <div class="form-group">
+          <div class=" col col-6 form-group">
               <label for="link">End Date<span class="required">*</span></label>
               <input type="date" class="form-control" formControlName="endDate">
             </div>
+          </div>
             
             <div class="form-group">
               <select class="form-control" formControlName="category">
@@ -407,6 +461,8 @@
                 <option value="A">A </option>
                 <option value="B">B</option>
                 <option value="C">C</option>
+                <option value="">None</option>
+
               </select>
             </div>
         </form>

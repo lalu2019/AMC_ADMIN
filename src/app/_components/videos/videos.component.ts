@@ -172,7 +172,8 @@ export class VideosComponent implements OnInit {
     //   {title: "Panchakarma", icon: "panchakarma.png"},
     //   {title: "Research methodology & Medical statistics", icon: "research_methodology.png"},
     //   {title: "Modern", icon: "modern.png"}] 
-      
+  selectedParentCat:any = "AIAPGET Regular courses";
+  selectedChildCat:any = "Charak chikitsasthan"
   constructor(
     private operation: OperationsService,
     private loaderService: LoaderService,
@@ -234,6 +235,7 @@ export class VideosComponent implements OnInit {
     this.confirmationDialogService.confirmationYesButtonClick(false);
   }
 
+  
   getAllVideoCategory() {
     this.loaderService.show();
     this.operation.getCaetgories().subscribe(success => {
@@ -246,27 +248,36 @@ export class VideosComponent implements OnInit {
       })
     })
   }
-
+  changeFilter(parent, child){
+   
+    if(parent == "Demo Lectures" || parent == "Orientation Lectures"){
+      this.selectedChildCat = null;
+    }
+    // console.log(this.selectedParentCat);
+    // console.log( this.selectedChildCat);
+    this.getAllVideo();
+  }
   getAllVideo() {
     this.loaderService.show();
-    this.operation.getAllVideo().subscribe(success => {
+
+    this.operation.getAllVideo(this.selectedParentCat, this.selectedChildCat).then(success => {
       console.log(success);
       this.loaderService.hide();
       this.apiResponse = success.map(e => {
         return {
-          id: e.payload.doc.id,
-          title: e.payload.doc.data()['title'],
-          description: e.payload.doc.data()['description'],
-          status: e.payload.doc.data()['status'],
-          link: e.payload.doc.data()['link'],
+          id: e.id,
+          title: e.data()['title'],
+          description: e.data()['description'],
+          status: e.data()['status'],
+          link: e.data()['link'],
           // Accessibility: e.payload.doc.data()['link'],
-          createdDate: e.payload.doc.data()['createdDate'],
-          CatName:e.payload.doc.data()['CatName'],
-          source:e.payload.doc.data()['source'],
-          endDate:e.payload.doc.data()['endDate'],
-          childcategory:e.payload.doc.data()['childcategory'],
-          orderIndex:e.payload.doc.data()['orderIndex'],
-          assignedBatch:e.payload.doc.data()['assignedBatch']
+          createdDate: e.data()['createdDate'],
+          CatName:e.data()['CatName'],
+          source:e.data()['source'],
+          endDate:e.data()['endDate'],
+          childcategory:e.data()['childcategory'],
+          orderIndex:e.data()['orderIndex'],
+          assignedBatch:e.data()['assignedBatch']
         };
       })
       console.log(this.apiResponse);

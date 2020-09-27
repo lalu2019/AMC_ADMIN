@@ -26,9 +26,27 @@ export class OperationsService {
     return this.firestore.collection('videos').add(record);
   }
   
-  getAllVideo(): Observable<any> {
-    return this.firestore.collection('videos').snapshotChanges();
+
+  getAllVideo(category: string, childcategory: string): Promise<any[]> {
+    if(category && !childcategory){
+      return this.firestore.collection<any>('videos').ref.where('CatId', '==', category)
+      .get().then((ref) => {
+       return ref.docs;
+      })
+    }
+    if(childcategory){
+      console.log(category)
+      return this.firestore.collection<any>('videos').ref.where('childcategory', '==', childcategory).where('CatId', '==', category)
+      .get().then((ref) => {
+       return ref.docs;
+      })
+    }
+  
   }
+
+  // getAllVideo(): Observable<any> {
+  //   return this.firestore.collection('videos').snapshotChanges();
+  // }
 
   updateVideo(recordID, record) {
     return this.firestore.doc('videos/' + recordID).update(record);
