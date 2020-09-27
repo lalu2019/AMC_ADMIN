@@ -17,6 +17,7 @@ export class SidemenuComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.hasOwnProperty('selectedMenu')) {
       this.menuType = localStorage.getItem('selectedMenu');
+      console.log(this.menuType)
     }
   }
 

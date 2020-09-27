@@ -125,26 +125,53 @@ export class VideosComponent implements OnInit {
     
       ]
 
+
     categoryList: any = [
-      {title: "Padarth Vigyan", icon: "padarth_vigyan.png"},
-      {title: "Itihasa", icon: "itihasa.png"},
-      {title: "Kriya Sharira", icon: "kriya_sharira.png"},
-       {title: "Rachna Sharira", icon: "rachna_sharira.png"},
-       {title: "Sanskrit", icon: "sanskrit.png"},
-      {title: "Dravya Guna", icon: "dravya_guna.png"},
-      {title: "Rasa-shastra & Bhaishajya Kalpana", icon: "bhaishajya_kalpana.png"},
-      {title: "Agad Tantra", icon: "agad_tantra.png"},
-      {title: "Swasthvrit", icon: "SWASTHVRIT.png"},
-        {title: "Roga - nidana", icon: "roga_nidana.png"},
-       {title: "Prasuti Tantra & Stri Vigyan", icon: "prasuti_tantra.png"},
-       {title: "Kaumarbhritya", icon: "kaumar.png"},
-       {title: "Kayachikitsa", icon: "kayachikitsa.png"},
-       {title: "Shalya", icon: "SHALYA.png"},
-       {title: "Shalkya", icon: "SHALKYA.png"},
+    // {title: "Charak Samhita Poorvardh", icon: "charak_samhita_poorvardha.png"},
+    // {title: "Charak Samhita Uttardha", icon: "charak_samhita_uttardha.png"},
+    // {title: "Sushruta Samhita Poorvardha", icon: "sushruta_samhita_poorvardha.png"},
+    // {title: "Sushruta Samhita Uttartantra", icon: "sushruta_samhita.png"},
+     {title: "Ashtang hridya", icon: "ashtand_hridya.png"},
+    {title: "Laghu Trayee & Other Samhitas", icon: "laghu_trayee.png"},
+    {title: "Padarth Vigyan", icon: "padarth_vigyan.png"},
+    {title: "Itihasa", icon: "itihasa.png"},
+    {title: "Kriya Sharira", icon: "kriya_sharira.png"},
+     {title: "Rachna Sharira", icon: "rachna_sharira.png"},
+     {title: "Sanskrit", icon: "sanskrit.png"},
+    {title: "Dravya Guna", icon: "dravya_guna.png"},
+    {title: "Rasa-shastra & Bhaishajya Kalpana", icon: "bhaishajya_kalpana.png"},
+    {title: "Agad Tantra", icon: "agad_tantra.png"},
+    {title: "Swasthvrit", icon: "SWASTHVRIT.png"},
+      {title: "Roga - nidana", icon: "roga_nidana.png"},
+     {title: "Prasuti Tantra & Stri Vigyan", icon: "prasuti_tantra.png"},
+     {title: "Kaumarbhritya", icon: "kaumar.png"},
+     {title: "Kayachikitsa", icon: "kayachikitsa.png"},
+     {title: "Shalya", icon: "SHALYA.png"},
+     {title: "Shalkya", icon: "SHALKYA.png"},
+    {title: "Panchakarma", icon: "panchakarma.png"},
+    {title: "Research methodology & Medical statistics", icon: "research_methodology.png"},
+    {title: "Modern", icon: "modern.png"}]
+
+    // categoryList: any = [
+    //   {title: "Padarth Vigyan", icon: "padarth_vigyan.png"},
+    //   {title: "Itihasa", icon: "itihasa.png"},
+    //   {title: "Kriya Sharira", icon: "kriya_sharira.png"},
+    //    {title: "Rachna Sharira", icon: "rachna_sharira.png"},
+    //    {title: "Sanskrit", icon: "sanskrit.png"},
+    //   {title: "Dravya Guna", icon: "dravya_guna.png"},
+    //   {title: "Rasa-shastra & Bhaishajya Kalpana", icon: "bhaishajya_kalpana.png"},
+    //   {title: "Agad Tantra", icon: "agad_tantra.png"},
+    //   {title: "Swasthvrit", icon: "SWASTHVRIT.png"},
+    //     {title: "Roga - nidana", icon: "roga_nidana.png"},
+    //    {title: "Prasuti Tantra & Stri Vigyan", icon: "prasuti_tantra.png"},
+    //    {title: "Kaumarbhritya", icon: "kaumar.png"},
+    //    {title: "Kayachikitsa", icon: "kayachikitsa.png"},
+    //    {title: "Shalya", icon: "SHALYA.png"},
+    //    {title: "Shalkya", icon: "SHALKYA.png"},
   
-      {title: "Panchakarma", icon: "panchakarma.png"},
-      {title: "Research methodology & Medical statistics", icon: "research_methodology.png"},
-      {title: "Modern", icon: "modern.png"}] 
+    //   {title: "Panchakarma", icon: "panchakarma.png"},
+    //   {title: "Research methodology & Medical statistics", icon: "research_methodology.png"},
+    //   {title: "Modern", icon: "modern.png"}] 
       
   constructor(
     private operation: OperationsService,
@@ -173,8 +200,9 @@ export class VideosComponent implements OnInit {
       description: ['', ],
       source: ['Vimeo', Validators.required],
       link: ['', Validators.required],
-      Accessibility: ['Free', Validators.required],
+      // Accessibility: ['Free'],
       endDate:['', Validators.required],
+      category: [''],
       childcategory: [''],
       orderIndex:[''],
       assignedBatch:['']
@@ -186,7 +214,7 @@ export class VideosComponent implements OnInit {
       description: ['',],
       link: ['', Validators.required],
       source: ['Vimeo', Validators.required],
-      Accessibility: ['Free', Validators.required],
+      // Accessibility: ['Paid'],
       endDate:['', Validators.required],
       childcategory: [''],
       orderIndex:['1'],
@@ -231,7 +259,7 @@ export class VideosComponent implements OnInit {
           description: e.payload.doc.data()['description'],
           status: e.payload.doc.data()['status'],
           link: e.payload.doc.data()['link'],
-          Accessibility: e.payload.doc.data()['link'],
+          // Accessibility: e.payload.doc.data()['link'],
           createdDate: e.payload.doc.data()['createdDate'],
           CatName:e.payload.doc.data()['CatName'],
           source:e.payload.doc.data()['source'],
@@ -255,7 +283,7 @@ export class VideosComponent implements OnInit {
     record['title'] = this.createClassForm.value.title;
     record['description'] = this.createClassForm.value.description;
     record['link'] = this.createClassForm.value.link;
-    record['Accessibility'] = this.createClassForm.value.Accessibility;
+    // record['Accessibility'] = this.createClassForm.value.Accessibility;
     record['source'] = this.createClassForm.value.source;
     record['status'] = "Active";
     record['endDate'] = this.createClassForm.value.endDate;
@@ -284,7 +312,24 @@ export class VideosComponent implements OnInit {
     })
   }
 
+  copyVideo(video) {
+    this.createClassForm.patchValue({
+      // id: video.id,
+      title: video.title,
+      description: video.description,
+      link: video.link,
+      source:video.source,
+      endDate:video.endDate,
+      orderIndex:video.orderIndex,
+      childcategory:video.childcategory,
+      category:video.CatId
+      // assignedBatch:video.assignedBatch.toString().split(",")
+      
+    });
+    console.log( this.createClassForm.value.title);
+  }
   onEditVideo(video) {
+     if(!video.assignedBatch) video.assignedBatch = [""]
     this.videoForm.patchValue({
       id: video.id,
       title: video.title,
@@ -305,7 +350,7 @@ export class VideosComponent implements OnInit {
     record['title'] = this.videoForm.value.title
     // record['description'] = this.videoForm.value.description
     record['link'] = this.videoForm.value.link
-    record['Accessibility'] = this.videoForm.value.Accessibility 
+    // record['Accessibility'] = this.videoForm.value.Accessibility 
     record['source'] = this.videoForm.value.source;
     record['endDate'] = this.videoForm.value.endDate;
 
@@ -334,8 +379,8 @@ export class VideosComponent implements OnInit {
     this.deleteVideoId = value.id;
   }
 
+ 
   onCommentVideo(video) {
-    
     this.selectedVideoId = video.id
     this.commentData = [];
     this.commentVideoForm.reset();
