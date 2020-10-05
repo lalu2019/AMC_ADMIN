@@ -263,7 +263,7 @@ export class VideosComponent implements OnInit {
     this.operation.getAllVideo(this.selectedParentCat, this.selectedChildCat).then(success => {
       console.log(success);
       this.loaderService.hide();
-      this.apiResponse = success.map(e => {
+      let arrayWithDateVerification = success.map(e => {
         return {
           id: e.id,
           title: e.data()['title'],
@@ -280,6 +280,9 @@ export class VideosComponent implements OnInit {
           assignedBatch:e.data()['assignedBatch']
         };
       })
+      this.apiResponse = arrayWithDateVerification.sort((a, b) => {
+        return <any>a.orderIndex - <any> b.orderIndex;
+      });
       console.log(this.apiResponse);
     })
   }
@@ -320,6 +323,7 @@ export class VideosComponent implements OnInit {
       this.createClassForm.patchValue({
         category: ''
       });
+      this.getAllVideo();
     })
   }
 

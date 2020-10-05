@@ -26,6 +26,10 @@ export class UsersComponent implements OnInit {
     {name:"Task", ischecked:false},
     {name:"Notes", ischecked:false}
   ]
+  selectedUser: any;
+  srName:any = '';
+  srMobile:any = '';
+  membershipType:any = "Free";
 
 
   constructor(private operation: OperationsService,
@@ -36,7 +40,12 @@ export class UsersComponent implements OnInit {
   ) {
     this.subscription = this.confirmationDialogService.isConfirmationYesButtonClick.subscribe(status => {
       if (status) {
-        console.log(status);
+        
+        console.log(this.selectedUser.id);
+        this.operation.deleteUsers(this.selectedUser.id).then(success =>{
+          this.getAllUser();
+        })
+        
       }
     });
   }
@@ -49,7 +58,8 @@ export class UsersComponent implements OnInit {
       courseEndDate: [''],
       batch: ['', Validators.required],
       membership: ['', Validators.required],
-      uuid:['', Validators.required]
+      uuid:[''],
+      assingedCourseCat:['', Validators.required]
     });
     this.permissionUserForm = this.formBuilder.group({
       id: [''],
@@ -57,7 +67,7 @@ export class UsersComponent implements OnInit {
       task: [false],
       test: [false]
     });
-    this.getAllUsers();
+    this.getAllUser();
   }
 
   ngOnDestroy() {
@@ -72,31 +82,41 @@ export class UsersComponent implements OnInit {
       permission.ischecked = true;
     }
   }
-  getAllUsers() {
+
+  userFilter(srName, srMobile, membershipType){
+     this.getAllUser();
+  }
+  ResetFilter(){
+    this.srName = '';
+    this.srMobile = '';
+    this.membershipType = "Free";
+    this.getAllUser();
+  }
+  getAllUser() {
     this.loaderService.show();
-    this.operation.getAllUsers().subscribe(success => {
+    this.operation.getAllUsers(this.srName, this.srMobile,  this.membershipType).then(success => {
       console.log(success);
       this.loaderService.hide();
       this.apiResponse = success.map(e => {
         return {
-          id: e.payload.doc.id,
-          FullName: e.payload.doc.data()['FullName'],
-          Mobile: e.payload.doc.data()['Mobile'],
-          Address: e.payload.doc.data()['Address'],
-          Email: e.payload.doc.data()['Email'],
-          Course: e.payload.doc.data()['Course'],
-          College: e.payload.doc.data()['College'],
-          imageUrl: e.payload.doc.data()['imageUrl'],
-          userType: e.payload.doc.data()['userType'],
-          status: e.payload.doc.data()['status'],
-          courseEndDate: e.payload.doc.data()['course_end_date'],
-          course:e.payload.doc.data()['course'],
-          test:e.payload.doc.data()['test'],
-          task:e.payload.doc.data()['task'],
-          democoursee:e.payload.doc.data()['democoursee'],
-          fullcourse:e.payload.doc.data()['fullcourse'],
-          uuid:e.payload.doc.data()['uuid'],
-          model:e.payload.doc.data()['model']
+          id: e.id,
+          FullName: e.data()['FullName'],
+          Mobile: e.data()['Mobile'],
+          Address: e.data()['Address'],
+          Email: e.data()['Email'],
+          Course: e.data()['Course'],
+          College: e.data()['College'],
+          imageUrl: e.data()['imageUrl'],
+          userType: e.data()['userType'],
+          status: e.data()['status'],
+          courseEndDate: e.data()['course_end_date'],
+          course:e.data()['course'],
+          test:e.data()['test'],
+          task:e.data()['task'],
+          democoursee:e.data()['democoursee'],
+          fullcourse:e.data()['fullcourse'],
+          uuid:e.data()['uuid'],
+          model:e.data()['model']
         
         };
       })
@@ -111,8 +131,9 @@ export class UsersComponent implements OnInit {
       status: user.status,
       courseEndDate: user.courseEndDate,
       uuid:user.uuid,
-      batch: 'A',
-      membership: 'Gold'
+      batch: user.batch || 'A',
+      membership: user.membership || 'Gold',
+      assingedCourseCat: user.assingedCourseCat || ''
     });
   }
 
@@ -124,16 +145,20 @@ export class UsersComponent implements OnInit {
     record['batch'] = this.updateUserForm.value.batch;
     record['membership'] = this.updateUserForm.value.membership;
     record['uuid'] = this.updateUserForm.value.uuid;
+    record['assingedCourseCat'] = this.updateUserForm.value.assingedCourseCat;
+    
     this.loaderService.show();
     this.operation.updateUsers(this.updateUserForm.value.id, record).then(success => {
       this.loaderService.hide();
       this.alertService.update();
-      this.getAllUsers();
+      this.getAllUser();
     })
   }
 
-  onDeleteUser() {
+  onDeleteUser(value) {
+    this.selectedUser = value;
     this.confirmationDialogService.show();
+
     // this.alertService.delete();
   }
 
@@ -210,7 +235,7 @@ export class UsersComponent implements OnInit {
     this.operation.updateUsers(this.permissionUserForm.value.id, permissions).then(success => {
       this.loaderService.hide();
       this.alertService.update();
-      this.getAllUsers();
+      this.getAllUser();
     })
   }
 

@@ -175,7 +175,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllUsers() {
-    this.operation.getAllUsers().subscribe(success => {
+    this.operation.getUserWithouFilter().subscribe(success => {
       this.userListData = success.map(e => {
         if (e.payload.doc.data()['status'] == 'Active') {
           this.activeUsers += 1;
