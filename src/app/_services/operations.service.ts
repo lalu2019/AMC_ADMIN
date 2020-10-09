@@ -106,7 +106,7 @@ export class OperationsService {
   }
   getAllUsers(name: any, mobile: any, membershipType: any) {
       if(name && mobile && membershipType){
-        return this.firestore.collection<any>('Users').ref.where('userType', '==', membershipType).where('FullName', '==', name).where('Mobile', '==', mobile)
+        return this.firestore.collection<any>('Users').ref.where('userType', '==', membershipType).where('Email', '==', name).where('Mobile', '==', mobile)
         .get().then((ref) => {
          return ref.docs;
         })
@@ -118,7 +118,7 @@ export class OperationsService {
         })
       }
       if(name && !mobile && membershipType){
-        return this.firestore.collection<any>('Users').ref.where('userType', '==', membershipType).where('FullName', '==', name)
+        return this.firestore.collection<any>('Users').ref.where('userType', '==', membershipType).where('Email', '==', name)
         .get().then((ref) => {
          return ref.docs;
         })

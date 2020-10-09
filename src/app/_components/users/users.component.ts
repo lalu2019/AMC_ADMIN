@@ -30,6 +30,7 @@ export class UsersComponent implements OnInit {
   srName:any = '';
   srMobile:any = '';
   membershipType:any = "Free";
+  TotalUser: any = 0;
 
 
   constructor(private operation: OperationsService,
@@ -68,6 +69,12 @@ export class UsersComponent implements OnInit {
       test: [false]
     });
     this.getAllUser();
+
+    if(localStorage.getItem("Totaluser")){
+      this.TotalUser =  JSON.parse(localStorage.getItem("Totaluser"));
+    }
+    
+
   }
 
   ngOnDestroy() {
@@ -161,7 +168,11 @@ export class UsersComponent implements OnInit {
 
     // this.alertService.delete();
   }
+  openUserProfile(user){
 
+      this.selectedUser = user
+
+  }
   onEditPermissionUser(user) {
 
     for(let i=0; i < this.modulePermission.length; i++){

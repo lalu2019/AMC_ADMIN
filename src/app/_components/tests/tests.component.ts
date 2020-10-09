@@ -142,11 +142,14 @@ export class TestsComponent implements OnInit {
       id: [''],
       testname: ['', Validators.required],
       description: [''],
-      testtime: ['', Validators.required],
+      testtime: [''],
       totalquestion: [''],
       marks: [''],
       category: ['', Validators.required],
-      year: ['', Validators.required]
+      childcategory: [''],
+      year: ['',],
+      // excelFile: ['', Validators.required],
+      orderIndex:['1']
     });
     this.getAllTest();
 
@@ -194,7 +197,8 @@ export class TestsComponent implements OnInit {
           category: e.payload.doc.data()['category'],
           year: e.payload.doc.data()['year'],
           createdDate: e.payload.doc.data()['createdDate'],
-          childcategory:e.payload.doc.data()['childcategory']
+          childcategory:e.payload.doc.data()['childcategory'],
+          orderIndex:e.payload.doc.data()['orderIndex']
         };
       })
       console.log(this.apiResponse);
@@ -256,11 +260,22 @@ export class TestsComponent implements OnInit {
   }
 
   onEditTest(test) {
-    // this.updateTestForm.patchValue({
-    //   id: test.id,
-    //   title: test.title,
-    //   description: test.description,
-    // });
+    console.log(test)
+    this.updateTestForm.patchValue({
+      id: test.id,
+      testname: test.testname,
+      description: test.description,
+      testtime:test.testtime,
+      totalquestion:test.totalquestion,
+      marks:test.marks,
+      category:test.category,
+      childcategory:test.childcategory,
+      year:test.year,
+      orderIndex:test.orderIndex
+    });
+  }
+  updateTest(){
+
   }
 
   onUpdateForm() {

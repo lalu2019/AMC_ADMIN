@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit {
   inactiveUsers: number = 1;
 
   deleteStoryId: any
+  TotalUser: number = 0;
   constructor(
     private formBuilder: FormBuilder,
     private operation: OperationsService,
@@ -189,7 +190,12 @@ export class DashboardComponent implements OnInit {
         if (e.payload.doc.data()['userType'] == 'Paid') {
           this.paidUsers += 1;
         }
+        this.TotalUser += 1
       })
+
+      localStorage.setItem("Totaluser", JSON.stringify(this.TotalUser));
+      // console.log( this.TotalUser);
+      
     })
   }
 

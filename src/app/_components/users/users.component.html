@@ -4,13 +4,13 @@
 </div>
 <div>
 
-  <p>Total User : {{apiResponse.length}} </p>
+  <p>Total User : {{TotalUser}}, Filtered User : {{apiResponse.length}}</p>
   <div class="row">
       <div class="form-group col col-2">
           <a  (click)="ResetFilter()" style="color: blue;">Reset Filters</a>
       </div>
        <div class="form-group col col-3">
-          <input placeholder="Search by name" class="form-control" [(ngModel)]="srName" (change)="userFilter(srName, srMobile, membershipType)">
+          <input placeholder="Search by Email" class="form-control" [(ngModel)]="srName" (change)="userFilter(srName, srMobile, membershipType)">
         </div>
         <div class="form-group col col-3">
           <input placeholder="Search by mobile"  class="form-control" [(ngModel)]="srMobile" (change)="userFilter(srName, srMobile, membershipType)">
@@ -28,7 +28,7 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <!-- <th>#</th> -->
+          <th>Action</th>
           <th>Full Name</th>
           <th>Mobile Number</th>
           <th>Email Id</th>
@@ -39,24 +39,19 @@
           <th>Fees Paid</th>
           <th>Status</th>
           <th>Course End Date</th>
-          <th>Action</th>
+          
         </tr>
 
       </thead>
       <tbody>
         <tr *ngFor="let user of apiResponse">
-          <!-- <td>1</td> -->
-          <td>{{user.FullName}}</td>
-          <td>{{user.Mobile}}</td>
-          <td>{{user.Email}}</td>
-          <td>{{user.Course}}</td>
-          <td>{{user.College}}</td>
-          <td>{{user.Address}}</td>
-          <td>{{user.userType}}</td>
-          <td>0</td>
-          <td>{{user.status}}</td>
-          <td>{{user.courseEndDate}}</td>
-          <td style="width:130px;">
+          <td style="min-width:150px">
+            <span>
+              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#userProfile"
+                (click)="openUserProfile(user)">
+                <i class="fa fa-eye"></i>
+              </a>
+            </span>
             <span>
               <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#permissionModal"
                 (click)="onEditPermissionUser(user)">
@@ -74,11 +69,89 @@
               </a>
             </span>
           </td>
+          <td>{{user.FullName}}</td>
+          <td>{{user.Mobile}}</td>
+          <td>{{user.Email}}</td>
+          <td>{{user.Course}}</td>
+          <td>{{user.College}}</td>
+          <td>{{user.Address}}</td>
+          <td>{{user.userType}}</td>
+          <td>0</td>
+          <td>{{user.status}}</td>
+          <td>{{user.courseEndDate}}</td>
+         
         </tr>
       </tbody>
     </table>
   </div>
 
+</div>
+<!-- Modal -->
+<div class="modal fade" id="userProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">User Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row" *ngIf="selectedUser">
+            <div class="form-group col col-6">
+              <label >Full Name</label>
+               <div> {{selectedUser.FullName}} </div>
+            </div>
+
+            <div class="form-group col col-6">
+              <label >Email</label>
+               <div> {{selectedUser.Email}} </div>
+            </div>
+
+            <div class="form-group col col-6">
+              <label >Mobile</label>
+               <div> {{selectedUser.Mobile}} </div>
+            </div>
+
+            <div class="form-group col col-6">
+              <label >College</label>
+               <div> {{selectedUser.College}} </div>
+            </div>
+
+            <div class="form-group col col-6">
+              <label >Address</label>
+               <div> {{selectedUser.Address}} </div>
+            </div>
+            <div class="form-group col col-6">
+              <label >Mobile Model</label>
+               <div> {{selectedUser.model}} </div>
+            </div>
+            <div class="form-group col col-6">
+              <label >User Type</label>
+               <!-- <div> {{selectedUser.userType}} </div> -->
+               <select class="form-control" disabled [(ngModel)]="selectedUser.userType">
+                <option value="" disabled hidden>Select </option>
+                <option value="Free">Free </option>
+                <option value="Paid">Paid</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label >Course</label>
+               <select class="form-control" disabled [(ngModel)]="selectedUser.Course">
+                <option value="1">Working</option>
+                <option value="2">Intern</option>
+                <option value="3">4th Year </option>
+                <option value="4">Other</option>
+              </select>
+            </div>
+
+
+          </div>
+      </div>
+    
+    </div>
+  </div>
 </div>
 
 <!-- Modal -->

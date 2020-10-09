@@ -123,7 +123,7 @@
       
           <td style="width:130px;">
             <span>
-              <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#testModal" (click)="onEditTest(item)">
+              <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#testEdit" (click)="onEditTest(item)">
                 <i class="fa fa-pencil"></i>
               </a>
             </span>
@@ -138,4 +138,98 @@
     </table>
   </div>
 </div>
+</div>
+
+<div class="modal fade" id="testEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Test Paper</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateTestForm" (ngSubmit)="updateTest()">
+          <div class="row task-form">
+            <div class="col col-6 form-group">
+              <input type="text" class="form-control" id="testname" placeholder="Test Name" formControlName="testname">
+            </div>
+            
+            <div class="col col-6 form-group">
+              <input class="form-control" placeholder="Description (Optional)" formControlName="description">
+            </div>
+            <div class="col col-6 form-group">
+                <select class="form-control" formControlName="year">
+                  <option value="" selected hidden disabled>Year</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                  <option value="2020">2020</option>
+                  <option value="2019">2019</option>
+                  <option value="2018">2018</option>
+                  <option value="2017">2017</option>
+                  <option value="2016">2016</option>
+                  <option value="2015">2015</option>
+                  <option value="2014">2014</option>
+                  <option value="2013">2013</option>
+                  <option value="2012">2012</option>
+                  <option value="2011">2011</option>
+                  <option value="2010">2010</option>
+                </select>
+              </div>
+            <div class="col col-6 form-group">
+                <select class="form-control" formControlName="category">
+                    <option value="" selected hidden disabled>Category</option>
+                    <option value="Previous Year">Previous Year</option>
+                    <option value="AIAPGET Free Test">AIAPGET Free Test</option>
+                    <option value="AIAPGET 2021 Test Series"> AIAPGET 2021 Test Series</option>
+                   
+                    <option value="Samitha Wise">Samitha Wise</option>
+                    <option value="Subject Wise">Subject Wise</option>
+                  </select>
+            </div>
+
+            <div class="col col-6 form-group" *ngIf="updateTestForm.value.category == 'Subject Wise'">
+                <select class="form-control" formControlName="childcategory">
+                    <option value="" selected hidden disabled>Child Category</option>
+                    <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+                   ]
+                  </select>
+            </div>
+            <div class="col col-6 form-group" *ngIf="updateTestForm.value.category == 'Samitha Wise'">
+              <select class="form-control" formControlName="childcategory">
+                  <option value="" selected hidden disabled>Child Category</option>
+                  <option *ngFor="let item of samhitawiseList" value="{{item.name}}">{{item.name}}</option>
+                 ]
+                </select>
+            </div>
+            
+             <!-- <div class="col col-6 form-group">
+                <input class="form-control" type="file" id="fileImport" placeholder="Question Sheet" formControlName="excelFile" >
+             </div> -->
+             <div class="col col-6 form-group">
+                <input type="number" class="form-control" placeholder="Total marks" formControlName="marks">
+              </div>
+              <div class="col col-6 form-group">
+                <input type="number" class="form-control" placeholder="Total time" formControlName="testtime">
+              </div>
+              <div class="col col-6 form-group">
+               <input type="number" class="form-control" placeholder="Number of question" formControlName="totalquestion">
+              </div>
+             <div class="col col-6 form-group">
+              <input type="number" class="form-control" placeholder="Order Index" formControlName="orderIndex">
+            </div>
+          
+          </div>
+          <div align="center" style="margin-top:20px">
+            <button type="submit" class="btn btn-success" [disabled]="!updateTestForm.valid"
+              >Update</button>
+          </div>
+        </form>
+      </div>
+     
+    </div>
+  </div>
 </div>
