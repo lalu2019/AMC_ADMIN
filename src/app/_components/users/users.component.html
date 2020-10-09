@@ -20,6 +20,7 @@
             <option value="" selected disabled >Filter by Membership </option>
             <option value="Free">Free </option>
             <option value="Paid">Paid</option>
+            <option value="">None</option>
           </select>
         </div>
   </div>
@@ -128,6 +129,24 @@
                <div> {{selectedUser.model}} </div>
             </div>
             <div class="form-group col col-6">
+              <label >Course Category</label>
+               <div> {{selectedUser.assingedCourseCat}} </div>
+            </div>
+            <div class="form-group col col-6">
+              <label >Batch</label>
+               <div> {{selectedUser.batch}} </div>
+            </div>
+
+            <div class="form-group col col-6">
+              <label >Status</label>
+               <div> {{selectedUser.status}} </div>
+            </div>
+            <div class="form-group col col-6">
+              <label > End Date</label>
+               <div> {{selectedUser.courseEndDate}} </div>
+            </div>
+
+            <div class="form-group col col-6">
               <label >User Type</label>
                <!-- <div> {{selectedUser.userType}} </div> -->
                <select class="form-control" disabled [(ngModel)]="selectedUser.userType">
@@ -145,6 +164,7 @@
                 <option value="4">Other</option>
               </select>
             </div>
+         
 
 
           </div>

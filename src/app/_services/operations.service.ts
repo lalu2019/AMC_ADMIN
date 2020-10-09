@@ -17,12 +17,12 @@ export class OperationsService {
     // private storage: AngularFireStorage,
   ) { }
 
-  addToken(record: unknown) {
+  addToken(record: any) {
     return this.firestore.collection('frbTkn').add(record);
   }
 
   //Video section api
-  createVideo(record: unknown) {
+  createVideo(record: any) {
     return this.firestore.collection('videos').add(record);
   }
   
@@ -48,7 +48,7 @@ export class OperationsService {
   //   return this.firestore.collection('videos').snapshotChanges();
   // }
 
-  updateVideo(recordID: string, record: Partial<unknown>) {
+  updateVideo(recordID: string, record: Partial<any>) {
     return this.firestore.doc('videos/' + recordID).update(record);
   }
 
@@ -57,7 +57,7 @@ export class OperationsService {
   }
 
   //Tasks Section 
-  createTask(record: unknown) {
+  createTask(record: any) {
     return this.firestore.collection('tasks').add(record);
   }
 
@@ -65,7 +65,7 @@ export class OperationsService {
     return this.firestore.collection('tasks').snapshotChanges();
   }
 
-  updateTask(recordID: string, record: Partial<unknown>) {
+  updateTask(recordID: string, record: Partial<any>) {
     return this.firestore.doc('tasks/' + recordID).update(record);
   }
 
@@ -75,8 +75,12 @@ export class OperationsService {
   }
 
   //Test Secttion
-  createTest(record: unknown) {
+  createTest(record: any) {
     return this.firestore.collection('testset').add(record);
+  }
+
+  updateTest(recordID: string, record: Partial<any>) {
+    return this.firestore.doc('testset/' + recordID).update(record);
   }
 
   getAllTest(): Observable<any> {
@@ -92,11 +96,11 @@ export class OperationsService {
   }
 
   //Users Section
-  createUsers(record: unknown) {
+  createUsers(record: any) {
     return this.firestore.collection('Users').add(record);
   }
 
-  updateUsers(recordID: string, record: Partial<unknown>)  {
+  updateUsers(recordID: string, record: Partial<any>)  {
     return this.firestore.doc('Users/' + recordID).update(record);
   }
 
@@ -105,6 +109,7 @@ export class OperationsService {
 
   }
   getAllUsers(name: any, mobile: any, membershipType: any) {
+    console.log(membershipType)
       if(name && mobile && membershipType){
         return this.firestore.collection<any>('Users').ref.where('userType', '==', membershipType).where('Email', '==', name).where('Mobile', '==', mobile)
         .get().then((ref) => {
@@ -129,6 +134,18 @@ export class OperationsService {
          return ref.docs;
         })
       }
+      if(name && !membershipType){
+        return this.firestore.collection<any>('Users').ref.where('Email', '==', name)
+        .get().then((ref) => {
+         return ref.docs;
+        })
+      }
+      if(mobile && !membershipType){
+        return this.firestore.collection<any>('Users').ref.where('Mobile', '==', mobile)
+        .get().then((ref) => {
+         return ref.docs;
+        })
+      }
 
      
   }
@@ -138,13 +155,13 @@ export class OperationsService {
   }
 
   //Story section api
-  createStory(record: unknown) {
+  createStory(record: any) {
     return this.firestore.collection('stories').add(record);
   }
   getAllStory(): Observable<any> {
     return this.firestore.collection('stories').snapshotChanges();
   }
-  updateStory(recordID: string, record: Partial<unknown>) {
+  updateStory(recordID: string, record: Partial<any>) {
     // return this.firestore.collection('videos').add(record);
     return this.firestore.doc('stories/' + recordID).update(record);
 
@@ -154,13 +171,13 @@ export class OperationsService {
   }
 
   //Book section api
-  AddNewBook(record: unknown) {
+  AddNewBook(record: any) {
     return this.firestore.collection('Books').add(record);
   }
   getAllBooks(): Observable<any> {
     return this.firestore.collection('Books').snapshotChanges();
   }
-  updateBook(recordID: string, record: Partial<unknown>) {
+  updateBook(recordID: string, record: Partial<any>) {
     return this.firestore.doc('Books/' + recordID).update(record);
   }
   deleteBook(record_id: string) {
@@ -168,13 +185,13 @@ export class OperationsService {
   }
 
   //Contact Us section api
-  newConatc(record: unknown) {
+  newConatc(record: any) {
     return this.firestore.collection('ContactUs').add(record);
   }
   getAllContact(): Observable<any> {
     return this.firestore.collection('ContactUs').snapshotChanges();
   }
-  updateContact(recordID: string, record: Partial<unknown>) {
+  updateContact(recordID: string, record: Partial<any>) {
     return this.firestore.doc('ContactUs/' + recordID).update(record);
   }
   DeleteContact(record_id: string) {
@@ -182,13 +199,13 @@ export class OperationsService {
   }
 
   //Mmbership  section api
-  addMembership(record: unknown) {
+  addMembership(record: any) {
     return this.firestore.collection('Membership').add(record);
   }
   getMembership(): Observable<any> {
     return this.firestore.collection('Membership').snapshotChanges();
   }
-  updateMembership(recordID: string, record: Partial<unknown>) {
+  updateMembership(recordID: string, record: Partial<any>) {
     return this.firestore.doc('Membership/' + recordID).update(record);
   }
   deleteMembership(record_id: string) {
@@ -196,41 +213,44 @@ export class OperationsService {
   }
 
   //Tips  section api
-  addTips(record: unknown) {
+  addTips(record: any) {
     return this.firestore.collection('Tips').add(record);
   }
   getTips(): Observable<any> {
     return this.firestore.collection('Tips').snapshotChanges();
   }
-  updateTips(recordID: string, record: Partial<unknown>) {
+  updateTips(recordID: string, record: Partial<any>) {
     return this.firestore.doc('Tips/' + recordID).update(record);
   }
   deleteTips(record_id: string) {
     return this.firestore.doc('Tips/' + record_id).delete();
   }
   //Category  section api
-  addCategories(record: unknown) {
+  addCategories(record: any) {
     return this.firestore.collection('Category').add(record);
   }
   getCaetgories(): Observable<any> {
     return this.firestore.collection('Category').snapshotChanges();
   }
   //Enquery Section
-  AddInquery(record: unknown) {
+  AddInquery(record: any) {
     return this.firestore.collection('Enquery').add(record);
   }
   getInquiry(): Observable<any> {
     return this.firestore.collection('Enquery').snapshotChanges();
   }
+  updateEnquiery(recordID: string, record: Partial<any>) {
+    return this.firestore.doc('Enquery/' + recordID).update(record);
+  }
 
-  reportQuestion(record: unknown) {
+  reportQuestion(record: any) {
     return this.firestore.collection('reportedQuestion').add(record);
   }
   getReportedQuestion() {
     return this.firestore.collection('reportedQuestion').snapshotChanges();
    
   }
-  updateReportedQuestion(recordID: string, record: Partial<unknown>) {
+  updateReportedQuestion(recordID: string, record: Partial<any>) {
     return this.firestore.doc('reportedQuestion/' + recordID).update(record);
   }
 
@@ -240,7 +260,7 @@ export class OperationsService {
     return ref.docs;
    })
   }
-  addComment(record: unknown) {
+  addComment(record: any) {
     return this.firestore.collection('video_comments').add(record);
   }
 

@@ -154,13 +154,16 @@
         <form [formGroup]="updateTestForm" (ngSubmit)="updateTest()">
           <div class="row task-form">
             <div class="col col-6 form-group">
+                <label >Test Name</label>
               <input type="text" class="form-control" id="testname" placeholder="Test Name" formControlName="testname">
             </div>
             
             <div class="col col-6 form-group">
+                <label >Description (Optional)</label>
               <input class="form-control" placeholder="Description (Optional)" formControlName="description">
             </div>
             <div class="col col-6 form-group">
+                <label >Year</label>
                 <select class="form-control" formControlName="year">
                   <option value="" selected hidden disabled>Year</option>
                   <option value="2023">2023</option>
@@ -180,6 +183,7 @@
                 </select>
               </div>
             <div class="col col-6 form-group">
+                <label >Category</label>
                 <select class="form-control" formControlName="category">
                     <option value="" selected hidden disabled>Category</option>
                     <option value="Previous Year">Previous Year</option>
@@ -192,6 +196,7 @@
             </div>
 
             <div class="col col-6 form-group" *ngIf="updateTestForm.value.category == 'Subject Wise'">
+                <label >Child Category</label>
                 <select class="form-control" formControlName="childcategory">
                     <option value="" selected hidden disabled>Child Category</option>
                     <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
@@ -199,6 +204,7 @@
                   </select>
             </div>
             <div class="col col-6 form-group" *ngIf="updateTestForm.value.category == 'Samitha Wise'">
+                <label >Child Category</label>
               <select class="form-control" formControlName="childcategory">
                   <option value="" selected hidden disabled>Child Category</option>
                   <option *ngFor="let item of samhitawiseList" value="{{item.name}}">{{item.name}}</option>
@@ -210,15 +216,19 @@
                 <input class="form-control" type="file" id="fileImport" placeholder="Question Sheet" formControlName="excelFile" >
              </div> -->
              <div class="col col-6 form-group">
+                <label >Total marks</label>
                 <input type="number" class="form-control" placeholder="Total marks" formControlName="marks">
               </div>
               <div class="col col-6 form-group">
+                  <label >Total time</label>
                 <input type="number" class="form-control" placeholder="Total time" formControlName="testtime">
               </div>
               <div class="col col-6 form-group">
+                  <label >Number of question</label>
                <input type="number" class="form-control" placeholder="Number of question" formControlName="totalquestion">
               </div>
              <div class="col col-6 form-group">
+                <label >Order Index</label>
               <input type="number" class="form-control" placeholder="Order Index" formControlName="orderIndex">
             </div>
           

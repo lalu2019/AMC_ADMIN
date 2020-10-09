@@ -122,12 +122,24 @@ export class DashboardComponent implements OnInit {
           Mobile: e.payload.doc.data()['Mobile'],
           EnquiryType: e.payload.doc.data()['EnquiryType'],
           Description: e.payload.doc.data()['Description'],
-          createdDate: e.payload.doc.data()['createdDate']
+          createdDate: e.payload.doc.data()['createdDate'],
+          status:e.payload.doc.data()['status'] || 'Pending'
 
         };
       })
       console.log(this.enquiryList);
     })
+  }
+
+  MarkAsDone(value){
+    let record = {};
+    record["status"] = "Done";  
+    this.operation.updateEnquiery(value.id, record).then(success => {
+      console.log(success);
+      this.enquiry();
+    })
+
+
   }
   insertInquery() {
 
@@ -191,10 +203,27 @@ export class DashboardComponent implements OnInit {
           this.paidUsers += 1;
         }
         this.TotalUser += 1
+
+        return {
+          id: e.payload.doc.id,
+          FullName: e.payload.doc.data()['FullName'],
+          Mobile: e.payload.doc.data()['Mobile'],
+          Address: e.payload.doc.data()['Address'],
+          Email: e.payload.doc.data()['Email'],
+          Course:  e.payload.doc.data()['Course'],
+          College:  e.payload.doc.data()['College'],
+          imageUrl:  e.payload.doc.data()['imageUrl'],
+          userType:  e.payload.doc.data()['userType'],
+          status:  e.payload.doc.data()['status'],
+          courseEndDate:  e.payload.doc.data()['course_end_date'],
+          uuid: e.payload.doc.data()['uuid'],
+          model: e.payload.doc.data()['model']
+        
+        };
       })
 
       localStorage.setItem("Totaluser", JSON.stringify(this.TotalUser));
-      // console.log( this.TotalUser);
+     console.log( this.userListData);
       
     })
   }

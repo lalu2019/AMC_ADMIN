@@ -61,13 +61,13 @@
       </div>  
 
   <div class="dashboard-user-table">
-    <div class="dashboard-grid-heading">Enquiry</div>
-    <p>Total Enquiry : {{enquiryList.length}} </p>
+    <div class="dashboard-grid-heading">Help</div>
+    <p>Total  : {{enquiryList.length}} </p>
     <div class="table-responsive-sm">
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>Image</th>
+            <th>Status</th>
             <th>Full Name</th>
             <th>Mobile</th>
             <th>Email Id</th>
@@ -80,10 +80,11 @@
         <tbody>
           <tr *ngFor="let record of enquiryList">
             <td>
-              <img src="./../../../assets/images/avatar.png" alt="User Pic">
+              <span *ngIf="record.status !=='Pending'">  {{record.status}} </span>
+              <button type="button" *ngIf="record.status =='Pending'" class="btn btn-success" (click)="MarkAsDone(record)">Resolved</button>
             </td>
             <td>{{record.FullName}}</td>
-            <td><a href="https://wa.me/{{record.Mobile}}">{{record.Mobile}}</a></td>
+            <td>{{record.Mobile}}</td>
             <td>{{record.Email}}</td>
             <td>{{record.EnquiryType}}</td>
             <td>{{record.Description}}</td>

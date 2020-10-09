@@ -276,6 +276,27 @@ export class TestsComponent implements OnInit {
   }
   updateTest(){
 
+    let record = {};
+    record['testname'] = this.updateTestForm.value.testname;
+    record['description'] = this.updateTestForm.value.description;
+    record['testtime'] = this.updateTestForm.value.testtime;
+    record['totalquestion'] = this.updateTestForm.value.totalquestion;
+    record['marks'] = this.updateTestForm.value.marks;
+    record['category'] = this.updateTestForm.value.category;
+    record['year'] = this.updateTestForm.value.year;
+    // record['questions'] =this.UploadedFileContent;
+    if(this.updateTestForm.value.childcategory){
+      record['childcategory'] = this.updateTestForm.value.childcategory;
+    }else{
+      record['childcategory'] = '';
+    }
+    record['orderIndex'] =  this.updateTestForm.value.orderIndex;
+    this.loaderService.show();
+    this.operation.updateTest( this.updateTestForm.value.id, record).then(success => {
+      this.loaderService.hide();
+      this.alertService.save();
+      this.getAllTest();
+    })
   }
 
   onUpdateForm() {
