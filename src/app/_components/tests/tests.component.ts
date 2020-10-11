@@ -102,7 +102,10 @@ export class TestsComponent implements OnInit {
       
         ]
       
-
+   yearFilter:any = '';
+   parentCatFilter:any = '';
+   childCatFilter:any = '';
+   questionsData:any = [];
   constructor(
     private loaderService: LoaderService,
     private formBuilder: FormBuilder,
@@ -177,6 +180,98 @@ export class TestsComponent implements OnInit {
   ngOnDestroy() {
     // this.subscription.unsubscribe();
     // this.confirmationDialogService.confirmationYesButtonClick(false);
+  }
+
+  ResetFilter(){
+    this.yearFilter = '';
+    this.parentCatFilter = '';
+    this.childCatFilter = '';
+
+    this.getAllTest();
+  }
+  fetchFilter(){
+   
+    console.log(this.yearFilter);
+    console.log(this.parentCatFilter);
+    console.log(this.childCatFilter);
+   
+    if(this.yearFilter || this.parentCatFilter ||  this.childCatFilter){
+      this.getFilteredData();
+    }else{
+      this.getAllTest();
+    }
+  }
+
+  openQuestions(id){
+    this.operation.getQuestions(id).subscribe(success => {
+      console.log(success);
+      this.loaderService.hide();
+     let questionData = success.map(e => {
+        return {
+          id:e.payload.doc.id,
+          Question:e.payload.doc.data()['Question'],
+          set_id:e.payload.doc.data()['set_id'],
+          Q_NO:e.payload.doc.data()['Q_NO'],
+          a:e.payload.doc.data()['a'],
+          b:e.payload.doc.data()['b'],
+          c:e.payload.doc.data()['c'],
+          d:e.payload.doc.data()['d'],
+          answer:e.payload.doc.data()['answer'].toLowerCase(),
+          selectedOption:'',
+          edittable:false
+        };
+      })
+
+      this.questionsData = questionData.sort((a, b) => {
+        return <any>a.Q_NO - <any> b.Q_NO;
+      });
+      console.log(this.apiResponse);
+    })
+  }
+  updateQuestion(item){
+    console.log(item);
+    let record = {};
+    record['Question'] = item.Question
+    record['a'] = item.a
+    record['b'] =item.b
+    record['c'] = item.c
+    record['d'] = item.d
+    record['answer'] = item.answer
+    record['Updated'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+
+      this.operation.updateQuestin(item.id,item.set_id, record).then(success =>{
+        console.log(success);
+        this.alertService.update();
+      })
+  }
+  getFilteredData() {
+  
+    this.loaderService.show();
+    this.operation.filterData(this.yearFilter, this.parentCatFilter,  this.childCatFilter).then(success => {
+      console.log(success);
+      this.loaderService.hide();
+      this.apiResponse = success.map(e => {
+        return {
+          id: e.id,
+          testname: e.data()['testname'],
+          description: e.data()['description'],
+          testtime: e.data()['testtime'],
+          totalquestion: e.data()['totalquestion'],
+          marks: e.data()['marks'],
+          category: e.data()['category'],
+          year: e.data()['year'],
+          createdDate: e.data()['createdDate'],
+          childcategory:e.data()['childcategory'],
+          orderIndex:e.data()['orderIndex']
+        };
+      })
+      console.log(this.apiResponse);
+    })
+  }
+
+  addNewNotifications(title, description){
+    this.operation.sendPushNotification(title, description, '') 
+    this.alertService.save();
   }
 
 
@@ -295,6 +390,7 @@ export class TestsComponent implements OnInit {
     this.operation.updateTest( this.updateTestForm.value.id, record).then(success => {
       this.loaderService.hide();
       this.alertService.save();
+     // this.addNewNotifications("Updates in test paper",  this.updateTestForm.value.testname)
       this.getAllTest();
     })
   }

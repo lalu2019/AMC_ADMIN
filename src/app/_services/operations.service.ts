@@ -87,6 +87,45 @@ export class OperationsService {
     return this.firestore.collection('testset').snapshotChanges();
   }
 
+  filterData(year: any, parent: any, child: any) {
+
+      if(year && parent && child){
+        return this.firestore.collection<any>('testset').ref.where('year', '==', year).where('category', '==', parent).where('childcategory', '==', child)
+        .get().then((ref) => {
+         return ref.docs;
+        })
+      }
+      if(!year && parent && child){
+        return this.firestore.collection<any>('testset').ref.where('category', '==', parent).where('childcategory', '==', child)
+        .get().then((ref) => {
+         return ref.docs;
+        })
+      }
+      if(year && !parent && !child){
+        return this.firestore.collection<any>('testset').ref.where('year', '==', year)
+        .get().then((ref) => {
+         return ref.docs;
+        })
+      }
+
+      if(parent && !child){
+        return this.firestore.collection<any>('testset').ref.where('category', '==', parent)
+        .get().then((ref) => {
+         return ref.docs;
+        })
+      }
+      
+    }
+
+    getQuestions(setId){
+      return this.firestore.collection('testset').doc(setId).collection("QuesitonSet").snapshotChanges();
+    }
+
+    updateQuestin(id, setId, record){
+      // return this.firestore.collection('testset').doc(setId).collection("QuesitonSet").snapshotChanges();
+      return this.firestore.collection('testset').doc(setId).collection("QuesitonSet").doc( id).update(record);
+    }
+
   deleteSet(record_id: string) {
     return this.firestore.doc('testset/' + record_id).delete();
   }

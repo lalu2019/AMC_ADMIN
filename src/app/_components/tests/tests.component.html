@@ -95,17 +95,72 @@
     </div>
   </div>
   <p>Total Test : {{apiResponse.length}} </p>
+  <div class="row">
+    <div class="form-group col col-2">
+        <a  (click)="ResetFilter()" style="color: blue;">Reset Filters</a>
+    </div>
+    
+      <div class="form-group col col-3">
+        <select class="form-control"  [(ngModel)]="yearFilter" (change)="fetchFilter()">
+          <option value="" selected  disabled>Year</option>
+          <option value="">None</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+          <option value="2020">2020</option>
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <option value="2017">2017</option>
+          <option value="2016">2016</option>
+          <option value="2015">2015</option>
+          <option value="2014">2014</option>
+          <option value="2013">2013</option>
+          <option value="2012">2012</option>
+          <option value="2011">2011</option>
+          <option value="2010">2010</option>
+        </select>     
+       </div>
+      <div class="form-group col col-3">
+        <select class="form-control" [(ngModel)]="parentCatFilter" (change)="fetchFilter()">
+          <option value="" selected  disabled>Category</option>
+          <option value="Previous Year">Previous Year</option>
+          <option value="AIAPGET Free Test">AIAPGET Free Test</option>
+          <option value="AIAPGET 2021 Test Series"> AIAPGET 2021 Test Series</option>
+         
+          <option value="Samitha Wise">Samitha Wise</option>
+          <option value="Subject Wise">Subject Wise</option>
+          <option value="">None</option>
+        </select>
+      </div>
+      <div class="col col-3 form-group" *ngIf="parentCatFilter == 'Subject Wise'">
+        <select class="form-control" [(ngModel)]="childCatFilter" (change)="fetchFilter()">
+            <option value="" selected  disabled>Child Category</option>
+            <option value="">None</option>
+            <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+           ]
+          </select>
+    </div>
+    <div class="col col-3 form-group" *ngIf="parentCatFilter == 'Samitha Wise'">
+      <select class="form-control" [(ngModel)]="childCatFilter" (change)="fetchFilter()">
+          <option value="" selected  disabled>Child Category</option>
+          <option value="">None</option>
+          <option *ngFor="let item of samhitawiseList" value="{{item.name}}">{{item.name}}</option>
+         ]
+        </select>
+    </div>
+</div>
   <div class="table-responsive-sm">
     <table class="table table-bordered">
       <thead>
         <tr>
           <th>Test Name</th>
+          <th>Category</th>
+
           <th>Child Category</th>
           <th>Test Time</th>
           <th>Questions</th>
           <th>Marks</th>
           <th>Year</th>
-          <th>Category</th>
           <th>Created Date</th>
           <th>Action</th>
         </tr>
@@ -113,22 +168,28 @@
       <tbody>
         <tr *ngFor="let item of apiResponse">
           <td>{{item.testname}}</td>
+          <td>{{item.category}}</td> 
+
           <td>{{item.childcategory}}</td>
           <td>{{item.testtime}}</td>
           <td>{{item.totalquestion}}</td>
           <td>{{item.marks}}</td>
           <td>{{item.year}}</td>
-          <td>{{item.category}}</td> 
           <td>{{item.createdDate}}</td>
       
           <td style="width:130px;">
+              <span>
+                  <a class="view-action-btn mr-5" title="Edit Questions" data-toggle="modal" data-target=".bd-example-modal-xl" (click)="openQuestions(item.id)">
+                    <i class="fa fa-eye"></i>
+                  </a>
+             </span>
             <span>
-              <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#testEdit" (click)="onEditTest(item)">
+              <a class="edit-action-btn mr-5" title="Edit Paper" data-toggle="modal" data-target="#testEdit" (click)="onEditTest(item)">
                 <i class="fa fa-pencil"></i>
               </a>
             </span>
             <span>
-              <a class="delete-action-btn" (click)="deleteTest(item)">
+              <a class="delete-action-btn"  title="Delete" (click)="deleteTest(item)">
                 <i class="fa fa-trash"></i>
               </a>
             </span>
@@ -238,6 +299,81 @@
               >Update</button>
           </div>
         </form>
+      </div>
+     
+    </div>
+  </div>
+</div>
+<div class="modal fade bd-example-modal-xl" id="questionEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Questions</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p>Total Test : {{questionsData.length}} </p>
+          <div class="table-responsive-sm">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Q No.</th>
+                    <th>Question</th>
+                    <th>Option A</th>
+                    <th>Option B</th>
+                    <th>Option C</th>
+                    <th>Option D</th>
+                    <th>Correct Answer</th>
+                    <!-- <th>Action</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of questionsData">
+                      <td> {{item.Q_NO}}</td>
+                    <td>
+                         <!-- {{item.Question}} -->
+                        <textarea class="form-control"  placeholder="Question Sheet" [(ngModel)]="item.Question" ></textarea>
+
+                    </td>
+                    <td>
+                      <!-- {{item.a}} -->
+                      <input class="form-control"  placeholder="Question Sheet" [(ngModel)]="item.a" >
+                    </td> 
+                    <td>
+                        <!-- {{item.a}} -->
+                        <input class="form-control"  placeholder="Question Sheet" [(ngModel)]="item.b" >
+                    </td> 
+                    <td>
+                        <!-- {{item.a}} -->
+                        <input class="form-control"  placeholder="Question Sheet" [(ngModel)]="item.c" >
+                    </td> 
+                    <td>
+                        <!-- {{item.a}} -->
+                        <input class="form-control"  placeholder="Question Sheet" [(ngModel)]="item.d" >
+                    </td> 
+                   
+                    <td>
+                       <!-- {{item.answer}}  -->
+                      <select class="form-control"  [(ngModel)]="item.answer">
+                          <option value="a">A</option>
+                          <option value="b">B</option>
+                          <option value="c">C</option>
+                          <option value="d">D</option>
+                        </select>     
+                    </td>
+                   
+                    <td style="width:100px;">
+                     
+                            <button type="submit" class="btn btn-success" (click)="updateQuestion(item);" >Update</button>
+                      
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
       </div>
      
     </div>
