@@ -709,55 +709,69 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="reportedQuestionForm">
-            <div class="row">
-                <div class="col col-4 ">
+            <div class="row mr-10">
+                <div class="col col-3 ">
                   Question : 
                 </div>
-                <div class="col col-8 ">
-                   {{reportedQuestionForm.value.Question}}
+                <div class="col col-9 ">
+                   <!-- {{reportedQuestionForm.value.Question}} -->
+                   <textarea name="" id="" cols="50" rows="5" formControlName="Question" ></textarea>
+
                  </div>
              </div>
              <div class="row mr-10">
-                <div class="col col-4 ">
+                <div class="col col-3 ">
                   Option A: 
                 </div>
-                <div class="col col-8 ">
-                    {{reportedQuestionForm.value.a}}
+                <div class="col col-9 ">
+                    
+                     <input type="text" formControlName="a">
                  </div>
              </div>
              <div class="row mr-10" >
-                <div class="col col-4 ">
+                <div class="col col-3 ">
                   Option B: 
                 </div>
-                <div class="col col-8 ">
-                    {{reportedQuestionForm.value.b}}
+                <div class="col col-9 ">
+                  <input type="text" formControlName="b">
                  </div>
              </div>
              <div class="row mr-10">
-                <div class="col col-4 ">
+                <div class="col col-3 ">
                   Option C: 
                 </div>
-                <div class="col col-8 ">
-                    {{reportedQuestionForm.value.c}}
+                <div class="col col-9 ">
+                  <input type="text" formControlName="c">
                  </div>
              </div>
              <div class="row mr-10">
-                <div class="col col-4 ">
+                <div class="col col-3 ">
                   Option D: 
                 </div>
-                <div class="col col-8 ">
-                    {{reportedQuestionForm.value.d}}
+                <div class="col col-9 ">
+                  <input type="text" formControlName="d">
                  </div>
              </div>
 
              <div class="row mr-10">
-                <div class="col col-4 ">
+                <div class="col col-3 ">
                   Answer: 
                 </div>
-                <div class="col col-8 ">
-                    {{reportedQuestionForm.value.answer}}
+                <div class="col col-9 ">
+                    <input type="text" formControlName="answer">
+                    
                  </div>
              </div>
+
+             <!-- <div class="row mr-10">
+                <div class="col col-3 ">
+                  Question_id: 
+                </div>
+                <div class="col col-9 ">
+                    <input type="text" formControlName="question_id">
+                    
+                 </div>
+             </div> -->
 
 
              <div class="row" style="margin-top:20px">

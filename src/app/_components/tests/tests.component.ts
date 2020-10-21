@@ -341,7 +341,7 @@ export class TestsComponent implements OnInit {
   async insertCat(id, row) {
 
     let record = {};
-    record['set_id'] = id;
+    record['set_id'] = id; //
     record['Q_NO'] = row[0];
     record['Question'] = row[1];
     record['a'] = row[2];

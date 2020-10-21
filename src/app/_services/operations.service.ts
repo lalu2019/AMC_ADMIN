@@ -123,7 +123,7 @@ export class OperationsService {
 
     updateQuestin(id, setId, record){
       // return this.firestore.collection('testset').doc(setId).collection("QuesitonSet").snapshotChanges();
-      return this.firestore.collection('testset').doc(setId).collection("QuesitonSet").doc( id).update(record);
+      return this.firestore.collection('testset').doc(setId).collection("QuesitonSet").doc(id).update(record);
     }
 
   deleteSet(record_id: string) {
@@ -292,6 +292,9 @@ export class OperationsService {
   updateReportedQuestion(recordID: string, record: Partial<any>) {
     return this.firestore.doc('reportedQuestion/' + recordID).update(record);
   }
+  deleteReported(record_id: string) {
+    return this.firestore.doc('reportedQuestion/' + record_id).delete();
+  }
 
   getComments(videoId: any): Promise<any[]> {
     return this.firestore.collection<any>('video_comments').ref.where('videoId', '==', videoId)
@@ -316,6 +319,7 @@ export class OperationsService {
                     "body":description
                   },
                   "to":"/topics/marketing"
+                  // "to":"cILSNTUayXA:APA91bERdvq5zFav2ZY_kmCWY5qv0Zn9J-gl1AKQLlPNMTMAcPavEmpMzXfBaaDIfFXWwD8sCaDuUlYp-mnACK_nnDuQw5vc3mAL7xAwiWrf6cdnK3pAZ7JQjZFZ5Ipj0xQEcsw94lCf"
               }, {headers})
                 .subscribe(
                     (val) => {

@@ -145,6 +145,16 @@ export class CommonComponent implements OnInit {
 
           })
         }
+        if (this.deleteRecordType == 'reportedQuestion') {
+          this.loaderService.show();
+          this.operation.deleteReported(this.deleteRcordId).then(success => {
+            console.log(success);
+            this.loaderService.hide();
+            this.alertService.delete();
+             this.getAllReported();
+
+          })
+        }
 
 
       }
@@ -231,7 +241,9 @@ export class CommonComponent implements OnInit {
       d: [''],
       answer: [''],
       comment: ['', Validators.required],
-      admin_comment: ['', Validators.required],
+      admin_comment: ['Done'],
+      question_id:[''],
+      set_id:['']
     });
 
   }
@@ -667,7 +679,7 @@ export class CommonComponent implements OnInit {
           d: e.payload.doc.data()['d'],
           answer: e.payload.doc.data()['answer'],
           comment: e.payload.doc.data()['comment'],
-          test_id: e.payload.doc.data()['test_id'],
+          question_id: e.payload.doc.data()['question_id'],
           admin_comment: e.payload.doc.data()['admin_comment']
           
         };
@@ -677,6 +689,7 @@ export class CommonComponent implements OnInit {
   }
 
   onEditQuestion(value){
+    console.log(value)
     this.reportedQuestionForm.controls.id.setValue(value.id)
     this.reportedQuestionForm.controls.Question.setValue(value.Question)
     this.reportedQuestionForm.controls.a.setValue(value.a)
@@ -686,18 +699,45 @@ export class CommonComponent implements OnInit {
     this.reportedQuestionForm.controls.answer.setValue(value.answer)
     this.reportedQuestionForm.controls.admin_comment.setValue(value.admin_comment)
     this.reportedQuestionForm.controls.comment.setValue(value.comment)
+
+    this.reportedQuestionForm.controls.question_id.setValue(value.question_id)
+    this.reportedQuestionForm.controls.set_id.setValue(value.set_id)
     
   }
 
   onSubmitReportedQuestion(){
+
+    if(!this.reportedQuestionForm.value.question_id){
+       alert("Not allowed to update, Please contact to developmemt team");
+       return false;
+    }
     let record = {}
      record["admin_comment"] = this.reportedQuestionForm.value.admin_comment
+     record["Question"] = this.reportedQuestionForm.value.Question
+     record["a"] = this.reportedQuestionForm.value.a
+     record["b"] = this.reportedQuestionForm.value.b
+     record["c"] = this.reportedQuestionForm.value.c
+     record["d"] = this.reportedQuestionForm.value.d
+     record["answer"] = this.reportedQuestionForm.value.answer
+    // record["question_id"] = this.reportedQuestionForm.value.question_id
+
+     console.log(record);
     this.operation.updateReportedQuestion(this.reportedQuestionForm.value.id, record).then(success =>{
       this.getAllReported();
+      this.updateQuestion(record);
     });
     
   }
 
+  updateQuestion(record){
+    console.log(this.reportedQuestionForm.value.set_id);
+    console.log( this.reportedQuestionForm.value.question_id);
+
+      this.operation.updateQuestin( this.reportedQuestionForm.value.question_id, this.reportedQuestionForm.value.set_id, record).then(success =>{
+        console.log(success);
+        this.alertService.update();
+      })
+  }
   deleteConfirmation(value, type) {
 
     this.confirmationDialogService.show();
