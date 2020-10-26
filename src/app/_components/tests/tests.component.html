@@ -100,7 +100,7 @@
         <a  (click)="ResetFilter()" style="color: blue;">Reset Filters</a>
     </div>
     
-      <div class="form-group col col-3">
+      <div class="form-group col col-2">
         <select class="form-control"  [(ngModel)]="yearFilter" (change)="fetchFilter()">
           <option value="" selected  disabled>Year</option>
           <option value="">None</option>
@@ -120,7 +120,7 @@
           <option value="2010">2010</option>
         </select>     
        </div>
-      <div class="form-group col col-3">
+      <div class="form-group col col-2">
         <select class="form-control" [(ngModel)]="parentCatFilter" (change)="fetchFilter()">
           <option value="" selected  disabled>Category</option>
           <option value="Previous Year">Previous Year</option>
@@ -147,6 +147,9 @@
           <option *ngFor="let item of samhitawiseList" value="{{item.name}}">{{item.name}}</option>
          ]
         </select>
+    </div>
+    <div class="col col-2 form-group" >
+        <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#userReport" (click)="liveTest()">Live Test Status</button>
     </div>
 </div>
   <div class="table-responsive-sm">
@@ -201,6 +204,69 @@
 </div>
 </div>
 
+<div class="modal fade bd-example-modal-xl" id="userReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Report</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="table-responsive-sm">
+              
+               <p>Total: {{userTestReport.length}}</p>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>User Name</th>
+                    <th>scoremark</th>
+                    <th>totalmark</th>
+                    <th>totaltime</th>
+                    <th>totalquestion</th>
+                    <th>unasnwered</th>
+                    <th>right</th>
+                    <th>wrong</th>
+                   
+                    <th>Created  Date</th>
+                  </tr>
+          
+                </thead>
+                <tbody>
+                    <div align="center" style="margin-top:30px" *ngIf="userTestReport.length <= 0">No Record Found  </div>
+
+                  <tr *ngFor="let user of userTestReport">
+                  
+                    <td> 
+<!--                       
+                       <select class="form-control"  [(ngModel)]="user.userId">
+                          <option *ngFor="let usr of UserLIst" value="{{usr.id}}">{{usr.FullName}}</option>
+                        
+                       </select>    -->
+                      {{user.userName}}
+
+                    </td>
+                    <td>{{user.scoremark}}</td>
+                    <td>{{user.totalmark}}</td>
+                    <td>{{user.totaltime}}</td>
+                    <td>{{user.totalquestion}}</td>
+                    <td>{{user.unasnwered}}</td>
+                    <td>{{user.right}}</td>
+                  
+                    <td>{{user.wrong}}</td>
+                    <td>{{user.createdDate}}</td>
+                   
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+      </div>
+    
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="testEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">

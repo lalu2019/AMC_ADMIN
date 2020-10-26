@@ -15,6 +15,7 @@ import { AlertService } from 'src/app/_services/alert.service';
 export class UsersComponent implements OnInit {
 
   apiResponse: any = [];
+  userTestReport:any = [];
   subscription: Subscription;
   updateUserForm: FormGroup;
   permissionUserForm: FormGroup;
@@ -129,6 +130,7 @@ export class UsersComponent implements OnInit {
           };
         })
         this.TotalUser = this.apiResponse.length;
+        localStorage.setItem("usrsAll", JSON.stringify(this.apiResponse))
       })
     
   }
@@ -166,6 +168,7 @@ export class UsersComponent implements OnInit {
           };
         })
         console.log(this.apiResponse);
+       
       })
     }
    
@@ -211,6 +214,33 @@ export class UsersComponent implements OnInit {
   openUserProfile(user){
 
       this.selectedUser = user
+
+  }
+
+  
+  
+  openUserReport(userData){
+    console.log(userData)
+    this.operation.getMyScores(userData.id).then(success =>{
+      this.userTestReport = success.map(doc => {
+        return {
+          id: doc.id,
+          totalquestion: doc.data()['totalquestion'],
+          right: doc.data()['right'],
+          wrong: doc.data()['wrong'],
+          unasnwered: doc.data()['unasnwered'],
+          totaltime: doc.data()['totaltime'],
+          totalmark: doc.data()['totalmark'],
+          scoremark: doc.data()['scoremark'],
+          testname: doc.data()['testname'],
+          test_id: doc.data()['test_id'],
+          createdDate:doc.data()['createdDate'],
+          myRank:doc.data()['myRank']
+        };
+      })
+      console.log(this.userTestReport);
+    })
+    
 
   }
   onEditPermissionUser(user) {

@@ -45,30 +45,42 @@
 
       </thead>
       <tbody>
+
         <tr *ngFor="let user of apiResponse">
-          <td style="min-width:150px">
+          <td style="min-width:160px">
+
+              
+             <span>
+                  <a class="view-action-btn mr-5" title="Report" data-toggle="modal" data-target="#userReport"
+                    (click)="openUserReport(user)">
+                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                  </a>
+             </span>  
             <span>
-              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#userProfile"
+              <a class="comment-action-btn mr-5" title="Profile" data-toggle="modal" data-target="#userProfile"
                 (click)="openUserProfile(user)">
                 <i class="fa fa-eye"></i>
               </a>
             </span>
             <span>
-              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#permissionModal"
+              <a class="comment-action-btn mr-5" title="Permissions" data-toggle="modal" data-target="#permissionModal"
                 (click)="onEditPermissionUser(user)">
                 <i class="fa fa-lock"></i>
               </a>
             </span>
             <span>
-              <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#userModal" (click)="onEditUser(user)">
+              <a class="edit-action-btn mr-5" title="Edit" data-toggle="modal" data-target="#userModal" (click)="onEditUser(user)">
                 <i class="fa fa-pencil"></i>
               </a>
             </span>
             <span>
-              <a class="delete-action-btn" (click)="onDeleteUser(user)">
+              <a class="delete-action-btn" title="Delete" (click)="onDeleteUser(user)">
                 <i class="fa fa-trash"></i>
               </a>
             </span>
+
+            
+
           </td>
           <td>{{user.FullName}}</td>
           <td>{{user.Mobile}}</td>
@@ -88,6 +100,59 @@
 
 </div>
 <!-- Modal -->
+<div class="modal fade bd-example-modal-xl" id="userReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Report</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="table-responsive-sm">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>testname</th>
+                    <th>scoremark</th>
+                    <th>totalmark</th>
+                    <th>totaltime</th>
+                    <th>totalquestion</th>
+                    <th>unasnwered</th>
+                    <th>right</th>
+                    <th>wrong</th>
+                   
+                    <th>Created  Date</th>
+                  </tr>
+          
+                </thead>
+                <tbody>
+                    <div align="center" style="margin-top:30px" *ngIf="userTestReport.length <= 0">No Record Found  </div>
+
+                  <tr *ngFor="let user of userTestReport">
+                  
+                    <td>{{user.testname}}</td>
+                    <td>{{user.scoremark}}</td>
+                    <td>{{user.totalmark}}</td>
+                    <td>{{user.totaltime}}</td>
+                    <td>{{user.totalquestion}}</td>
+                    <td>{{user.unasnwered}}</td>
+                    <td>{{user.right}}</td>
+                  
+                    <td>{{user.wrong}}</td>
+                    <td>{{user.createdDate}}</td>
+                   
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+      </div>
+    
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="userProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -175,6 +240,83 @@
 </div>
 
 <!-- Modal -->
+
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateUserForm">
+          <div class="row">
+            <div class="form-group col col-6">
+              <label for="fullname">User Type<span class="required">*</span></label>
+              <select class="form-control" formControlName="usertype">
+                <option value="" disabled hidden>Select </option>
+                <option value="Free">Free </option>
+                <option value="Paid">Paid</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Status<span class="required">*</span></label>
+              <select class="form-control" formControlName="status">
+                <option value="" disabled hidden>Select </option>
+                <option value="Active">Active </option>
+                <option value="InActive">InActive</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="">Category<span class="required">*</span></label>
+            <select class="form-control" formControlName="assingedCourseCat">
+              <option value="" selected hidden disabled>Category </option>
+              <option value="AIAPGET Regular courses">AIAPGET Regular courses </option>
+              <option value="BAMS 4TH Year Course">BAMS 4TH Year Course </option>
+              <option value="None">None</option>
+            </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Batch<span class="required">*</span></label>
+              <select class="form-control" formControlName="batch">
+                <option value="" disabled hidden>Select </option>
+                <option value="A">A </option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Course End Data <span class="required">*</span> </label>
+              <input type="date" class="form-control" formControlName="courseEndDate">
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Membership<span class="required">*</span></label>
+              <select class="form-control" formControlName="membership">
+                <option value="" disabled hidden>Select </option>
+                <option value="Silver">Silver</option>
+                <option value="Gold">Gold</option>
+                <option value="Premium">Premium</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+                <label for="uuid">Device Id</label>
+                <input type="text" class="form-control" formControlName="uuid">
+              </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" [disabled]="!updateUserForm.valid" (click)="onUpdateForm()">
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">

@@ -16,11 +16,13 @@ import readXlsxFile from 'read-excel-file'
 export class TestsComponent implements OnInit {
 
   apiResponse: any = [];
+  userTestReport:any = [];
   createTestForm: FormGroup;
   updateTestForm: FormGroup;
   deleteTestId: any;
   subscription: Subscription;
   UploadedFileContent: any = [];
+  UserLIst:any = [];
   test_id:any
   categoryList: any = [
     {title: "Padarth Vigyan", icon: "padarth_vigyan.png"},
@@ -175,6 +177,11 @@ export class TestsComponent implements OnInit {
      }
 
 
+     if(localStorage.getItem("usrsAll")){
+      this.UserLIst = JSON.parse(localStorage.getItem("usrsAll"));
+     }
+      console.log( this.UserLIst)
+
   }
 
   ngOnDestroy() {
@@ -243,6 +250,42 @@ export class TestsComponent implements OnInit {
         console.log(success);
         this.alertService.update();
       })
+  }
+  liveTest(){
+    
+    this.operation.liveTestStatus("BwVtrnlWkZP1I63zqyFn").then(success =>{
+      this.userTestReport = success.map(doc => {
+        return {
+          id: doc.id,
+          totalquestion: doc.data()['totalquestion'],
+          right: doc.data()['right'],
+          wrong: doc.data()['wrong'],
+          unasnwered: doc.data()['unasnwered'],
+          totaltime: doc.data()['totaltime'],
+          totalmark: doc.data()['totalmark'],
+          scoremark: doc.data()['scoremark'],
+          testname: doc.data()['testname'],
+          test_id: doc.data()['test_id'],
+          createdDate:doc.data()['createdDate'],
+          myRank:doc.data()['myRank'],
+          userId: doc.data()['user_id']
+           
+        };
+      })
+      console.log(this.userTestReport);
+      for (var i = 0; i < this.userTestReport.length; i++) {
+        this.userTestReport[i].userName = this.findUserName( this.userTestReport[i].userId)
+      }
+   
+    })
+    
+  }
+  findUserName(userId){
+    // console.log(userId);
+    // console.log(this.UserLIst);
+    let obj = this.UserLIst.find(obj => obj.id == userId);
+    console.log(obj)
+    return obj.FullName || "";
   }
   getFilteredData() {
   

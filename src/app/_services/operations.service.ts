@@ -305,6 +305,21 @@ export class OperationsService {
   addComment(record: any) {
     return this.firestore.collection('video_comments').add(record);
   }
+  totalTestConduct(){
+    return this.firestore.collection('testscore').snapshotChanges();
+  }
+  liveTestStatus(testId): Promise<any[]> {
+    return this.firestore.collection<any>('testscore').ref.where('test_id', '==', testId)
+   .get().then((ref) => {
+    return ref.docs;
+   })
+  }
+  getMyScores(userId): Promise<any[]> {
+    return this.firestore.collection<any>('testscore').ref.where('user_id', '==', userId)
+   .get().then((ref) => {
+    return ref.docs;
+   })
+  }
 
   sendPushNotification(title: any, description: any, tokens: string){
 
