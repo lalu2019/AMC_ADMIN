@@ -23,6 +23,7 @@ export class CommonComponent implements OnInit {
   createNotesForm: FormGroup;
   contacUsForm: FormGroup;
   reportedQuestionForm: FormGroup;
+  mnemonicsForm:FormGroup;
 
 
   isActiveButton: any = 'btn1'
@@ -32,7 +33,9 @@ export class CommonComponent implements OnInit {
   membershipList: any = [];
   contactUslList: any = [];
   reportedQuestion:any = [];
+  Mnemonics:any = [];
   tipsList: any = [];
+  syllabusData:any = [];
   selectedRecordForEdit: any = {};
 
 
@@ -156,6 +159,20 @@ export class CommonComponent implements OnInit {
           })
         }
 
+        if (this.deleteRecordType == 'Mnemonics') {
+          this.loaderService.show();
+          this.operation.deletemnemonics(this.deleteRcordId).then(success => {
+            console.log(success);
+            this.loaderService.hide();
+            this.alertService.delete();
+             this.getMnemonics();
+
+          })
+        }
+
+
+        
+
 
       }
     });
@@ -164,6 +181,33 @@ export class CommonComponent implements OnInit {
 
   setActive(buttonName) {
     this.isActiveButton = buttonName;
+
+    if(buttonName == 'btn5'){
+      this.getAllSyllabus();
+    }
+    if(buttonName == 'btn3'){
+      this.getAllBooks();
+    }
+    if(buttonName == 'btn7'){
+      this.getContact();
+    }
+    if(buttonName == 'btn8'){
+      this.getAllReported();
+    }
+    if(buttonName == 'btn4'){
+      this.getAllStory();
+    }
+    if(buttonName == 'btn2'){
+      this.getTips();
+    }
+
+    if(buttonName == 'btn9'){
+      this.getMnemonics();
+    }
+    
+
+    
+     
   }
 
   isActive = function (buttonName) {
@@ -171,12 +215,10 @@ export class CommonComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllStory();
-    this.getAllBooks();
-    this.getContact();
+   
     this.getMemberships();
-    this.getTips();
-    this.getAllReported();
+   
+   
 
     this.createStoryForm = this.formBuilder.group({
       id: [''],
@@ -211,8 +253,9 @@ export class CommonComponent implements OnInit {
     this.createSyllabusForm = this.formBuilder.group({
       id: [''],
       title: ['', Validators.required],
-      description: ['', Validators.required],
-      link: ['',]
+      description: [''],
+      link: ['', Validators.required],
+      index:['',]
     });
 
     this.createNotesForm = this.formBuilder.group({
@@ -232,6 +275,15 @@ export class CommonComponent implements OnInit {
       offer_terms: ['']
     });
 
+    this.mnemonicsForm = this.formBuilder.group({
+      id: [''],
+      title: ['', Validators.required],
+      description: [''],
+      link: ['', Validators.required],
+      type: ['', Validators.required],
+      index:['',]
+    });
+
     this.reportedQuestionForm = this.formBuilder.group({
       id: [''],
       Question: [''],
@@ -243,7 +295,8 @@ export class CommonComponent implements OnInit {
       comment: ['', Validators.required],
       admin_comment: ['Done'],
       question_id:[''],
-      set_id:['']
+      set_id:[''],
+      userId:['']
     });
 
   }
@@ -476,14 +529,18 @@ export class CommonComponent implements OnInit {
   editSyllabus(selected) {
     this.createSyllabusForm.controls.id.setValue(selected.id)
     this.createSyllabusForm.controls.title.setValue(selected.title)
-    this.createSyllabusForm.controls.description.setValue(selected.description)
+    // this.createSyllabusForm.controls.description.setValue(selected.description)
     this.createSyllabusForm.controls.link.setValue(selected.link)
+    this.createSyllabusForm.controls.index.setValue(selected.index)
+    
+
   }
   updateSyllabus() {
     let record = {};
     record['title'] = this.createSyllabusForm.value.title;
     record['description'] = this.createSyllabusForm.value.description;
     record['link'] = this.createSyllabusForm.value.link;
+    record['index'] = this.createSyllabusForm.value.index;
     this.loaderService.show();
     this.operation.updateStory(this.createSyllabusForm.value.id, record).then(success => {
       this.loaderService.hide();
@@ -499,30 +556,37 @@ export class CommonComponent implements OnInit {
     record['title'] = this.createSyllabusForm.value.title;
     record['description'] = this.createSyllabusForm.value.description;
     record['link'] = this.createSyllabusForm.value.link;
+    record['index'] = this.createSyllabusForm.value.index;
+    
     record['createdDate'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
     this.loaderService.show();
-    this.operation.createStory(record).then(success => {
+    this.operation.createSyllabus(record).then(success => {
       this.loaderService.hide();
       this.alertService.save();
       this.createSyllabusForm.reset();
-      this.getAllStory();
+      this.getAllSyllabus();
     })
   }
   getAllSyllabus() {
-    // this.loaderService.show();
-    // this.operation.getAllSyllabus().subscribe(success => {
-    //   console.log(success);
-    //   this.loaderService.hide();
-    //   this.apiResponse = success.map(e => {
-    //     return {
-    //       id: e.payload.doc.id,
-    //       title: e.payload.doc.data()['title'],
-    //       description: e.payload.doc.data()['description'],
-    //       link: e.payload.doc.data()['link'],
-    //     };
-    //   })
-    //   console.log(this.apiResponse);
-    // })
+    this.loaderService.show();
+    this.operation.getsyllabus().subscribe(success => {
+      console.log(success);
+      this.loaderService.hide();
+     let ApiRecord = success.map(e => {
+        return {
+          id: e.payload.doc.id,
+          title: e.payload.doc.data()['title'],
+          description: e.payload.doc.data()['description'],
+          link: e.payload.doc.data()['link'],
+          index:e.payload.doc.data()['index']
+        };
+      })
+
+      this.syllabusData = ApiRecord.sort((a, b) => {
+        return <any>a.index - <any> b.index;
+      });
+      console.log(this.syllabusData);
+    })
   }
 
 
@@ -542,7 +606,7 @@ export class CommonComponent implements OnInit {
       this.loaderService.hide();
       this.alertService.update();
       this.createNotesForm.reset();
-      this.getAllSyllabus();
+      //this.getAllSyllabus();
     })
   }
 
@@ -666,6 +730,49 @@ export class CommonComponent implements OnInit {
     })
   }
 
+   savegetMnemonics(){
+
+    let record = {};
+    record['title'] = this.mnemonicsForm.value.title
+    record['link'] = this.mnemonicsForm.value.link
+    record['type'] = this.mnemonicsForm.value.type
+    record['index'] = this.mnemonicsForm.value.index
+    record['createdDate'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+    this.loaderService.show();
+    this.operation.addmnemonics(record).then(success => {
+      console.log(success);
+      this.loaderService.hide();
+      this.alertService.save();
+      this.mnemonicsForm.reset();
+      this.getMnemonics();
+    })
+  
+   }
+   updateMnemonics(){
+    // updatemnemonics
+   }
+   DeletegetMnemonics(){
+   //deletemnemonics
+   }
+  getMnemonics(){
+    
+    this.loaderService.show();
+    this.operation.getmnemonics().subscribe(success => {
+      this.loaderService.hide();
+      this.Mnemonics = success.map(e => {
+        return {
+          id: e.payload.doc.id,
+          title: e.payload.doc.data()['title'],
+          link: e.payload.doc.data()['link'],
+          index: e.payload.doc.data()['index'],
+          type: e.payload.doc.data()['type'],
+        
+        };
+      })
+      console.log(this.Mnemonics);
+    })
+  }
+
   getAllReported() {
     this.operation.getReportedQuestion().subscribe((ref) => {
       this.reportedQuestion = ref.map(e => {
@@ -680,7 +787,8 @@ export class CommonComponent implements OnInit {
           answer: e.payload.doc.data()['answer'],
           comment: e.payload.doc.data()['comment'],
           question_id: e.payload.doc.data()['question_id'],
-          admin_comment: e.payload.doc.data()['admin_comment']
+          admin_comment: e.payload.doc.data()['admin_comment'],
+          userId:e.payload.doc.data()['user_id']
           
         };
       })
@@ -702,6 +810,8 @@ export class CommonComponent implements OnInit {
 
     this.reportedQuestionForm.controls.question_id.setValue(value.question_id)
     this.reportedQuestionForm.controls.set_id.setValue(value.set_id)
+    this.reportedQuestionForm.controls.userId.setValue(value.userId)
+    
     
   }
 
@@ -725,6 +835,7 @@ export class CommonComponent implements OnInit {
     this.operation.updateReportedQuestion(this.reportedQuestionForm.value.id, record).then(success =>{
       this.getAllReported();
       this.updateQuestion(record);
+      this.saveCustomNotification();
     });
     
   }
@@ -738,6 +849,22 @@ export class CommonComponent implements OnInit {
         this.alertService.update();
       })
   }
+
+
+  saveCustomNotification(){
+
+    let record = {}
+     record["title"] = "Reported Question update"
+     record["body"] = "Hello, Student, Admin has been updated the reported question. Please check"
+     record["UserId"] = this.reportedQuestionForm.value.userId
+  
+    console.log(record);
+    this.operation.addCustomNotification(record).then(success =>{
+      console.log("done");
+    });
+    
+  }
+
   deleteConfirmation(value, type) {
 
     this.confirmationDialogService.show();

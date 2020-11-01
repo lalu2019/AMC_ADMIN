@@ -174,6 +174,7 @@ export class VideosComponent implements OnInit {
     //   {title: "Modern", icon: "modern.png"}] 
   selectedParentCat:any = "AIAPGET Regular courses";
   selectedChildCat:any = "Charak chikitsasthan"
+  assignedBatch:any = 'A'
   constructor(
     private operation: OperationsService,
     private loaderService: LoaderService,
@@ -248,10 +249,11 @@ export class VideosComponent implements OnInit {
       })
     })
   }
-  changeFilter(parent, child){
+  changeFilter(parent, child, assignedBatch){
    
     if(parent == "Demo Lectures" || parent == "Orientation Lectures"){
       this.selectedChildCat = null;
+      this.assignedBatch = null;
     }
     // console.log(this.selectedParentCat);
     // console.log( this.selectedChildCat);
@@ -260,7 +262,7 @@ export class VideosComponent implements OnInit {
   getAllVideo() {
     this.loaderService.show();
 
-    this.operation.getAllVideo(this.selectedParentCat, this.selectedChildCat).then(success => {
+    this.operation.getAllVideo(this.selectedParentCat, this.selectedChildCat,  this.assignedBatch).then(success => {
       console.log(success);
       this.loaderService.hide();
       let arrayWithDateVerification = success.map(e => {

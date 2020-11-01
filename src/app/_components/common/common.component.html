@@ -22,6 +22,10 @@
     <button type="button" class="btn btn-secondary" [class.active]="isActive('btn8')" (click)="setActive('btn8')">
      Reported Question
     </button>
+
+    <button type="button" class="btn btn-secondary" [class.active]="isActive('btn9')" (click)="setActive('btn9')">
+      Mnemonics
+     </button>
 </div>
 
 <div *ngIf="isActiveButton == 'btn1'" class="mr-20">
@@ -390,10 +394,7 @@
             <input class="form-control" placeholder="Reference Link" formControlName="link">
           </div>
           <div class="col col-6 form-group">
-            <!-- <angular-editor id="syllabusCreateAndEditEditor" formControlName="description" [config]="editorConfig">
-            </angular-editor> -->
-            <input class="form-control " placeholder="Enter Description" formControlName="description">
-
+            <input type="number" class="form-control " placeholder="Enter Index" formControlName="index">
           </div>
         </div>
 
@@ -410,7 +411,7 @@
   </div>
 
   <div>
-    <p>Total Syllabus : {{apiResponse.length}} </p>
+    <p>Total Syllabus : {{syllabusData.length}} </p>
     <div class="table-responsive-sm">
       <table class="table table-bordered">
         <thead>
@@ -426,7 +427,7 @@
         </thead>
         <tbody>
           <div align="center" col="6" *ngIf="!apiResponse.length">No Record Found </div>
-          <tr *ngFor="let syllabus of apiResponse">
+          <tr *ngFor="let syllabus of syllabusData">
             <!-- <td>1</td> -->
             <td>{{syllabus.title}}</td>
             <td class="description-column" [innerHTML]="syllabus.description"></td>
@@ -684,6 +685,90 @@
                 </span>
                 <span>
                   <a class="delete-action-btn" (click)="deleteConfirmation(story, 'reportedQuestion')">
+                    <i class="fa fa-trash"></i>
+                  </a>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+    </div>
+  
+  </div>
+  <div *ngIf="isActiveButton == 'btn9'" class="mr-20">
+
+    <div class="dashboard-grid-heading">Add Mnemonics</div>
+    <div class="row mr-20">
+      <form [formGroup]="mnemonicsForm">
+        <div class="customSection">
+          <div class="row">
+  
+            <div class="col col-6 form-group">
+  
+              <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
+            </div>
+  
+            <div class="col col-6 form-group">
+              <input class="form-control" placeholder="Reference Link" formControlName="link">
+            </div>
+            <div class="col col-6 form-group">
+        
+              <select class="form-control"  formControlName="type">
+                <option value="" selected  disabled>Select Type</option>
+                <option value="pdf">Pdf</option>
+                <option value="video">Video</option>
+               </select>
+            </div>
+
+            <div class="col col-6 form-group">
+        
+              <input type="numberr" class="form-control " placeholder="Enter Index" formControlName="index">
+            </div>
+
+           
+          </div>
+  
+        </div>
+  
+  
+        <div align="center" style="margin-top:20px">
+          <button type="button" *ngIf="!mnemonicsForm.value.id" class="btn btn-success"
+            [disabled]="!mnemonicsForm.valid" (click)="savegetMnemonics()">Submit</button>
+          <button type="button" *ngIf="mnemonicsForm.value.id" class="btn btn-success"
+            [disabled]="!mnemonicsForm.valid" (click)="updateMnemonics()">Update</button>
+        </div>
+      </form>
+    </div>
+  
+    <div>
+      <p>Total Story : {{Mnemonics.length}} </p>
+      <div class="table-responsive-sm">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <!-- <th>#</th> -->
+              <th>Title</th>
+              <th>Type</th>
+              <th>Link</th>
+              <th>index</th>
+              <th>Action</th>
+  
+            </tr>
+          </thead>
+          <tbody>
+            <div align="center" col="6" *ngIf="!Mnemonics.length">No Record Found </div>
+            <tr *ngFor="let story of Mnemonics">
+              <!-- <td>1</td> -->
+              <td>{{story.title}}</td>
+              <td>{{story.type}}</td>
+              <td>{{story.link}}</td>
+              <td>{{story.index}}</td>
+              <td style="width:130px;">
+               
+                <span>
+                  <a class="delete-action-btn mr-5" (click)="deleteConfirmation(story, 'Mnemonics')">
                     <i class="fa fa-trash"></i>
                   </a>
                 </span>

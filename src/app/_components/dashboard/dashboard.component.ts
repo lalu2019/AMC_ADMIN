@@ -188,15 +188,21 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllUsers() {
+
+    this.TotalUser= 0
+    this.paidUsers= 0
+    this.freeUsers= 0
+    this.inactiveUsers = 0
+    this.activeUsers = 0
     this.operation.getUserWithouFilter().subscribe(success => {
       this.userListData = success.map(e => {
         if (e.payload.doc.data()['status'] == 'Active') {
           this.activeUsers += 1;
         }
-        if (e.payload.doc.data()['status'] == 'InActive') {
+        if (e.payload.doc.data()['status'] == 'InActive' ) {
           this.inactiveUsers += 1;
         }
-        if (e.payload.doc.data()['userType'] == 'Free') {
+        if (e.payload.doc.data()['userType'] == 'Free' ||  !e.payload.doc.data()['userType']) {
           this.freeUsers += 1;
         }
         if (e.payload.doc.data()['userType'] == 'Paid') {

@@ -27,7 +27,17 @@ export class OperationsService {
   }
   
 
-  getAllVideo(category: string, childcategory: string): Promise<any[]> {
+  getAllVideo(category: string, childcategory: string, assignBatch: string): Promise<any[]> {
+
+    //  console.log(category) 
+    //   console.log(childcategory) 
+    //   console.log(assignBatch)
+    // if(category &&  childcategory && assignBatch){
+    //   return this.firestore.collection<any>('videos').ref.where('CatId', '==', category).where('childcategory', '==', childcategory).where('assignedBatch', '==', assignBatch)
+    //   .get().then((ref) => {
+    //    return ref.docs;
+    //   })
+    // }
     if(category && !childcategory){
       return this.firestore.collection<any>('videos').ref.where('CatId', '==', category)
       .get().then((ref) => {
@@ -216,6 +226,13 @@ export class OperationsService {
   getAllBooks(): Observable<any> {
     return this.firestore.collection('Books').snapshotChanges();
   }
+  
+  createSyllabus(record: any) {
+    return this.firestore.collection('syllabus').add(record);
+  }
+  getsyllabus() {
+    return this.firestore.collection('syllabus').snapshotChanges();
+  }
   updateBook(recordID: string, record: Partial<any>) {
     return this.firestore.doc('Books/' + recordID).update(record);
   }
@@ -249,6 +266,20 @@ export class OperationsService {
   }
   deleteMembership(record_id: string) {
     return this.firestore.doc('Membership/' + record_id).delete();
+  }
+
+//Mnemonics api 
+  addmnemonics(record: any) {
+    return this.firestore.collection('mnemonics').add(record);
+  }
+  getmnemonics(): Observable<any> {
+    return this.firestore.collection('mnemonics').snapshotChanges();
+  }
+  updatemnemonics(recordID: string, record: Partial<any>) {
+    return this.firestore.doc('mnemonics/' + recordID).update(record);
+  }
+  deletemnemonics(record_id: string) {
+    return this.firestore.doc('mnemonics/' + record_id).delete();
   }
 
   //Tips  section api
@@ -305,6 +336,12 @@ export class OperationsService {
   addComment(record: any) {
     return this.firestore.collection('video_comments').add(record);
   }
+
+  addCustomNotification(record) {
+    return this.firestore.collection('customNotification').add(record);
+  }
+
+
   totalTestConduct(){
     return this.firestore.collection('testscore').snapshotChanges();
   }
@@ -320,6 +357,23 @@ export class OperationsService {
     return ref.docs;
    })
   }
+
+  
+  getAllCompletedTasks(userid) { 
+    return this.firestore.collection<any>('completedTask').ref.where('userId', '==', userid)
+      .get().then((ref) => {
+        return ref.docs;
+      })
+  }
+  getVideoReport(userid) { 
+    return this.firestore.collection<any>('course_report').ref.where('userId', '==', userid)
+      .get().then((ref) => {
+        return ref.docs;
+      })
+  }
+
+
+  
 
   sendPushNotification(title: any, description: any, tokens: string){
 

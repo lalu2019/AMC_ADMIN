@@ -32,7 +32,10 @@ export class UsersComponent implements OnInit {
   srMobile:any = '';
   membershipType:any = '';
   TotalUser: any = 0;
-
+  isActiveButton: any = 'btn1'
+  selectedUserId:any;
+  taskReport:any = [];
+  videoReport:any = [];
 
   constructor(private operation: OperationsService,
     private loaderService: LoaderService,
@@ -51,7 +54,19 @@ export class UsersComponent implements OnInit {
       }
     });
   }
-
+  setActive(buttonName) {
+    this.isActiveButton = buttonName;
+    if(buttonName == 'btn2'){
+      this.getTaskReport();
+    }
+    if(buttonName == 'btn3'){
+      this.getVideoReport();
+    }
+  }
+ 
+  isActive = function (buttonName) {
+    return this.isActiveButton === buttonName;
+  }
   ngOnInit(): void {
     this.updateUserForm = this.formBuilder.group({
       id: [''],
@@ -104,7 +119,7 @@ export class UsersComponent implements OnInit {
     this.loaderService.show();
       this.operation.getUserWithouFilter().subscribe(success => {
         this.loaderService.hide();
-        this.apiResponse = success.map(e => {
+       let questionData = success.map(e => {
           return {
             id: e.payload.doc.id,
             FullName: e.payload.doc.data()['FullName'],
@@ -125,11 +140,18 @@ export class UsersComponent implements OnInit {
             uuid:e.payload.doc.data()['uuid'],
             model:e.payload.doc.data()['model'],
             assingedCourseCat:e.payload.doc.data()['assingedCourseCat'],
-            batch:e.payload.doc.data()['batch']
+            batch:e.payload.doc.data()['batch'],
+            createdDate:e.payload.doc.data()['createdDate']
           
           };
         })
+        
+        this.apiResponse = questionData.sort((a, b) => {
+          return <any> new Date(b.createdDate).valueOf()   - <any>  new Date(a.createdDate).valueOf();
+        });
+        console.log(this.apiResponse);
         this.TotalUser = this.apiResponse.length;
+     
         localStorage.setItem("usrsAll", JSON.stringify(this.apiResponse))
       })
     
@@ -140,9 +162,9 @@ export class UsersComponent implements OnInit {
       this.fetrchDataWithoutFilter();
     }else{
       this.operation.getAllUsers(this.srName, this.srMobile,  this.membershipType).then(success => {
-        console.log(success);
+   
         this.loaderService.hide();
-        this.apiResponse = success.map(e => {
+       let questionData = success.map(e => {
           return {
             id: e.id,
             FullName: e.data()['FullName'],
@@ -163,11 +185,17 @@ export class UsersComponent implements OnInit {
             uuid:e.data()['uuid'],
             model:e.data()['model'],
             assingedCourseCat:e.data()['assingedCourseCat'],
-            batch:e.data()['batch']
+            batch:e.data()['batch'],
+            createdDate:e.data()['createdDate']
           
           };
         })
+
+        this.apiResponse = questionData.sort((a, b) => {
+          return <any> new Date(b.createdDate).valueOf()   - <any>  new Date(a.createdDate).valueOf();
+        });
         console.log(this.apiResponse);
+      
        
       })
     }
@@ -216,11 +244,50 @@ export class UsersComponent implements OnInit {
       this.selectedUser = user
 
   }
+  getVideoReport(){
+
+    this.operation.getVideoReport(this.selectedUserId).then(success =>{
+      this.videoReport = success.map(doc => {
+        return {
+          id: doc.id,
+          title: doc.data()['title'],
+          link: doc.data()['link'],
+          CatId: doc.data()['CatId'],
+          assignedBatch: doc.data()['assignedBatch'],
+          childcategory: doc.data()['childcategory'],
+          createdDate:doc.data()['createdDate'],
+        };
+      })
+      console.log( this.videoReport);
+    })
+  }
+  getTaskReport(){
+   
+    this.operation.getAllCompletedTasks(this.selectedUserId).then(success =>{
+     
+      this.taskReport = success.map(doc => {
+        return {
+          id: doc.id,
+          title: doc.data()['title'],
+          description: doc.data()['description'],
+          status: doc.data()['status'],
+          link: doc.data()['link'],
+          TaskId: doc.data()['TaskId'],
+    
+          createdDate:doc.data()['createdDate'],
+         
+        };
+      })
+      console.log( this.taskReport);
+    })
+  }
 
   
   
   openUserReport(userData){
     console.log(userData)
+    this.isActiveButton = 'btn1'
+    this.selectedUserId = userData.id;
     this.operation.getMyScores(userData.id).then(success =>{
       this.userTestReport = success.map(doc => {
         return {
@@ -241,7 +308,6 @@ export class UsersComponent implements OnInit {
       console.log(this.userTestReport);
     })
     
-
   }
   onEditPermissionUser(user) {
 

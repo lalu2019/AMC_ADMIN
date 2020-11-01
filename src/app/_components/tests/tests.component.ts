@@ -140,7 +140,8 @@ export class TestsComponent implements OnInit {
       childcategory: [''],
       year: ['2020', Validators.required],
       excelFile: ['', Validators.required],
-      orderIndex:['1']
+      orderIndex:['1'],
+      status:['']
     });
 
     this.updateTestForm = this.formBuilder.group({
@@ -154,10 +155,10 @@ export class TestsComponent implements OnInit {
       childcategory: [''],
       year: ['',],
       // excelFile: ['', Validators.required],
-      orderIndex:['1']
+      orderIndex:[''],
+      status:['']
     });
     this.getAllTest();
-
 
     const that = this;
     document.getElementById("fileImport").onchange= function(e: Event) {
@@ -251,10 +252,10 @@ export class TestsComponent implements OnInit {
         this.alertService.update();
       })
   }
-  liveTest(){
-    
-    this.operation.liveTestStatus("BwVtrnlWkZP1I63zqyFn").then(success =>{
-      this.userTestReport = success.map(doc => {
+  liveTest(data){
+    console.log(data);
+    this.operation.liveTestStatus(data.id).then(success =>{
+     let dummyData = success.map(doc => {
         return {
           id: doc.id,
           totalquestion: doc.data()['totalquestion'],
@@ -272,9 +273,22 @@ export class TestsComponent implements OnInit {
            
         };
       })
-      console.log(this.userTestReport);
+
+       dummyData.filter((item,index) => {
+        console.log(item)
+        console.log(this.userTestReport.indexOf(item.id))
+        if(this.userTestReport.indexOf(item.id) == -1){
+          this.userTestReport.push(item);
+        } 
+      });
+
+       console.log(this.userTestReport)
+    
+    
       for (var i = 0; i < this.userTestReport.length; i++) {
         this.userTestReport[i].userName = this.findUserName( this.userTestReport[i].userId)
+        let Perct  = ((this.userTestReport[i].scoremark / this.userTestReport[i].totalmark) * 100).toFixed(2);
+        this.userTestReport[i].percentage =  parseFloat(Perct);
       }
    
     })
@@ -336,7 +350,8 @@ export class TestsComponent implements OnInit {
           year: e.payload.doc.data()['year'],
           createdDate: e.payload.doc.data()['createdDate'],
           childcategory:e.payload.doc.data()['childcategory'],
-          orderIndex:e.payload.doc.data()['orderIndex']
+          orderIndex:e.payload.doc.data()['orderIndex'],
+          status:e.payload.doc.data()['status'] || ''
         };
       })
       console.log(this.apiResponse);
@@ -363,6 +378,7 @@ export class TestsComponent implements OnInit {
       record['childcategory'] = '';
     }
     record['orderIndex'] =  this.createTestForm.value.orderIndex;
+    record['status'] =  "Active";
     record['createdDate'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
     this.loaderService.show();
     this.operation.createTest(record).then(success => {
@@ -409,7 +425,8 @@ export class TestsComponent implements OnInit {
       category:test.category,
       childcategory:test.childcategory,
       year:test.year,
-      orderIndex:test.orderIndex
+      orderIndex:test.orderIndex,
+      status:test.status
     });
   }
   updateTest(){
@@ -428,6 +445,7 @@ export class TestsComponent implements OnInit {
     }else{
       record['childcategory'] = '';
     }
+    record['status'] =  this.updateTestForm.value.status;
     record['orderIndex'] =  this.updateTestForm.value.orderIndex;
     this.loaderService.show();
     this.operation.updateTest( this.updateTestForm.value.id, record).then(success => {

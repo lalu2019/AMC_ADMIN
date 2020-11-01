@@ -111,43 +111,124 @@
         </button>
       </div>
       <div class="modal-body">
-          <div class="table-responsive-sm">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>testname</th>
-                    <th>scoremark</th>
-                    <th>totalmark</th>
-                    <th>totaltime</th>
-                    <th>totalquestion</th>
-                    <th>unasnwered</th>
-                    <th>right</th>
-                    <th>wrong</th>
+          <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-secondary" [class.active]="isActive('btn1')"
+                (click)="setActive('btn1')">Test Report</button>
+              <button type="button" class="btn btn-secondary" [class.active]="isActive('btn2')" (click)="setActive('btn2')">
+                Task Report
+              </button>
+              <button type="button" class="btn btn-secondary" [class.active]="isActive('btn3')"
+                (click)="setActive('btn3')">
+                Video Lecture Report
+              </button>
+           
+          </div>
+          <div *ngIf="isActiveButton == 'btn1'" class="mr-20">
+              <div class="table-responsive-sm">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>testname</th>
+                        <th>scoremark</th>
+                        <th>totalmark</th>
+                        <th>totaltime</th>
+                        <th>totalquestion</th>
+                        <th>unasnwered</th>
+                        <th>right</th>
+                        <th>wrong</th>
+                       
+                        <th>Created  Date</th>
+                      </tr>
+              
+                    </thead>
+                    <tbody>
+                        <div align="center" style="margin-top:30px" *ngIf="userTestReport.length <= 0">No Record Found  </div>
+    
+                      <tr *ngFor="let user of userTestReport">
+                      
+                        <td>{{user.testname}}</td>
+                        <td>{{user.scoremark}}</td>
+                        <td>{{user.totalmark}}</td>
+                        <td>{{user.totaltime}}</td>
+                        <td>{{user.totalquestion}}</td>
+                        <td>{{user.unasnwered}}</td>
+                        <td>{{user.right}}</td>
+                      
+                        <td>{{user.wrong}}</td>
+                        <td>{{user.createdDate}}</td>
+                       
+                      </tr>
+                    </tbody>
+                  </table>
+               </div>
+          </div>
+          <div *ngIf="isActiveButton == 'btn2'" class="mr-20">
+              <div class="table-responsive-sm">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>title</th>
+                        <th>description</th>
+                        <th>status</th>
+                        <th>link</th>
+                        <th>TaskId</th>
+                       
+                        <th>Created  Date</th>
+                      </tr>
+                 
+                    </thead>
+                    <tbody>
+                        <div align="center" style="margin-top:30px" *ngIf="taskReport.length <= 0">No Record Found  </div>
+    
+                      <tr *ngFor="let user of taskReport">
+                      
+                        <td>{{user.title}}</td>
+                        <td>{{user.description}}</td>
+                        <td>{{user.status}}</td>
+                        <td>{{user.link}}</td>
+                        <td>{{user.TaskId}}</td>
+                        
+                        <td>{{user.createdDate}}</td>
+                       
+                      </tr>
+                    </tbody>
+                  </table>
+               </div>
+          </div>
+          <div *ngIf="isActiveButton == 'btn3'" class="mr-20">
+              <div class="table-responsive-sm">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>title</th>
+                        <th>link</th>
+                        <th>Category</th>
+                        <th>childcategory</th>
+                        <!-- <th>assignedBatch</th> -->
                    
-                    <th>Created  Date</th>
-                  </tr>
-          
-                </thead>
-                <tbody>
-                    <div align="center" style="margin-top:30px" *ngIf="userTestReport.length <= 0">No Record Found  </div>
-
-                  <tr *ngFor="let user of userTestReport">
-                  
-                    <td>{{user.testname}}</td>
-                    <td>{{user.scoremark}}</td>
-                    <td>{{user.totalmark}}</td>
-                    <td>{{user.totaltime}}</td>
-                    <td>{{user.totalquestion}}</td>
-                    <td>{{user.unasnwered}}</td>
-                    <td>{{user.right}}</td>
-                  
-                    <td>{{user.wrong}}</td>
-                    <td>{{user.createdDate}}</td>
-                   
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                        <th>Created  Date</th>
+                      </tr>
+              
+                    </thead>
+                    <tbody>
+                        <div align="center" style="margin-top:30px" *ngIf="videoReport.length <= 0">No Record Found  </div>
+    
+                      <tr *ngFor="let user of videoReport">
+                      
+                        <td>{{user.title}}</td>
+                        <td>{{user.link}}</td>
+                        <td>{{user.CatId}}</td>
+                        <td>{{user.childcategory}}</td>
+                        <!-- <td>{{user.assignedBatch}}</td> -->
+                      
+                        <td>{{user.createdDate}}</td>
+                       
+                      </tr>
+                    </tbody>
+                  </table>
+               </div>
+          </div>
+        
       </div>
     
     </div>
