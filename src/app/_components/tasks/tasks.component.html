@@ -1,0 +1,150 @@
+<div
+  class="main-header-title d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mt-3 mb-3 border-bottom">
+  <h1 class="h2">Tasks</h1>
+</div>
+
+<div>
+  <div class="task-create-form">
+    <div class="row">
+      <div class="col">
+        <div class="customSection">
+          <div class="dashboard-grid-heading">Create Task</div>
+          <form [formGroup]="createTaskForm" (ngSubmit)="addNewTask()">
+            <div class="row task-form">
+              <div class="col col-6 form-group">
+                <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
+              </div>
+              <div class="col col-6 form-group">
+                <input class="form-control" placeholder="Reference Link" formControlName="link">
+              </div>
+              <div class="col col-6 form-group">
+                <input type="date" class="form-control" placeholder="End Date" formControlName="endDate">
+              </div>
+
+              <div class="col col-6 form-group">
+                <!-- <angular-editor id="taskCreateEditor" formControlName="description" [config]="editorConfig"></angular-editor> -->
+                <input class="form-control" placeholder="Enter Description" formControlName="description">
+              </div>
+            </div>
+            <div align="center" style="margin-top:20px">
+              <button type="button" class="btn btn-success" [disabled]="!createTaskForm.valid"
+                (click)="addNewTask()">Submit</button>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <p>Total Task : {{apiResponse.length}} </p>
+  <div class="table-responsive-sm">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <!-- <th>#</th> -->
+          <th>Title</th>
+          <th>Description</th>
+          <th>Reference</th>
+          <th>End Date</th>
+          <!-- <th>Status</th> -->
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <div align="center" col="6" *ngIf="!apiResponse.length">No Record Found </div>
+        <tr *ngFor="let task of apiResponse">
+          <!-- <td>1</td> -->
+          <td>{{task.title}}</td>
+          <td [innerHTML]="task.description"></td>
+          <td>{{task.link}}</td>
+          <td>{{task.endDate}}</td>
+          <!-- <td>{{task.status}}</td> -->
+          <td style="width:130px;">
+            <span>
+              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#commentTaskModal">
+                <i class="fa fa-comment"></i>
+              </a>
+            </span>
+            <span>
+              <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#taskModal" (click)="onEditTask(task)">
+                <i class="fa fa-pencil"></i>
+              </a>
+            </span>
+            <span>
+              <a class="delete-action-btn" (click)="deleteTask(task)">
+                <i class="fa fa-trash"></i>
+              </a>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateTaskForm" autocomplete="off" novalidate>
+          <div class="form-group">
+            <label for="title">Title<span class="required">*</span></label>
+            <input type="text" class="form-control" id="title" formControlName="title">
+          </div>
+          <div class="form-group">
+            <label for="description">Description<span class="required">*</span></label>
+            <!-- <angular-editor id="taskEditEditor" formControlName="description" [config]="editorConfig"></angular-editor> -->
+            <input class="form-control" placeholder="Enter Description" formControlName="description">
+          </div>
+          <div class="form-group">
+            <input class="form-control" placeholder="Reference Link" formControlName="link">
+          </div>
+          <div class="form-group">
+            <input type="date" class="form-control" placeholder="End Date" formControlName="endDate">
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" [disabled]="!updateTaskForm.valid" (click)="onUpdateForm()">
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="commentTaskModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="comment-content clearfix" *ngFor="let comment of commentData">
+          <div class="comment-text pull-left">{{comment.commentText}}</div>
+          <div class="comment-date-time pull-right">
+            <span>{{comment.currentDateTime | date: 'MM/dd/yyyy'}}, </span>
+            <span>{{comment.currentDateTime | date: 'h:mm a'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

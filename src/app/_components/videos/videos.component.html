@@ -1,0 +1,530 @@
+<div
+  class="main-header-title d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mt-3 mb-3 border-bottom">
+  <h1 class="h2">Courses</h1>
+</div>
+<div>
+
+  <div class="video-create-form">
+    <!-- <input type="file" id="fileImport"> -->
+    <div class="row">
+      <div class="col">
+        <div class="customSection">
+          <div class="dashboard-grid-heading">Add Video</div>
+          <form [formGroup]="createClassForm" (ngSubmit)="addNewClass()">
+            <div class="row video-form">
+              <div class="col col-6 form-group">
+                  <select class="form-control" formControlName="category">
+                      <option value="" selected hidden disabled>Category </option>
+                      <option value="Demo Lectures" >Demo Lectures </option>
+                      <option value="Orientation Lectures">Orientation Lectures </option>
+                      <option value="AIAPGET Regular courses">AIAPGET Regular courses </option>
+                      <option value="BAMS 4TH Year Course">BAMS 4TH Year Course </option>
+                      <!-- <option value="Orientation Lectures">Orientation Lectures </option> -->
+                    </select>
+               
+              </div>
+              <div class="col col-6 form-group" *ngIf="createClassForm.value.category == 'AIAPGET Regular courses' || createClassForm.value.category == 'BAMS 4TH Year Course'">
+                  <select class="form-control" formControlName="childcategory">
+                      <option value="" selected hidden disabled>Child Category</option>
+                      <option value=""  disabled>Charak Samhita Poorvardh : -</option>
+                      <option value="Charak Sutrasthan">1.Charak Sutrasthan</option>
+                      <option value="Charak vimansthana">2.Charak vimansthana</option>
+                      <option value="Charak Nidansthan">3.Charak Nidansthan</option>
+                      <option value="Charak Indryasthan">4.Charak Indryasthan</option>
+                      <option value="Charak sharirstan">5.Charak sharirstan</option>
+
+                      <option value=""  disabled>Charak Samhita Uttardha : -</option>
+                      <option value="Charak chikitsasthan">1.Charak chikitsasthan</option>
+                      <option value="Charak Sidhisthan">2.Charak Sidhisthan</option>
+                      <option value="Charak Kalpsthan">3.CCharak Kalpsthan</option>
+
+                      <option value=""  disabled>Sushruta Samhita Poorvardha : -</option>
+                      <option value="Sushruta Sutrasthan">1.Sushruta Sutrasthan</option>
+                      <option value="Sushruta Sharirsthan">2.Sushruta Sharirsthan</option>
+                      <option value="Sushruta Chikitsasthan">3.Sushruta Chikitsasthan</option>
+                      <option value="Sushruta Kalpsthan">4.Sushruta Kalpsthan</option>
+                      <option value="Sushruta Nidansthan">5.Sushruta Nidansthan</option>
+
+                      <option value=""  disabled>Sushruta Samhita Uttartantra : -</option>
+                      <option value="Sushruta Uttartantra">1.Sushruta Uttartantra</option>
+                    
+                      <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+                     
+                    </select>
+              </div>
+              <div class="col col-6 form-group">
+
+                <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
+              </div>
+              
+              <div class="col col-6 form-group">
+                <input class="form-control" placeholder="Video Link" formControlName="link">
+              </div>
+              <div class="col col-6 form-group">
+                <select class="form-control" placeholder="Video Source" formControlName="source">
+                  <option value="" disabled>Video Source </option>
+                  <option value="YouTube">YouTube </option>
+                  <option value="Vimeo">Vimeo</option>
+                </select>
+              </div>
+              <!-- <div class="col col-6 form-group">
+                <select class="form-control" formControlName="Accessibility">
+                  <option value="" disabled>Accessibility </option>
+                  <option value="Free">Free </option>
+                  <option value="Paid">Paid</option>
+                </select>
+              </div> -->
+              <div class="col col-6 form-group">
+                <input type="number" class="form-control" placeholder="Order Index" formControlName="orderIndex">
+              </div>
+              <div class="col col-6 form-group">
+
+                <label > End Data</label>
+                <input type="date" class="form-control" formControlName="endDate">
+                <!-- <input class="form-control" placeholder="Enter Description" formControlName="description"> -->
+                <!-- <angular-editor id="videoCreateEditor" formControlName="description" [config]="editorConfig"></angular-editor> -->
+                <!-- <input class="form-control" placeholder="Enter Description" formControlName="description"> -->
+              </div>
+              <div class="col col-6 form-group" *ngIf="createClassForm.value.category == 'AIAPGET Regular courses' || createClassForm.value.category == 'BAMS 4TH Year Course'">
+                <label for="batch">Assign Batch (You can select multiple options)<span class="required">*</span></label>
+                <select multiple class="form-control" formControlName="assignedBatch">
+                  <option value="" disabled>Select Batch </option>
+                  <option value="A">A </option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="">None</option>
+                </select>
+              </div>
+            </div>
+            <div align="center" style="margin-top:20px">
+              <button type="button" class="btn btn-success" [disabled]="!createClassForm.valid"
+                (click)="addNewClass()">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <p>Total Video : {{apiResponse.length}} </p> 
+  <div class="row">
+  <div class="col col-4 form-group">
+      <label >Parent Category</label>
+
+      <select class="form-control" [(ngModel)]="selectedParentCat" (change)="changeFilter(selectedParentCat, selectedChildCat, assignedBatch)">
+          <option value="" selected hidden disabled>Category </option>
+          <option value="Demo Lectures" >Demo Lectures </option>
+          <option value="Orientation Lectures">Orientation Lectures </option>
+          <option value="AIAPGET Regular courses">AIAPGET Regular courses </option>
+          <option value="BAMS 4TH Year Course">BAMS 4TH Year Course </option>
+          <!-- <option value="Orientation Lectures">Orientation Lectures </option> -->
+        </select>
+   
+  </div>
+    <div class="col col-4 form-group" *ngIf="selectedParentCat == 'AIAPGET Regular courses' || selectedParentCat == 'BAMS 4TH Year Course'">
+        <label >Child Category</label>
+
+      <select class="form-control" [(ngModel)]="selectedChildCat" (change)="changeFilter(selectedParentCat, selectedChildCat, assignedBatch)">
+            <option value="" selected hidden disabled>Child Category</option>
+            <option value=""  disabled>Charak Samhita Poorvardh : -</option>
+            <option value="Charak Sutrasthan">1.Charak Sutrasthan</option>
+            <option value="Charak vimansthana">2.Charak vimansthana</option>
+            <option value="Charak Nidansthan">3.Charak Nidansthan</option>
+            <option value="Charak Indryasthan">4.Charak Indryasthan</option>
+            <option value="Charak sharirstan">5.Charak sharirstan</option>
+
+            <option value=""  disabled>Charak Samhita Uttardha : -</option>
+            <option value="Charak chikitsasthan">1.Charak chikitsasthan</option>
+            <option value="Charak Sidhisthan">2.Charak Sidhisthan</option>
+            <option value="Charak Kalpsthan">3.Charak Kalpsthan</option>
+
+            <option value=""  disabled>Sushruta Samhita Poorvardha : -</option>
+            <option value="Sushruta Sutrasthan">1.Sushruta Sutrasthan</option>
+            <option value="Sushruta Sharirsthan">2.Sushruta Sharirsthan</option>
+            <option value="Sushruta Chikitsasthan">3.Sushruta Chikitsasthan</option>
+            <option value="Sushruta Kalpsthan">4.Sushruta Kalpsthan</option>
+            <option value="Sushruta Nidansthan">5.Sushruta Nidansthan</option>
+
+            <option value=""  disabled>Sushruta Samhita Uttartantra : -</option>
+            <option value="Sushruta Uttartantra">1.Sushruta Uttartantra</option>
+          
+            <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+          
+          </select>
+    </div>
+    <!-- <div class="col col-4 form-group" *ngIf="selectedParentCat == 'AIAPGET Regular courses' || selectedParentCat == 'BAMS 4TH Year Course'">
+        <label for="batch">Assign Batch<span class="required">*</span></label>
+        <select  class="form-control"  [(ngModel)]="assignedBatch" (change)="changeFilter(selectedParentCat, selectedChildCat, assignedBatch)">
+          <option value="A">A </option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="">None</option>
+        </select>
+      </div> -->
+  </div>
+  <div class="table-responsive-sm">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <!-- <th>#</th> -->
+          <th>Title</th>
+          <th>Category</th>
+          <th>Childcategory</th>
+          <th>Assigned Batch</th>
+          
+          <th>Link</th>
+          <th>Created Date</th>
+          <th>End Date</th>
+          <th>Status</th>
+
+          <th>Action</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!apiResponse.length">
+          <td colspan="7" align="center">No Record Found</td>
+        </tr>
+        <tr *ngFor="let video of apiResponse">
+          <!-- <td>1</td> -->
+          <td>{{video.title}}</td>
+          <td >{{video.CatName}}</td>
+          <td >{{video.childcategory}}</td>
+          <td >{{video.assignedBatch}}</td>
+          <td>{{video.link}}</td>
+          <td>{{video.createdDate}}</td>
+          <td>{{video.endDate}}</td>
+          <td>{{video.status}}</td>
+          
+          <td style="width:130px;">
+            <span>
+              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#copyVideo"  (click)="copyVideo(video)">
+                <i class="fa fa-files-o" aria-hidden="true"></i>
+              </a>
+            </span>
+            <span>
+              <a class="comment-action-btn mr-5" data-toggle="modal" data-target="#commentVideoModal"  (click)="onCommentVideo(video)">
+                <i class="fa fa-comment"></i>
+              </a>
+            </span>
+            <span>
+              <a class="edit-action-btn mr-5" data-toggle="modal" data-target="#videoModal"
+                (click)="onEditVideo(video)">
+                <i class="fa fa-pencil"></i>
+              </a>
+            </span>
+            <span>
+              <a class="delete-action-btn mr-5" (click)="deletVideo(video)">
+                <i class="fa fa-trash"></i>
+              </a>
+            </span>
+            <!-- <span >
+                          <a class="view-action-btn mr-5">
+                            <i class="fa fa-eye"></i>
+                          </a>
+                        </span> -->
+
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="modal fade" id="copyVideo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Copy Video Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="row">
+          <div class="col">
+            <div class="customSection">
+              <form [formGroup]="createClassForm" (ngSubmit)="addNewClass()">
+                <div class="row video-form">
+                  <div class="col col-6 form-group">
+                      <label >Parent Category</label>
+
+                      <select class="form-control" formControlName="category">
+                          <option value="" selected hidden disabled>Category </option>
+                          <option value="Demo Lectures" >Demo Lectures </option>
+                          <option value="Orientation Lectures">Orientation Lectures </option>
+                          <option value="AIAPGET Regular courses">AIAPGET Regular courses </option>
+                          <option value="BAMS 4TH Year Course">BAMS 4TH Year Course </option>
+                          <!-- <option value="Orientation Lectures">Orientation Lectures </option> -->
+                        </select>
+                   
+                  </div>
+                  <div class="col col-6 form-group" *ngIf="createClassForm.value.category == 'AIAPGET Regular courses' || createClassForm.value.category == 'BAMS 4TH Year Course'">
+                      <label >Child Category</label>
+ 
+                    <select class="form-control" formControlName="childcategory">
+                          <option value="" selected hidden disabled>Child Category</option>
+                          <option value=""  disabled>Charak Samhita Poorvardh : -</option>
+                          <option value="Charak Sutrasthan">1.Charak Sutrasthan</option>
+                          <option value="Charak vimansthana">2.Charak vimansthana</option>
+                          <option value="Charak Nidansthan">3.Charak Nidansthan</option>
+                          <option value="Charak Indryasthan">4.Charak Indryasthan</option>
+                          <option value="Charak sharirstan">5.Charak sharirstan</option>
+    
+                          <option value=""  disabled>Charak Samhita Uttardha : -</option>
+                          <option value="Charak chikitsasthan">1.Charak chikitsasthan</option>
+                          <option value="Charak Sidhisthan">2.Charak Sidhisthan</option>
+                          <option value="Charak Kalpsthan">3.Charak Kalpsthan</option>
+    
+                          <option value=""  disabled>Sushruta Samhita Poorvardha : -</option>
+                          <option value="Sushruta Sutrasthan">1.Sushruta Sutrasthan</option>
+                          <option value="Sushruta Sharirsthan">2.Sushruta Sharirsthan</option>
+                          <option value="Sushruta Chikitsasthan">3.Sushruta Chikitsasthan</option>
+                          <option value="Sushruta Kalpsthan">4.Sushruta Kalpsthan</option>
+                          <option value="Sushruta Nidansthan">5.Sushruta Nidansthan</option>
+    
+                          <option value=""  disabled>Sushruta Samhita Uttartantra : -</option>
+                          <option value="Sushruta Uttartantra">1.Sushruta Uttartantra</option>
+                        
+                          <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+                         
+                        </select>
+                  </div>
+                  <div class="col col-6 form-group">
+                      <label >Video Title</label>
+                    <input type="text" class="form-control" id="title" placeholder="Enter Title" formControlName="title">
+                  </div>
+                  
+                  <div class="col col-6 form-group">
+                      <label >Video Link</label>
+                    <input class="form-control" placeholder="Video Link" formControlName="link">
+                  </div>
+                  <div class="col col-6 form-group">
+                    <label >Video Source</label>
+                    <select class="form-control" placeholder="Video Source" formControlName="source">
+                      <option value="" disabled>Video Source </option>
+                      <option value="YouTube">YouTube </option>
+                      <option value="Vimeo">Vimeo</option>
+                    </select>
+                  </div>
+                  <!-- <div class="col col-6 form-group">
+                    <select class="form-control" formControlName="Accessibility">
+                      <option value="" disabled>Accessibility </option>
+                      <option value="Free">Free </option>
+                      <option value="Paid">Paid</option>
+                    </select>
+                  </div> -->
+
+                  <div class="col col-6 form-group">
+                      <label > Order Index</label>
+                    <input type="number" class="form-control" placeholder="Order Index" formControlName="orderIndex">
+                  </div>
+                  <div class="col col-6 form-group">
+                    <label > End Data</label>
+                    <input type="date" class="form-control" formControlName="endDate">
+                    <!-- <input class="form-control" placeholder="Enter Description" formControlName="description"> -->
+                    <!-- <angular-editor id="videoCreateEditor" formControlName="description" [config]="editorConfig"></angular-editor> -->
+                    <!-- <input class="form-control" placeholder="Enter Description" formControlName="description"> -->
+                  </div>
+                  <div class="col col-6 form-group" *ngIf="createClassForm.value.category == 'AIAPGET Regular courses' || createClassForm.value.category == 'BAMS 4TH Year Course'">
+                    <label for="batch">Assign Batch (You can select multiple options)<span class="required">*</span></label>
+                    <select multiple class="form-control" formControlName="assignedBatch">
+                      <option value="" disabled>Select Batch </option>
+                      <option value="A">A </option>
+                      <option value="B">B</option>
+                      <option value="C">C</option>
+                      <option value="">None</option>
+                    </select>
+                  </div>
+                </div>
+                <div align="center" style="margin-top:20px">
+                  <button type="button" class="btn btn-success" [disabled]="!createClassForm.valid"
+                    (click)="addNewClass()" data-dismiss="modal">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Video Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="videoForm">
+          <div class="row">
+              <div class="col col-6 form-group">
+                  <label for="title">Title<span class="required">*</span></label>
+                  <input type="text" class="form-control" id="title" formControlName="title">
+                </div>
+                <div class=" col col-6 form-group">
+                    <label for="link">Link<span class="required">*</span></label>
+                    <input type="url" class="form-control" id="link" formControlName="link">
+                  </div>
+          </div>
+        
+          <!-- <div class="form-group">
+            <label for="description">Description<span class="required">*</span></label>
+            <angular-editor id="videoEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+            <textarea class="form-control" id="description" formControlName="description"></textarea>
+          </div> -->
+          <!-- <div class="form-group">
+            <label for="title">Accessibility<span class="required">*</span></label>
+            <select class="form-control" formControlName="Accessibility">
+              <option value="" disabled>Accessibility </option>
+              <option value="Free">Free </option>
+              <option value="Paid">Paid</option>
+            </select>
+          </div> -->
+          <div class="row">
+
+          <div class="col col-6  form-group">
+            <label for="title">Video Source<span class="required">*</span></label>
+
+            <select class="form-control" placeholder="Video Source" formControlName="source">
+              <option value="" disabled>Video Source </option>
+              <option value="YouTube">YouTube </option>
+              <option value="Vimeo">Vimeo</option>
+            </select>
+          </div>
+          <div class=" col col-6 form-group">
+              <label for="link">End Date<span class="required">*</span></label>
+              <input type="date" class="form-control" formControlName="endDate">
+            </div>
+          </div>
+            
+            <div class="form-group">
+              <select class="form-control" formControlName="category">
+                  <option value="" selected hidden disabled>Category </option>
+                  <option value="Demo Lectures" >Demo Lectures </option>
+                  <option value="Orientation Lectures">Orientation Lectures </option>
+                  <option value="AIAPGET Regular courses">AIAPGET Regular courses </option>
+                  <option value="BAMS 4TH Year Course">BAMS 4TH Year Course </option>
+                  <!-- <option value="Orientation Lectures">Orientation Lectures </option> -->
+                </select>
+           
+          </div>
+
+            <div class="form-group" >
+                <label >Child Category<span class="required">*</span></label>
+              <select class="form-control" formControlName="childcategory">
+                  <option value="" selected hidden disabled> Category</option>
+                  <option value=""  disabled>Charak Samhita Poorvardh : -</option>
+                  <option value="Charak Sutrasthan">1.Charak Sutrasthan</option>
+                  <option value="Charak vimansthana">2.Charak vimansthana</option>
+                  <option value="Charak Nidansthan">3.Charak Nidansthan</option>
+                  <option value="Charak Indryasthan">4.Charak Indryasthan</option>
+                  <option value="Charak sharirstan">5.Charak sharirstan</option>
+
+                  <option value=""  disabled>Charak Samhita Uttardha : -</option>
+                  <option value="Charak chikitsasthan">1.Charak chikitsasthan</option>
+                  <option value="Charak Sidhisthan">2.Charak Sidhisthan</option>
+                  <option value="Charak Kalpsthan">3.CCharak Kalpsthan</option>
+
+                  <option value=""  disabled>Sushruta Samhita Poorvardha : -</option>
+                  <option value="Sushruta Sutrasthan">1.Sushruta Sutrasthan</option>
+                  <option value="Sushruta Sharirsthan">2.Sushruta Sharirsthan</option>
+                  <option value="Sushruta Chikitsasthan">3.Sushruta Chikitsasthan</option>
+                  <option value="Sushruta Kalpsthan">4.Sushruta Kalpsthan</option>
+                  <option value="Sushruta Nidansthan">5.Sushruta Nidansthan</option>
+
+                  <option value=""  disabled>Sushruta Samhita Uttartantra : -</option>
+                  <option value="Sushruta Uttartantra">1.Sushruta Uttartantra</option>
+                  <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+                 
+                </select>
+            </div>
+            <!-- <div class=" form-group" >
+                <label >Child Category<span class="required">*</span></label>
+              <select class="form-control" formControlName="childcategory">
+                  <option value="" selected hidden disabled>Child Category</option>
+                  <option *ngFor="let item of samhitawiseList" value="{{item.name}}">{{item.name}}</option>
+                 ]
+                </select>
+            </div> -->
+            
+            <div class=" form-group">
+              <input type="number" class="form-control" placeholder="Order Index" formControlName="orderIndex">
+            </div>
+            <div class="col col-6 form-group">
+              <label for="batch">Assign Batch<span class="required">*</span></label>
+              <select multiple class="form-control" formControlName="assignedBatch">
+                <option value="" disabled>Select Batch </option>
+                <option value="A">A </option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="">None</option>
+
+              </select>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" [disabled]="!videoForm.valid" (click)="onUpdateForm()" data-dismiss="modal">
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="commentVideoModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div align="center" *ngIf="commentData.length <= 0">No Comments </div>
+        <div class="comment-content clearfix" *ngFor="let comment of commentData" >
+          
+          <div [ngClass]="getClass(comment)">
+          <div class="comment-text ">{{comment.comment}}</div>
+          <div class="comment-date-time pull-right">
+            <span>{{comment.createdDate | date: 'MM/dd/yyyy'}} </span>
+            <span>{{comment.createdDate | date: 'h:mm a'}}</span>
+          </div>
+          <div style="font-size: 10px;">{{comment.userName}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <form [formGroup]="commentVideoForm" class="comment-video-form" autocomplete="off" novalidate>
+          <div class="row">
+            <div class="col col-10 form-group">
+              <input type="text" class="form-control" id="title" placeholder="Comments" formControlName="comment">
+            </div>
+            <div class="col col-2 form-group">
+              <button type="submit" class="btn btn-success" [disabled]="!commentVideoForm.valid" (click)="onSend()">
+                <i class="fa fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

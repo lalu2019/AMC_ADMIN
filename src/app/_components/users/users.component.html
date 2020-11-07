@@ -1,0 +1,534 @@
+<div
+  class="main-header-title d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mt-3 mb-3 border-bottom">
+  <h1 class="h2">Users</h1>
+</div>
+<div>
+
+  <p>Total User : {{TotalUser}}, Filtered User : {{apiResponse.length}}</p>
+  <div class="row">
+      <div class="form-group col col-2">
+          <a  (click)="ResetFilter()" style="color: blue;">Reset Filters</a>
+      </div>
+       <div class="form-group col col-3">
+          <input placeholder="Search by Email" class="form-control" [(ngModel)]="srName" (change)="userFilter(srName, srMobile, membershipType)">
+        </div>
+        <div class="form-group col col-3">
+          <input placeholder="Search by mobile"  class="form-control" [(ngModel)]="srMobile" (change)="userFilter(srName, srMobile, membershipType)">
+        </div>
+        <div class="form-group col col-3">
+          <select class="form-control" [(ngModel)]="membershipType"  (change)="userFilter(srName, srMobile, membershipType)">
+            <option value="" selected disabled >Filter by Membership </option>
+            <option value="Free">Free </option>
+            <option value="Paid">Paid</option>
+            <option value="">None</option>
+          </select>
+        </div>
+  </div>
+
+  <div class="table-responsive-sm">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Action</th>
+          <th>Full Name</th>
+          <th>Mobile Number</th>
+          <th>Email Id</th>
+          <th>Course</th>
+          <th>College</th>
+          <th>Address</th>
+          <th>User Type</th>
+          <th>Fees Paid</th>
+          <th>Status</th>
+          <th>Course End Date</th>
+          
+        </tr>
+
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let user of apiResponse">
+          <td style="min-width:160px">
+
+              
+             <span>
+                  <a class="view-action-btn mr-5" title="Report" data-toggle="modal" data-target="#userReport"
+                    (click)="openUserReport(user)">
+                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                  </a>
+             </span>  
+            <span>
+              <a class="comment-action-btn mr-5" title="Profile" data-toggle="modal" data-target="#userProfile"
+                (click)="openUserProfile(user)">
+                <i class="fa fa-eye"></i>
+              </a>
+            </span>
+            <span>
+              <a class="comment-action-btn mr-5" title="Permissions" data-toggle="modal" data-target="#permissionModal"
+                (click)="onEditPermissionUser(user)">
+                <i class="fa fa-lock"></i>
+              </a>
+            </span>
+            <span>
+              <a class="edit-action-btn mr-5" title="Edit" data-toggle="modal" data-target="#userModal" (click)="onEditUser(user)">
+                <i class="fa fa-pencil"></i>
+              </a>
+            </span>
+            <span>
+              <a class="delete-action-btn" title="Delete" (click)="onDeleteUser(user)">
+                <i class="fa fa-trash"></i>
+              </a>
+            </span>
+
+            
+
+          </td>
+          <td>{{user.FullName}}</td>
+          <td>{{user.Mobile}}</td>
+          <td>{{user.Email}}</td>
+          <td>{{user.Course}}</td>
+          <td>{{user.College}}</td>
+          <td>{{user.Address}}</td>
+          <td>{{user.userType}}</td>
+          <td>0</td>
+          <td>{{user.status}}</td>
+          <td>{{user.courseEndDate}}</td>
+         
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<!-- Modal -->
+<div class="modal fade bd-example-modal-xl" id="userReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Report</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-secondary" [class.active]="isActive('btn1')"
+                (click)="setActive('btn1')">Test Report</button>
+              <button type="button" class="btn btn-secondary" [class.active]="isActive('btn2')" (click)="setActive('btn2')">
+                Task Report
+              </button>
+              <button type="button" class="btn btn-secondary" [class.active]="isActive('btn3')"
+                (click)="setActive('btn3')">
+                Video Lecture Report
+              </button>
+           
+          </div>
+          <div *ngIf="isActiveButton == 'btn1'" class="mr-20">
+              <div class="table-responsive-sm">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>testname</th>
+                        <th>scoremark</th>
+                        <th>totalmark</th>
+                        <th>totaltime</th>
+                        <th>totalquestion</th>
+                        <th>unasnwered</th>
+                        <th>right</th>
+                        <th>wrong</th>
+                       
+                        <th>Created  Date</th>
+                      </tr>
+              
+                    </thead>
+                    <tbody>
+                        <div align="center" style="margin-top:30px" *ngIf="userTestReport.length <= 0">No Record Found  </div>
+    
+                      <tr *ngFor="let user of userTestReport">
+                      
+                        <td>{{user.testname}}</td>
+                        <td>{{user.scoremark}}</td>
+                        <td>{{user.totalmark}}</td>
+                        <td>{{user.totaltime}}</td>
+                        <td>{{user.totalquestion}}</td>
+                        <td>{{user.unasnwered}}</td>
+                        <td>{{user.right}}</td>
+                      
+                        <td>{{user.wrong}}</td>
+                        <td>{{user.createdDate}}</td>
+                       
+                      </tr>
+                    </tbody>
+                  </table>
+               </div>
+          </div>
+          <div *ngIf="isActiveButton == 'btn2'" class="mr-20">
+              <div class="table-responsive-sm">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>title</th>
+                        <th>description</th>
+                        <th>status</th>
+                        <th>link</th>
+                        <th>TaskId</th>
+                       
+                        <th>Created  Date</th>
+                      </tr>
+                 
+                    </thead>
+                    <tbody>
+                        <div align="center" style="margin-top:30px" *ngIf="taskReport.length <= 0">No Record Found  </div>
+    
+                      <tr *ngFor="let user of taskReport">
+                      
+                        <td>{{user.title}}</td>
+                        <td>{{user.description}}</td>
+                        <td>{{user.status}}</td>
+                        <td>{{user.link}}</td>
+                        <td>{{user.TaskId}}</td>
+                        
+                        <td>{{user.createdDate}}</td>
+                       
+                      </tr>
+                    </tbody>
+                  </table>
+               </div>
+          </div>
+          <div *ngIf="isActiveButton == 'btn3'" class="mr-20">
+              <div class="table-responsive-sm">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>title</th>
+                        <th>link</th>
+                        <th>Category</th>
+                        <th>childcategory</th>
+                        <!-- <th>assignedBatch</th> -->
+                   
+                        <th>Created  Date</th>
+                      </tr>
+              
+                    </thead>
+                    <tbody>
+                        <div align="center" style="margin-top:30px" *ngIf="videoReport.length <= 0">No Record Found  </div>
+    
+                      <tr *ngFor="let user of videoReport">
+                      
+                        <td>{{user.title}}</td>
+                        <td>{{user.link}}</td>
+                        <td>{{user.CatId}}</td>
+                        <td>{{user.childcategory}}</td>
+                        <!-- <td>{{user.assignedBatch}}</td> -->
+                      
+                        <td>{{user.createdDate}}</td>
+                       
+                      </tr>
+                    </tbody>
+                  </table>
+               </div>
+          </div>
+        
+      </div>
+    
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="userProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">User Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row" *ngIf="selectedUser">
+            <div class="form-group col col-6">
+              <label >Full Name</label>
+               <div> {{selectedUser.FullName}} </div>
+            </div>
+
+            <div class="form-group col col-6">
+              <label >Email</label>
+               <div> {{selectedUser.Email}} </div>
+            </div>
+
+            <div class="form-group col col-6">
+              <label >Mobile</label>
+               <div> {{selectedUser.Mobile}} </div>
+            </div>
+
+            <div class="form-group col col-6">
+              <label >College</label>
+               <div> {{selectedUser.College}} </div>
+            </div>
+
+            <div class="form-group col col-6">
+              <label >Address</label>
+               <div> {{selectedUser.Address}} </div>
+            </div>
+            <div class="form-group col col-6">
+              <label >Mobile Model</label>
+               <div> {{selectedUser.model}} </div>
+            </div>
+            <div class="form-group col col-6">
+              <label >Course Category</label>
+               <div> {{selectedUser.assingedCourseCat}} </div>
+            </div>
+            <div class="form-group col col-6">
+              <label >Batch</label>
+               <div> {{selectedUser.batch}} </div>
+            </div>
+
+            <div class="form-group col col-6">
+              <label >Status</label>
+               <div> {{selectedUser.status}} </div>
+            </div>
+            <div class="form-group col col-6">
+              <label > End Date</label>
+               <div> {{selectedUser.courseEndDate}} </div>
+            </div>
+
+            <div class="form-group col col-6">
+              <label >User Type</label>
+               <!-- <div> {{selectedUser.userType}} </div> -->
+               <select class="form-control" disabled [(ngModel)]="selectedUser.userType">
+                <option value="" disabled hidden>Select </option>
+                <option value="Free">Free </option>
+                <option value="Paid">Paid</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label >Course</label>
+               <select class="form-control" disabled [(ngModel)]="selectedUser.Course">
+                <option value="1">Working</option>
+                <option value="2">Intern</option>
+                <option value="3">4th Year </option>
+                <option value="4">Other</option>
+              </select>
+            </div>
+         
+
+
+          </div>
+      </div>
+    
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateUserForm">
+          <div class="row">
+            <div class="form-group col col-6">
+              <label for="fullname">User Type<span class="required">*</span></label>
+              <select class="form-control" formControlName="usertype">
+                <option value="" disabled hidden>Select </option>
+                <option value="Free">Free </option>
+                <option value="Paid">Paid</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Status<span class="required">*</span></label>
+              <select class="form-control" formControlName="status">
+                <option value="" disabled hidden>Select </option>
+                <option value="Active">Active </option>
+                <option value="InActive">InActive</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="">Category<span class="required">*</span></label>
+            <select class="form-control" formControlName="assingedCourseCat">
+              <option value="" selected hidden disabled>Category </option>
+              <option value="AIAPGET Regular courses">AIAPGET Regular courses </option>
+              <option value="BAMS 4TH Year Course">BAMS 4TH Year Course </option>
+              <option value="None">None</option>
+            </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Batch<span class="required">*</span></label>
+              <select class="form-control" formControlName="batch">
+                <option value="" disabled hidden>Select </option>
+                <option value="A">A </option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Course End Data <span class="required">*</span> </label>
+              <input type="date" class="form-control" formControlName="courseEndDate">
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Membership<span class="required">*</span></label>
+              <select class="form-control" formControlName="membership">
+                <option value="" disabled hidden>Select </option>
+                <option value="Silver">Silver</option>
+                <option value="Gold">Gold</option>
+                <option value="Premium">Premium</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+                <label for="uuid">Device Id</label>
+                <input type="text" class="form-control" formControlName="uuid">
+              </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" [disabled]="!updateUserForm.valid" (click)="onUpdateForm()">
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateUserForm">
+          <div class="row">
+            <div class="form-group col col-6">
+              <label for="fullname">User Type<span class="required">*</span></label>
+              <select class="form-control" formControlName="usertype">
+                <option value="" disabled hidden>Select </option>
+                <option value="Free">Free </option>
+                <option value="Paid">Paid</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Status<span class="required">*</span></label>
+              <select class="form-control" formControlName="status">
+                <option value="" disabled hidden>Select </option>
+                <option value="Active">Active </option>
+                <option value="InActive">InActive</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="">Category<span class="required">*</span></label>
+            <select class="form-control" formControlName="assingedCourseCat">
+              <option value="" selected hidden disabled>Category </option>
+              <option value="AIAPGET Regular courses">AIAPGET Regular courses </option>
+              <option value="BAMS 4TH Year Course">BAMS 4TH Year Course </option>
+              <option value="None">None</option>
+            </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Batch<span class="required">*</span></label>
+              <select class="form-control" formControlName="batch">
+                <option value="" disabled hidden>Select </option>
+                <option value="A">A </option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Course End Data <span class="required">*</span> </label>
+              <input type="date" class="form-control" formControlName="courseEndDate">
+            </div>
+            <div class="form-group col col-6">
+              <label for="Mobilenumber">Membership<span class="required">*</span></label>
+              <select class="form-control" formControlName="membership">
+                <option value="" disabled hidden>Select </option>
+                <option value="Silver">Silver</option>
+                <option value="Gold">Gold</option>
+                <option value="Premium">Premium</option>
+              </select>
+            </div>
+            <div class="form-group col col-6">
+                <label for="uuid">Device Id</label>
+                <input type="text" class="form-control" formControlName="uuid">
+              </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" [disabled]="!updateUserForm.valid" (click)="onUpdateForm()">
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="permissionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">User Permission</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="permissionUserForm">
+          <div class="row">
+            <div class="col col-6">
+              <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>
+                        Permission
+                      </th>
+                      <th>
+                        Module
+                      </th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of modulePermission">
+                      <td>
+                        <div align="center" class="form-check">
+                          <input class="form-check-input" type="checkbox" [checked]="item.ischecked"
+                          (change)='checkboxValueChange($event, item)'>
+                        </div>
+                      <td>
+                        <div align="center">   {{item.name}} </div>
+                      </td>
+                    </tr>
+      
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" [disabled]="!permissionUserForm.valid"
+          (click)="onSavePermissionForm()">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

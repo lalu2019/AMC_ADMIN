@@ -1,0 +1,52 @@
+.dashboard-grid-heading {
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+   background: #2f9875;
+    padding: 10px;
+}
+.video-create-form {
+    margin-bottom:20px;
+}
+.admin{
+    color: green;
+}
+.noAdmin{
+    color: red;
+}
+
+.video-form {
+    margin: 20px;
+}
+
+.comment-video-form {
+    width: 100%;
+
+    button {
+        border-radius: 50%;
+    }
+
+    .form-group {
+        padding-right: 0;
+    }
+}
+
+.comment-content {
+    padding: 10px;
+    background: rgba(47, 152, 117, 0.3);
+    color: #000;
+    border-radius: 5px;
+    margin: 10px;
+    font-size: 14px;
+
+    .comment-date-time {
+        font-size: 11px;
+        color: #6b6b6b;
+        line-height: 20px;
+    }
+}
+
+#commentVideoModal .modal-body {
+    max-height: 500px;
+    overflow: auto;
+}

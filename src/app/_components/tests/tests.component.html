@@ -1,0 +1,471 @@
+<div
+  class="main-header-title d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mt-3 mb-3 border-bottom">
+  <h1 class="h2"> Question Bank</h1>
+</div>
+<div>
+<div>
+  <div class="test-create-form">
+    <div class="row">
+      <div class="col">
+        <div class="customSection">
+          <div class="dashboard-grid-heading">Create Test</div>
+          <form [formGroup]="createTestForm" (ngSubmit)="addNewTest()">
+            <div class="row task-form">
+              <div class="col col-6 form-group">
+                <input type="text" class="form-control" id="testname" placeholder="Test Name" formControlName="testname">
+              </div>
+              
+              <div class="col col-6 form-group">
+                <input class="form-control" placeholder="Description (Optional)" formControlName="description">
+              </div>
+                  <!-- <div class="col col-6 form-group">
+                      <select class="form-control" formControlName="testtime">
+                        <option value="" selected hidden disabled>Test Time</option>
+                        <option value="90">90 Min</option>
+                        <option value="60">60 Min</option>
+                        <option value="45">45 Min</option>
+                        <option value="30">30 Min</option>
+                        <option value="15">15 Min</option>
+                      </select>
+                  </div>
+              -->
+              <div class="col col-6 form-group">
+                  <select class="form-control" formControlName="year">
+                    <option value="" selected hidden disabled>Year</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                    <option value="2014">2014</option>
+                    <option value="2013">2013</option>
+                    <option value="2012">2012</option>
+                    <option value="2011">2011</option>
+                    <option value="2010">2010</option>
+                  </select>
+                </div>
+              <div class="col col-6 form-group">
+                  <select class="form-control" formControlName="category">
+                      <option value="" selected hidden disabled>Category</option>
+                      <option value="Previous Year">Previous Year</option>
+                      <option value="AIAPGET Free Test">AIAPGET Free Test</option>
+                      <option value="AIAPGET 2021 Test Series"> AIAPGET 2021 Test Series</option>
+                     
+                      <option value="Samitha Wise">Samitha Wise</option>
+                      <option value="Subject Wise">Subject Wise</option>
+                      <option value="Grand Test">Grand Test</option>
+
+                    </select>
+              </div>
+
+              <div class="col col-6 form-group" *ngIf="createTestForm.value.category == 'Subject Wise'">
+                  <select class="form-control" formControlName="childcategory">
+                      <option value="" selected hidden disabled>Child Category</option>
+                      <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+                     ]
+                    </select>
+              </div>
+              <div class="col col-6 form-group" *ngIf="createTestForm.value.category == 'Samitha Wise'">
+                <select class="form-control" formControlName="childcategory">
+                    <option value="" selected hidden disabled>Child Category</option>
+                    <option *ngFor="let item of samhitawiseList" value="{{item.name}}">{{item.name}}</option>
+                   ]
+                  </select>
+              </div>
+              
+               <div class="col col-6 form-group">
+                  <input class="form-control" type="file" id="fileImport" placeholder="Question Sheet" formControlName="excelFile" >
+               </div>
+               <div class="col col-6 form-group">
+                <input type="number" class="form-control" placeholder="Order Index" formControlName="orderIndex">
+              </div>
+            
+            </div>
+            <div align="center" style="margin-top:20px">
+              <button type="submit" class="btn btn-success" [disabled]="!createTestForm.valid"
+                >Submit</button>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <p>Total Test : {{apiResponse.length}} </p>
+  <div class="row">
+    <div class="form-group col col-2">
+        <a  (click)="ResetFilter()" style="color: blue;">Reset Filters</a>
+    </div>
+    
+      <div class="form-group col col-2">
+        <select class="form-control"  [(ngModel)]="yearFilter" (change)="fetchFilter()">
+          <option value="" selected  disabled>Year</option>
+          <option value="">None</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+          <option value="2020">2020</option>
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <option value="2017">2017</option>
+          <option value="2016">2016</option>
+          <option value="2015">2015</option>
+          <option value="2014">2014</option>
+          <option value="2013">2013</option>
+          <option value="2012">2012</option>
+          <option value="2011">2011</option>
+          <option value="2010">2010</option>
+        </select>     
+       </div>
+      <div class="form-group col col-2">
+        <select class="form-control" [(ngModel)]="parentCatFilter" (change)="fetchFilter()">
+          <option value="" selected  disabled>Category</option>
+          <option value="Previous Year">Previous Year</option>
+          <option value="AIAPGET Free Test">AIAPGET Free Test</option>
+          <option value="AIAPGET 2021 Test Series"> AIAPGET 2021 Test Series</option>
+         
+          <option value="Samitha Wise">Samitha Wise</option>
+          <option value="Subject Wise">Subject Wise</option>
+
+          <option value="Grand Test">Grand Test</option>
+          <option value="">None</option>
+        </select>
+      </div>
+      <div class="col col-3 form-group" *ngIf="parentCatFilter == 'Subject Wise'">
+        <select class="form-control" [(ngModel)]="childCatFilter" (change)="fetchFilter()">
+            <option value="" selected  disabled>Child Category</option>
+            <option value="">None</option>
+            <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+           ]
+          </select>
+    </div>
+    <div class="col col-3 form-group" *ngIf="parentCatFilter == 'Samitha Wise'">
+      <select class="form-control" [(ngModel)]="childCatFilter" (change)="fetchFilter()">
+          <option value="" selected  disabled>Child Category</option>
+          <option value="">None</option>
+          <option *ngFor="let item of samhitawiseList" value="{{item.name}}">{{item.name}}</option>
+         ]
+        </select>
+    </div>
+    <!-- <div class="col col-2 form-group" >
+        <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#userReport" (click)="liveTest()">Live Test Status</button>
+    </div> -->
+</div>
+  <div class="table-responsive-sm">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Test Name</th>
+          <th>Category</th>
+
+          <th>Child Category</th>
+          <th>Test Time</th>
+          <th>Questions</th>
+          <th>Marks</th>
+          <th>Year</th>
+          <th>Created Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of apiResponse">
+          <td>{{item.testname}}</td>
+          <td>{{item.category}}</td> 
+
+          <td>{{item.childcategory}}</td>
+          <td>{{item.testtime}}</td>
+          <td>{{item.totalquestion}}</td>
+          <td>{{item.marks}}</td>
+          <td>{{item.year}}</td>
+          <td>{{item.createdDate}}</td>
+      
+          <td style="width:130px;">
+
+              
+              <span *ngIf="item.category == 'Grand Test' ">
+                  <a class="view-action-btn mr-5" title="Report" data-toggle="modal" data-target="#userReport"
+                    (click)="liveTest(item)">
+                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                  </a>
+             </span>  
+              <span>
+                  <a class="view-action-btn mr-5" title="Edit Questions" data-toggle="modal" data-target=".bd-example-modal-xl" (click)="openQuestions(item.id)">
+                    <i class="fa fa-eye"></i>
+                  </a>
+               </span>
+            <span>
+              <a class="edit-action-btn mr-5" title="Edit Paper" data-toggle="modal" data-target="#testEdit" (click)="onEditTest(item)">
+                <i class="fa fa-pencil"></i>
+              </a>
+            </span>
+            <span>
+              <a class="delete-action-btn"  title="Delete" (click)="deleteTest(item)">
+                <i class="fa fa-trash"></i>
+              </a>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<div class="modal fade bd-example-modal-xl" id="userReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Report</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="table-responsive-sm">
+              
+               <p>Total: {{userTestReport.length}}</p>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>User Name</th>
+                    <th>Percentage</th>
+                    <th>scoremark</th>
+                    <th>totalmark</th>
+                    <th>totaltime</th>
+                    <th>totalquestion</th>
+                    <th>unasnwered</th>
+                    <th>right</th>
+                    <th>wrong</th>
+                   
+                    <th>Created  Date</th>
+                  </tr>
+          
+                </thead>
+                <tbody>
+                    <div align="center" style="margin-top:30px" *ngIf="userTestReport.length <= 0">No Record Found  </div>
+
+                  <tr *ngFor="let user of userTestReport">
+                  
+                    <td> 
+<!--                       
+                       <select class="form-control"  [(ngModel)]="user.userId">
+                          <option *ngFor="let usr of UserLIst" value="{{usr.id}}">{{usr.FullName}}</option>
+                        
+                       </select>    -->
+                      {{user.userName}}
+
+                    </td>
+                    <td>{{user.percentage}}</td>
+                    
+                    <td>{{user.scoremark}}</td>
+                    <td>{{user.totalmark}}</td>
+                    <td>{{user.totaltime}}</td>
+                    <td>{{user.totalquestion}}</td>
+                    <td>{{user.unasnwered}}</td>
+                    <td>{{user.right}}</td>
+                  
+                    <td>{{user.wrong}}</td>
+                    <td>{{user.createdDate}}</td>
+                   
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+      </div>
+    
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="testEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Test Paper</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateTestForm" (ngSubmit)="updateTest()">
+          <div class="row task-form">
+            <div class="col col-6 form-group">
+                <label >Test Name</label>
+              <input type="text" class="form-control" id="testname" placeholder="Test Name" formControlName="testname">
+            </div>
+            
+            <div class="col col-6 form-group">
+                <label >Description (Optional)</label>
+              <input class="form-control" placeholder="Description (Optional)" formControlName="description">
+            </div>
+            <div class="col col-6 form-group">
+                <label >Year</label>
+                <select class="form-control" formControlName="year">
+                  <option value="" selected hidden disabled>Year</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                  <option value="2020">2020</option>
+                  <option value="2019">2019</option>
+                  <option value="2018">2018</option>
+                  <option value="2017">2017</option>
+                  <option value="2016">2016</option>
+                  <option value="2015">2015</option>
+                  <option value="2014">2014</option>
+                  <option value="2013">2013</option>
+                  <option value="2012">2012</option>
+                  <option value="2011">2011</option>
+                  <option value="2010">2010</option>
+                </select>
+              </div>
+            <div class="col col-6 form-group">
+                <label >Category</label>
+                <select class="form-control" formControlName="category">
+                    <option value="" selected hidden disabled>Category</option>
+                    <option value="Previous Year">Previous Year</option>
+                    <option value="AIAPGET Free Test">AIAPGET Free Test</option>
+                    <option value="AIAPGET 2021 Test Series"> AIAPGET 2021 Test Series</option>
+                   
+                    <option value="Samitha Wise">Samitha Wise</option>
+                    <option value="Subject Wise">Subject Wise</option>
+                  </select>
+            </div>
+
+            <div class="col col-6 form-group" *ngIf="updateTestForm.value.category == 'Subject Wise'">
+                <label >Child Category</label>
+                <select class="form-control" formControlName="childcategory">
+                    <option value="" selected hidden disabled>Child Category</option>
+                    <option *ngFor="let item of categoryList" value="{{item.title}}">{{item.title}}</option>
+                   ]
+                  </select>
+            </div>
+            <div class="col col-6 form-group" *ngIf="updateTestForm.value.category == 'Samitha Wise'">
+                <label >Child Category</label>
+              <select class="form-control" formControlName="childcategory">
+                  <option value="" selected hidden disabled>Child Category</option>
+                  <option *ngFor="let item of samhitawiseList" value="{{item.name}}">{{item.name}}</option>
+                 ]
+                </select>
+            </div>
+            
+             <!-- <div class="col col-6 form-group">
+                <input class="form-control" type="file" id="fileImport" placeholder="Question Sheet" formControlName="excelFile" >
+             </div> -->
+             <div class="col col-6 form-group">
+                <label >Total marks</label>
+                <input type="number" class="form-control" placeholder="Total marks" formControlName="marks">
+              </div>
+              <div class="col col-6 form-group">
+                  <label >Total time</label>
+                <input type="number" class="form-control" placeholder="Total time" formControlName="testtime">
+              </div>
+              <div class="col col-6 form-group">
+                  <label >Number of question</label>
+               <input type="number" class="form-control" placeholder="Number of question" formControlName="totalquestion">
+              </div>
+             <div class="col col-6 form-group">
+                <label >Order Index</label>
+              <input type="number" class="form-control" placeholder="Order Index" formControlName="orderIndex">
+            </div>
+
+            <div class="col col-6 form-group" *ngIf="updateTestForm.value.category == 'Grand Test'">
+              <label >Status</label>
+            <select class="form-control" formControlName="status">
+                <option value="Active">Active</option>
+                <option value="InActive">InActive</option>
+              </select>
+          </div>
+            
+          
+          </div>
+          <div align="center" style="margin-top:20px">
+            <button type="submit" class="btn btn-success" [disabled]="!updateTestForm.valid"
+              >Update</button>
+          </div>
+        </form>
+      </div>
+     
+    </div>
+  </div>
+</div>
+<div class="modal fade bd-example-modal-xl" id="questionEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Questions</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p>Total Test : {{questionsData.length}} </p>
+          <div class="table-responsive-sm">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Q No.</th>
+                    <th>Question</th>
+                    <th>Option A</th>
+                    <th>Option B</th>
+                    <th>Option C</th>
+                    <th>Option D</th>
+                    <th>Correct Answer</th>
+                    <!-- <th>Action</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of questionsData">
+                      <td> {{item.Q_NO}}</td>
+                    <td>
+                         <!-- {{item.Question}} -->
+                        <textarea class="form-control"  placeholder="Question Sheet" [(ngModel)]="item.Question" ></textarea>
+
+                    </td>
+                    <td>
+                      <!-- {{item.a}} -->
+                      <input class="form-control"  placeholder="Question Sheet" [(ngModel)]="item.a" >
+                    </td> 
+                    <td>
+                        <!-- {{item.a}} -->
+                        <input class="form-control"  placeholder="Question Sheet" [(ngModel)]="item.b" >
+                    </td> 
+                    <td>
+                        <!-- {{item.a}} -->
+                        <input class="form-control"  placeholder="Question Sheet" [(ngModel)]="item.c" >
+                    </td> 
+                    <td>
+                        <!-- {{item.a}} -->
+                        <input class="form-control"  placeholder="Question Sheet" [(ngModel)]="item.d" >
+                    </td> 
+                   
+                    <td>
+                       <!-- {{item.answer}}  -->
+                      <select class="form-control"  [(ngModel)]="item.answer">
+                          <option value="a">A</option>
+                          <option value="b">B</option>
+                          <option value="c">C</option>
+                          <option value="d">D</option>
+                        </select>     
+                    </td>
+                   
+                    <td style="width:100px;">
+                     
+                            <button type="submit" class="btn btn-success" (click)="updateQuestion(item);" >Update</button>
+                      
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+      </div>
+     
+    </div>
+  </div>
+</div>
