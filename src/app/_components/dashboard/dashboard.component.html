@@ -155,11 +155,7 @@
               <option value='Old'>Old</option>
             </select>
           </div>
-        <div class="col col-5 form-group">
-          <label>{{editorConfig.placeholder}}</label>
-          <angular-editor style="margin-left: 10px;" id="membershipCreateAndEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
-          <!-- <input class="form-control mr-10" placeholder="Icon Link" formControlName="icon"> -->
-        </div>
+      
 
       </div>
 
@@ -284,13 +280,8 @@
                 autocomplete="off"
                 />
                </div>
-
-            <!-- <input type="file" accept=".jpg,.png,.jpeg" id="image-input" (change)="selectFile($event)"> -->
         </div>
-        <!-- <div class="col col-4 form-group">
-            <img [src]="localCompressedURl" height="150px">
-
-        </div> -->
+        
       </div>
     </div>
    
@@ -306,6 +297,9 @@
         <thead>
           <tr>
             <th>Image</th>
+            <th>title</th>
+            <th>price</th>
+            <th>Remark</th>
             <th>Action</th>
           </tr>
 
@@ -315,13 +309,21 @@
             <td>
               <img src="{{record.link}}" alt="User Pic">
             </td>
-          
+            <td>
+              {{record.title}}
+            </td>
+            <td>
+              {{record.price}}
+            </td>
+            <td>
+              {{record.remark}}
+            </td>
             <td >
-            <!-- <span>
-              <a class="edit-action-btn mr-5" (click)="editActionChild(record)" >
+            <span>
+              <a class="edit-action-btn mr-5"  data-toggle="modal" data-target="#editProdct" (click)="editProduct(record)" >
                 <i class="fa fa-pencil"></i>
               </a>
-            </span> -->
+            </span>
             <span>
               <a class="delete-action-btn" (click)="deleteSelectedProduct(record)">
                 <i class="fa fa-trash"></i>
@@ -335,3 +337,46 @@
     </div>
 
   </div>
+    <!-- Modal -->
+  <div class="modal fade" id="editProdct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editPorductForm" autocomplete="off" novalidate>
+          <div class="form-group">
+            <label for="title">Title<span class="required">*</span></label>
+            <input type="text" class="form-control" id="title" formControlName="title">
+          </div>
+          <div class="form-group">
+            <label>Price <span class="required">*</span></label>
+            <input type="number" class="form-control" placeholder="Enter price here" formControlName="price">   
+          </div>
+
+          <div class="form-group">
+            <label>Remark <span class="required">*</span></label>
+            <input type="string" class="form-control" placeholder="Enter remark here" formControlName="remark">   
+          </div>
+          <div class="form-group">
+            <label>{{editorConfig.placeholder}} <span class="required">*</span></label>
+           <angular-editor style="margin-left: 10px;" id="membershipCreateAndEditEditor" formControlName="description" [config]="editorConfig"></angular-editor>
+          </div>
+         
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" [disabled]="!editPorductForm.valid" (click)="updateProductInfo()">
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

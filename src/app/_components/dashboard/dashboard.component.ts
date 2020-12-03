@@ -64,7 +64,7 @@ export class DashboardComponent implements OnInit {
   createStoryForm: FormGroup;
   productForm: FormGroup;
   createBook: FormGroup;
-
+  editPorductForm:FormGroup;
   subscription: Subscription;
 
 
@@ -246,6 +246,10 @@ private imageCollection: AngularFirestoreCollection<any>;
    addImagePath(url){
       let record = {}
        record["link"] = url
+       record["title"] = ""
+       record["price"] = ""
+       record["remark"] = ""
+       record["description"] = ""
        this.operation.addProducts(this.productForm.value.child, record).then(success =>{
         this.fetchProducts();
        })
@@ -258,6 +262,10 @@ private imageCollection: AngularFirestoreCollection<any>;
         return {
           id: e.id,
           link: e.data()['link'],
+          title: e.data()['title'],
+          price: e.data()['price'],
+          remark: e.data()['remark'],
+          description: e.data()['description'],
         };
       })
       console.log(this.productsList);
@@ -296,7 +304,7 @@ private imageCollection: AngularFirestoreCollection<any>;
       name: ['', Validators.required],
       status: ['Active', Validators.required],
       icon: [''],
-      description: ['', Validators.required],
+      description: [''],
       parent: ['', Validators.required],
       type:['New', Validators.required],
       parentFilter:['']
@@ -309,6 +317,13 @@ private imageCollection: AngularFirestoreCollection<any>;
     });
 
     
+    this.editPorductForm = this.formBuilder.group({
+      id: [''],
+      title: ['', Validators.required],
+      description: [''],
+      price:['', Validators.required],
+      remark:['']
+    });
 
     this.getChildCat();
     //this.addFirebaseToken();
@@ -389,7 +404,7 @@ private imageCollection: AngularFirestoreCollection<any>;
   record["status"] = this.childCategory.value.status
   record["icon"] = this.childCategory.value.icon
   record["parent"] = this.childCategory.value.parent
-  record["description"] = this.childCategory.value.description
+  // record["description"] = this.childCategory.value.description
   record["type"] = this.childCategory.value.type
   record['createdDate'] = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
   console.log(record);
@@ -416,6 +431,20 @@ private imageCollection: AngularFirestoreCollection<any>;
   })
 }
 
+updateProductInfo(){
+  console.log(this.editPorductForm.value.id);
+  let record = {}
+  record["title"] = this.editPorductForm.value.title
+  record["description"] = this.editPorductForm.value.description
+  record["price"] = this.editPorductForm.value.price
+  record["remark"] = this.editPorductForm.value.remark
+  this.operation.uppdateProductInfo(this.productForm.value.child , this.editPorductForm.value.id, record).then(sucees =>{
+   this.alertService.update();
+   this.editPorductForm.reset();
+    this.fetchProducts();
+  })
+}
+
  editActionChild(value){
   console.log(value);
   this.childCategory.controls.id.setValue(value.id)
@@ -425,8 +454,14 @@ private imageCollection: AngularFirestoreCollection<any>;
   this.childCategory.controls.parent.setValue(value.parent)
   this.childCategory.controls.description.setValue(value.description)
   this.childCategory.controls.type.setValue(value.type)
- 
-
+}
+editProduct(value){
+  console.log(value);
+  this.editPorductForm.controls.id.setValue(value.id)
+  this.editPorductForm.controls.title.setValue(value.title)
+  this.editPorductForm.controls.price.setValue(value.price)
+  this.editPorductForm.controls.remark.setValue(value.remark)
+  this.editPorductForm.controls.description.setValue(value.description)
 }
 deleteChild(value){
  

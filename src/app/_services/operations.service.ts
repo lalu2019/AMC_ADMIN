@@ -115,6 +115,9 @@ export class OperationsService {
       return ref.docs;
     })
   }
+  uppdateProductInfo(chil_id, pro_id, record){
+    return this.firestore.collection<any>('ChildCategory').doc(chil_id.toString()).collection("products").doc(pro_id).update(record);
+  }
   getChild() {
     return this.firestore.collection('ChildCategory').snapshotChanges();
    //this.getcategoryWithChild();    
