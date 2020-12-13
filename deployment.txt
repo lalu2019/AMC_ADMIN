@@ -1,0 +1,6 @@
+
+Firstly commmit the changes after that
+
+1. install - npm install -g angular-cli-ghpages
+2.ng build --prod --base-href https://lalu2019.github.io/AMC_ADMIN/
+ angular-cli-ghpages -d dist/AMC/ --no-silent
