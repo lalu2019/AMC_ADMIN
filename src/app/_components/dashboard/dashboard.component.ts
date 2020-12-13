@@ -65,6 +65,7 @@ export class DashboardComponent implements OnInit {
   productForm: FormGroup;
   createBook: FormGroup;
   editPorductForm:FormGroup;
+  editOrderForm:FormGroup;
   subscription: Subscription;
 
 
@@ -147,6 +148,7 @@ private imageCollection: AngularFirestoreCollection<any>;
   childCategorylist:any = [];
   filteredChild:any = [];
   selectedChildCat:any;
+  orders: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -325,29 +327,36 @@ private imageCollection: AngularFirestoreCollection<any>;
       remark:['']
     });
 
+    this.editOrderForm = this.formBuilder.group({
+      id: [''],
+      paymentstatus: [''],
+      orderStatus: ['']
+    });
+
     this.getChildCat();
     //this.addFirebaseToken();
     this.getMainCat();
     this.onValueChanges();
+    this.getOrders();
    // this.notificationProcess()
     //this.insertInquery();
     //Excel file upload code...
 
-    const that = this;
-    document.getElementById("fileImport").onchange= function(e: Event) {
-      let file = (<HTMLInputElement>e.target).files[0];
-      console.log(file);
-      readXlsxFile(file).then((rows) => {
-        console.log(rows);
-        // `rows` is an array of rows
-        // each row being an array of cells.
-         that.UploadedFileContent = rows;
-         for(let i=0;i<that.UploadedFileContent.length; i ++){
-          that.insertCat(that.UploadedFileContent[i][0]);
-         }
+    // const that = this;
+    // document.getElementById("fileImport").onchange= function(e: Event) {
+    //   let file = (<HTMLInputElement>e.target).files[0];
+    //   console.log(file);
+    //   readXlsxFile(file).then((rows) => {
+    //     console.log(rows);
+    //     // `rows` is an array of rows
+    //     // each row being an array of cells.
+    //      that.UploadedFileContent = rows;
+    //      for(let i=0;i<that.UploadedFileContent.length; i ++){
+    //       that.insertCat(that.UploadedFileContent[i][0]);
+    //      }
 
-      })
-     }
+    //   })
+    //  }
 
   }
 
@@ -529,13 +538,13 @@ deleteChild(value){
   }
 
   addFirebaseToken() {
-    let record = {};
-    record['token'] = localStorage.getItem("firebaseTkn");
-    record['Name'] = "Admin";
-    record['Source'] = "Admin Panel";
-    this.operation.addToken(record).then(success => {
-      console.log(success);
-    })
+    // let record = {};
+    // record['token'] = localStorage.getItem("firebaseTkn");
+    // record['Name'] = "Admin";
+    // record['Source'] = "Admin Panel";
+    // this.operation.addToken(record).then(success => {
+    //   console.log(success);
+    // })
   }
 
   getChildCat() {
@@ -590,7 +599,51 @@ deleteChild(value){
    
   }
   
+  editOrder(value){
+    this.editOrderForm.controls.id.setValue(value.id)
+    this.editOrderForm.controls.paymentstatus.setValue(value.paymentstatus)
+    this.editOrderForm.controls.orderStatus.setValue(value.orderStatus)
+  }
 
+  getOrders() {
+    this.loaderService.show();
+    this.operation.getAllOrders().subscribe(success => {
+      this.loaderService.hide();
+      this.orders = success.map(e => {
+        return {
+          id: e.payload.doc.id,
 
+          delivery_address: e.payload.doc.data()['delivery_address'],
+          pincode:e.payload.doc.data()['pincode'],
+          email:e.payload.doc.data()['email'],
+
+          actualprice: e.payload.doc.data()['actualprice'],
+          paymentoption:e.payload.doc.data()['paymentoption'],
+
+          custom_price: e.payload.doc.data()['custom_price'],
+          protitle:e.payload.doc.data()['protitle'],
+          proid:e.payload.doc.data()['proid'],
+          prodesc:e.payload.doc.data()['prodesc'],
+          prolink:e.payload.doc.data()['prolink'],
+          createdDate:e.payload.doc.data()['createdDate'],
+          paymentstatus:e.payload.doc.data()['paymentstatus'] || "Pending",
+          orderStatus:e.payload.doc.data()['orderStatus'] || "Pending"
+        };
+      })
+     
+    })
+  }
+
+  updateOrder(){
+    console.log(this.editOrderForm.value.id);
+    let record = {}
+    record["paymentstatus"] = this.editOrderForm.value.paymentstatus
+    record["orderStatus"] = this.editOrderForm.value.orderStatus
+    this.operation.updateOrder(this.editOrderForm.value.id, record).then(sucees =>{
+     this.alertService.update();
+     this.editOrderForm.reset();
+      this.getOrders();
+    })
+  }
 
 }

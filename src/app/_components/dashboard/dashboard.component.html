@@ -3,9 +3,8 @@
    <div align="center" style="margin-top:20px">
 
   
-   <input type="file" id="fileImport">
+   <!-- <input type="file" id="fileImport"> -->
 
- 
 
    <div class="dashboard-grid-heading">Send Notification</div>
    
@@ -337,6 +336,115 @@
     </div>
 
   </div>
+
+
+  <div class="dashboard-user-table">
+    <div class="dashboard-grid-heading">Orders</div>
+    <div class="col col-2 form-group">
+      <p>Total : {{orders.length}} </p>
+    </div>
+    <div class="table-responsive-sm">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>title</th>
+            <th>price</th>
+            <th>Custom price</th>
+            <th>Mobile</th>
+            <th>Address</th>
+            <th>Payment status</th>
+            <th>Order status</th>
+            <th>Order Date</th>
+
+            <th>Action</th>
+          </tr>
+
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of orders">
+            <td>
+              <img src="{{record.prolink}}" alt="User Pic">
+            </td>
+            <td>
+              {{record.protitle}}
+            </td>
+            <td>
+              {{record.actualprice}}
+            </td>
+            <td>
+              {{record.custom_price}}
+            </td>
+            <td>
+              {{record.email}}
+            </td>
+            <td>
+              {{record.delivery_address}}
+            </td>
+            <td>
+              {{record.paymentstatus}}
+            </td>
+            <td>
+              {{record.orderStatus}}
+            </td>
+            <td>
+              {{record.createdDate}}
+            </td>
+            <td >
+            <span>
+              <a class="edit-action-btn mr-5"  data-toggle="modal" data-target="#editOrder" (click)="editOrder(record)" >
+                <i class="fa fa-pencil"></i>
+              </a>
+            </span>
+            <!-- <span>
+              <a class="delete-action-btn" (click)="deleteSelectedProduct(record)">
+                <i class="fa fa-trash"></i>
+              </a>
+            </span> -->
+          </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="editOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Order</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="editOrderForm" autocomplete="off" novalidate>
+              <div class="form-group">
+                <label for="title">Payment status<span class="required">*</span></label>
+                <input type="text" class="form-control" id="title" formControlName="paymentstatus">
+              </div>
+              <div class="form-group">
+                <label for="title">Order status<span class="required">*</span></label>
+                <input type="text" class="form-control" id="title" formControlName="orderStatus">
+              </div>
+    
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" [disabled]="!editOrderForm.valid" (click)="updateOrder()">
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Modal -->
   <div class="modal fade" id="editProdct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">

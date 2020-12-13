@@ -19,7 +19,7 @@ import { LoaderComponent } from './_shared/loader/loader.component';
 
 
 import { AngularFirestoreModule , AngularFirestore, } from '@angular/fire/firestore';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { AngularFireStorageModule, AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
 // import {
 //   AngularFireStorageModule,
@@ -65,9 +65,10 @@ import {NgxImageCompressService} from 'ngx-image-compress';
     FormsModule,
     // AngularFireDatabaseModule,
     // AngularFireMessagingModule,
-    AngularFireModule.initializeApp(environment.firebase, 'krisheebazar'),
+    AngularFireModule.initializeApp(environment.firebase, 'allmaterialcollection'),
     AngularFirestoreModule,
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
     AngularFireAuthModule,
     HttpClientModule,
     AngularEditorModule,
@@ -80,9 +81,9 @@ import {NgxImageCompressService} from 'ngx-image-compress';
     // MessagingService,
     NgxImageCompressService,
     AsyncPipe,
-    // AngularFireStorage,
+    AngularFireStorage,
     OperationsService,
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     // AngularFirestoreModule
     // { provide: HTTP_INTERCEPTORS, useClass: JwtinterceptorService, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorinterceptorService, multi: true }

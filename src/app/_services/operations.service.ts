@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+// import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 
 import { Observable, Subscription } from 'rxjs';
@@ -18,7 +18,7 @@ export class OperationsService {
 
   constructor(
     private firestore: AngularFirestore,
-    private storage: AngularFireStorage,
+    // private storage: AngularFireStorage,
     private http:HttpClient
     // private storage: AngularFireStorage,
   ) { 
@@ -58,6 +58,16 @@ export class OperationsService {
   }
 
   
+   getAllOrders(): Observable<any> {
+        return this.firestore.collection('orders').snapshotChanges();
+    }
+    createOrder(record) {
+      return this.firestore.collection('orders').add(record);
+    }
+    updateOrder(recordID, record) {
+      return this.firestore.doc('orders/' + recordID).update(record);
+    }
+
   //Category  section api
   addCategories(record) {
      return this.firestore.collection('ChildCategory').add(record);
@@ -67,13 +77,7 @@ export class OperationsService {
 
   //   return this.firestore.collection('Category').doc('szn7HEe3fvqVNypjszem').collection('child').add(record);
   // }
-  getAllIomage(){
-    // return new Promise((resolve, reject) => {
-      this.storage.ref('/A_PRODUCT/1.JPG').getDownloadURL().subscribe((url) => {
-          console.log(url)
-      })
-    // })
-}
+
   getCaetgories() {
    // this.getAllIomage() 
     return this.firestore.collection('Category').snapshotChanges();
