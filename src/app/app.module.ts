@@ -80,7 +80,7 @@ import {NgxImageCompressService} from 'ngx-image-compress';
     // MessagingService,
     NgxImageCompressService,
     AsyncPipe,
-    AngularFireStorage,
+    // AngularFireStorage,
     OperationsService,
     {provide: LocationStrategy, useClass: HashLocationStrategy}
     // AngularFirestoreModule
